@@ -1,5 +1,3 @@
-import { isProblemsSection } from "../practice/isProblemsSection";
-
 /** Chapter token (e.g. "5") from "5.1 Foo" or "5 Induction…", or null. */
 export function chapterOfSectionTitle(title: string | null | undefined): string | null {
   if (!title) return null;
@@ -8,8 +6,9 @@ export function chapterOfSectionTitle(title: string | null | undefined): string 
   return m ? m[1] : null;
 }
 
-/** Chapter 5 induction guided walkthrough (demo) — any Ch.5 section except Problems. */
-export function isInductionGuideSection(title: string | null | undefined): boolean {
-  if (!title || isProblemsSection(title)) return false;
-  return chapterOfSectionTitle(title) === "5";
+/**
+ * FOCS Ch.5 induction guided walkthrough — disabled until a CS1 guide is authored.
+ */
+export function isInductionGuideSection(_title: string | null | undefined): boolean {
+  return false;
 }

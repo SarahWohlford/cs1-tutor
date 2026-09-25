@@ -21,10 +21,10 @@ RUNG_RULES: dict[int, str] = {
     0: "",
     1: "Give ONLY brief encouragement and one Socratic refocus question. Reveal no content.",
     2: "Name the proof technique or key concept to consider. Do NOT give steps, algebra, variables, or the answer.",
-    3: "Point the student to the relevant FOCS textbook section by number. Do NOT give steps or the answer.",
-    4: "Set up ONLY the first step, then hand it back and ask the student to continue. Do not finish the proof.",
-    5: "Give the full step-by-step proof, pausing after each step to ask the student why that step works.",
-    6: "Give the final, complete proof.",
+    3: "Point the student to the relevant CS1 lecture/lab/notes section. Do NOT give steps or the answer.",
+    4: "Set up ONLY the first step, then hand it back and ask the student to continue. Do not finish the solution.",
+    5: "Give the full step-by-step solution, pausing after each step to ask the student why that step works.",
+    6: "Give the final, complete solution.",
 }
 
 
