@@ -16,8 +16,9 @@ export function invalidateTextbookCatalogSync(): void {
   textbookCatalogSyncGeneration++;
 }
 
+/** Builtin course slot still uses legacy id `focs` in storage/API; display label is CS1. */
 export const BUILTIN_TEXTBOOK_OPTIONS: { id: string; linkLabel: string }[] = [
-  { id: "focs", linkLabel: "FCOS" },
+  { id: "focs", linkLabel: "CS1" },
 ];
 
 const USER_BOOK_ID_RE = /^user_[A-Za-z0-9_-]{4,64}$/;

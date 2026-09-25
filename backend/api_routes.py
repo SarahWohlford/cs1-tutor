@@ -417,12 +417,12 @@ def _chat_direct_in_section(
 ) -> dict[str, Any]:
     """Answer in the context of the section the student has open — no history, memory, bar, or intake."""
     _book_label = (
-        "FOCS (Mathematics for Computer Science)"
+        "RPI CSCI 1100 CS1 (Computer Science I)"
         if textbook_id == "focs"
         else "the textbook the student selected"
     )
     system_content = (
-        f"You are an AI math tutor for {_book_label}. "
+        f"You are an AI tutor for {_book_label}. "
         "The student is viewing a specific textbook section (reference below). "
         "Answer their question directly with a clear explanation and a short example when helpful. "
         "Never ask intake questions, never list optional sections, never say 'closest match', "
@@ -553,12 +553,12 @@ async def chat(chat_message: ChatMessage, authorization: Optional[str] = Header(
             tid = "focs"
         with lr.request_book(tid, user_email):
             _book_label = (
-                "FOCS (Mathematics for Computer Science)"
+                "RPI CSCI 1100 CS1 (Computer Science I)"
                 if tid == "focs"
                 else "the textbook the student selected"
             )
             system_content = (
-                f"You are an AI math tutor for {_book_label}. "
+                f"You are an AI tutor for {_book_label}. "
                 "The student asked a SIMPLE definition/meaning question. "
                 "Reply with EXACTLY ONE sentence, concise textbook-style. "
                 "Do NOT include bullet points, steps, study plans, examples, or follow-up questions. "
@@ -619,14 +619,14 @@ async def chat(chat_message: ChatMessage, authorization: Optional[str] = Header(
             print(f"[Learning] topic match/page extract failed: {e}")
 
         _book_label = (
-            "FOCS (Mathematics for Computer Science)"
+            "RPI CSCI 1100 CS1 (Computer Science I)"
             if tid == "focs"
             else "the textbook the student selected (outline + PDF pages)"
         )
         is_simple_def = _is_simple_definition_question(chat_message.message) and not combined_images
         if is_simple_def:
             system_content = (
-                f"You are an AI math tutor for {_book_label}. "
+                f"You are an AI tutor for {_book_label}. "
                 "The student asked a SIMPLE definition/meaning question. "
                 "Answer in EXACTLY ONE sentence, textbook-style, grounded in the textbook reference when available. "
                 "Do NOT include bullet points, steps, study plans, examples, or follow-up questions. "
@@ -634,7 +634,7 @@ async def chat(chat_message: ChatMessage, authorization: Optional[str] = Header(
             )
         else:
             system_content = (
-                f"You are an AI math tutor for {_book_label}. "
+                f"You are an AI tutor for {_book_label}. "
                 "Answer the student's question directly: explain clearly step-by-step, use the textbook reference below when available, "
                 "and include a short worked example when it helps. "
                 "Never list optional sections, never ask the student to pick a section/chapter, "
@@ -844,7 +844,7 @@ async def chat(chat_message: ChatMessage, authorization: Optional[str] = Header(
                 if pages_b64:
                     result["reference_section_pages_b64"] = pages_b64
 
-            # 按 FOCS topic 写入 memory：事件（完整 Q&A，带时间）+ summary 流
+            # 按 course topic 写入 memory：事件（完整 Q&A，带时间）+ summary 流
             if _MEMORY_AVAILABLE and matched_topic and not chat_message.silent:
                 try:
                     if mem is None:
@@ -867,7 +867,7 @@ async def chat(chat_message: ChatMessage, authorization: Optional[str] = Header(
 
 @router.get("/api/focs_tree")
 async def focs_tree():
-    """FOCS 教材目录树（与 learning_resources.FOCS.json 一致）。"""
+    """Built-in course outline tree (backend/data/FOCS.json; CS1 content TBD)."""
     if not os.path.exists(lr.FOCS_JSON_PATH):
         return {}
     with open(lr.FOCS_JSON_PATH, encoding="utf-8") as f:
@@ -876,7 +876,7 @@ async def focs_tree():
 
 FOCS_STYLE_OUTLINE_PROMPT_HEAD = """You must return ONLY a valid JSON object. No markdown, no code fences.
 
-The JSON must match this textbook outline shape (same style as FOCS / MCS):
+The JSON must match this textbook outline shape (same nested outline style (title keys, optional _range / start / end page fields)):
 - Top-level keys are chapter or section titles as strings (e.g. "1 Introduction" or "5 Induction: ...").
 - Do NOT return a flat "topics" / "chapters" curriculum wrapper — use ONLY nested objects like the example.
 - Each node that covers printed book pages is an object with EITHER:
@@ -963,7 +963,7 @@ async def list_my_textbooks(authorization: Optional[str] = Header(None)):
     if not email:
         raise HTTPException(status_code=401, detail="Not authenticated")
     return {
-        "textbooks": [{"id": "focs", "label": "FCOS (built-in)"}]
+        "textbooks": [{"id": "focs", "label": "CS1 (built-in)"}]
         + uts.list_user_textbooks(email),
     }
 
@@ -1091,7 +1091,7 @@ def _delete_user_textbook_core(email: str, book_id: str) -> Dict[str, Any]:
 
 @router.delete("/api/user_textbooks/{book_id}")
 async def delete_my_user_textbook(book_id: str, authorization: Optional[str] = Header(None)):
-    """Permanently delete an uploaded textbook (not FCOS). Also drops learning-bar data for that book."""
+    """Permanently delete an uploaded textbook (not the built-in CS1 slot). Also drops learning-bar data for that book."""
     email = verify_token(authorization)
     if not email:
         raise HTTPException(status_code=401, detail="Not authenticated")
