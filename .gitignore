@@ -162,3 +162,16 @@ frontend/build/
 *.h5
 *.pkl
 *.pth
+# Vendored Windows Node runtimes (use system Node instead)
+frontend/node.js/
+
+# Large course PDFs — keep outlines in repo, not binary textbooks
+backend/data/*.pdf
+
+# Local agent scratch / crash dumps
+agent-tools-*.txt
+sh.exe.stackdump
+spatial_error_report.*
+my_errors.jsonl
+my_labeled.jsonl
+Updates_in_words
