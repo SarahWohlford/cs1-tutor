@@ -1,5 +1,6 @@
 /**
  * Copy backend/data/FOCS.json -> src/data/focsTree.json for the bundled Learning bar tree.
+ * Legacy filenames retained; content is the CS1 built-in outline (may be empty).
  * Run from frontend: npm run sync-focs
  */
 import fs from "fs";

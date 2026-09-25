@@ -1,4 +1,8 @@
-"""Textbook / FOCS data helpers and PDF utilities."""
+"""Textbook / course outline helpers and PDF utilities.
+
+Built-in book id remains `focs` for API compatibility; content is CS1-bound
+(see empty backend/data/FOCS.json until the CS1 outline is wired).
+"""
 
 import base64
 import json
@@ -22,8 +26,8 @@ except ImportError:
 
 from deps import create_chat_completion, clamp_int_0_100
 
-# PDF 前 15 页无内容，教材第 "1" 页对应 PDF 第 16 页
-PDF_PAGE_OFFSET = 15
+# FOCS PDF had a 15-page front-matter offset; CS1 materials default to 0 until wired.
+PDF_PAGE_OFFSET = 0
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 FOCS_JSON_PATH = os.path.join(DATA_DIR, "FOCS.json")

@@ -33,7 +33,7 @@
 
 ### 教材数据（Learning Mode 必需）
 
-将 **FOCS 教材 PDF** 放到 `backend/data/`，默认文件名为 **`FOCS.pdf`**（或与 `backend/learning_resources.py` 中逻辑一致的首个 `.pdf`）。目录结构 **`backend/data/FOCS.json`** 需与仓库一并存在，用于章节树与页码匹配。
+将 **CS1 课程 PDF/笔记**（可选）放到 `backend/data/`。目录结构 **`backend/data/FOCS.json`**（legacy 文件名）用于章节树；当前为空，待接入 RPI CSCI 1100 大纲。大型 PDF 请勿提交到 git。
 
 ### 环境变量
 
@@ -47,7 +47,7 @@ copy .env.example .env
 
 ### Node.js（前端，可选便携安装）
 
-若本机未装 Node，可下载 [Node.js Windows ZIP](https://nodejs.org/dist/)（例如 `node-v24.x.x-win-x64`），解压到 **`frontend/node.js/`**，保留其中的 **`npm.cmd`**。`init.py` 会自动查找并用于 `npm install` / `npm run dev`。
+请安装系统 Node.js 18+（https://nodejs.org/）。仓库不再附带 `frontend/node.js/` Windows 便携包。
 
 已全局安装 Node 时可直接使用 PATH 中的 `npm`。
 
@@ -65,7 +65,7 @@ python init.py
 
 ### 可选：OCR / 图像
 
-若使用依赖 **Tesseract** 的代码路径（如部分 PDF 文本提取），需在 Windows 上单独安装 [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) 并配置 PATH；多数 FOCS 文字版 PDF 仅用 PyMuPDF 即可。
+若使用依赖 **Tesseract** 的代码路径（如部分 PDF 文本提取），需在 Windows 上单独安装 [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) 并配置 PATH；多数文字版 PDF 仅用 PyMuPDF 即可。
 
 ---
 
@@ -95,7 +95,7 @@ python init.py
 
 ### Textbook data (required for full Learning Mode)
 
-Place the **FOCS PDF** under `backend/data/` (default name **`FOCS.pdf`**). Keep **`backend/data/FOCS.json`** in sync with the repo for the chapter tree and page ranges.
+Optionally place CS1 course PDFs under `backend/data/`. Keep **`backend/data/FOCS.json`** (legacy filename) for the chapter tree; it is empty until CS1 content is wired. Do not commit large PDFs.
 
 ### Environment variables
 
@@ -105,9 +105,9 @@ copy .env.example .env
 # Edit backend/.env — set OPENAI_API_KEY (recommended) and/or API_KEY
 ```
 
-### Node.js (optional portable layout)
+### Node.js
 
-Extract a Windows Node ZIP under **`frontend/node.js/`** so **`npm.cmd`** exists there, or use a system-wide Node on `PATH`.
+Install system Node.js 18+ (https://nodejs.org/). The repo no longer vendors `frontend/node.js/` Windows ZIP runtimes.
 
 ### Run (recommended)
 

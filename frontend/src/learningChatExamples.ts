@@ -1,14 +1,13 @@
-/** Starter prompts above Learning Mode chat input (book content stays English). */
+/** Starter prompts above Learning Mode chat input. */
 export const LEARNING_CHAT_EXAMPLES = [
   {
-    id: "induction",
-    label: "What is induction?",
-    sendText: "What is induction?",
+    id: "what-is-variable",
+    label: "What is a variable in Python?",
+    sendText: "What is a variable in Python?",
   },
   {
-    id: "problem-5-1",
-    label: "Problem 5.1: Is 2^p − 1 prime for p = 2, 3, 5, 7?",
-    sendText:
-      "Problem 5.1: Is 2^p - 1 prime for the primes p = 2, 3, 5, 7? Is 2^p - 1 prime whenever p is prime?",
+    id: "for-vs-while",
+    label: "When should I use a for-loop vs a while-loop?",
+    sendText: "When should I use a for-loop vs a while-loop in Python?",
   },
 ] as const;
