@@ -1,7 +1,7 @@
 import focsTreeBundled from "./data/focsTree.json";
 import { apiUrl } from "./apiBase";
 
-/** Bundled outline roots (same shape as FOCS tree JSON). */
+/** Bundled outline roots (nested objects and page numbers). */
 export type TextbookTreeRoot = Record<string, unknown>;
 
 /** Only the last-selected id is persisted in the browser; lists and trees come from the API (server data dir). */
@@ -17,7 +17,7 @@ export function invalidateTextbookCatalogSync(): void {
 }
 
 export const BUILTIN_TEXTBOOK_OPTIONS: { id: string; linkLabel: string }[] = [
-  { id: "focs", linkLabel: "FCOS" },
+  { id: "focs", linkLabel: "CSCI 1100" },
 ];
 
 const USER_BOOK_ID_RE = /^user_[A-Za-z0-9_-]{4,64}$/;
@@ -68,7 +68,7 @@ function purgeLegacyTextbookLocalStorage(): void {
   }
 }
 
-/** FCOS + last server list (in-memory). Not persisted to localStorage. */
+/** Built-in course entry plus the last server list (in-memory). Not persisted to localStorage. */
 export function readTextbookOptionList(): { id: string; linkLabel: string }[] {
   const seen = new Set<string>();
   const out: { id: string; linkLabel: string }[] = [];
@@ -193,7 +193,7 @@ export function clearAllUploadedTextbooksFromBrowser(): void {
   );
 }
 
-/** FCOS from bundle; user books from session cache (filled by fetchTree / writeCatalogAndTree). */
+/** Built-in course entry from the bundle; user books from session cache (filled by fetchTree / writeCatalogAndTree). */
 export function getTextbookTree(id: string): TextbookTreeRoot {
   if (id === "focs") return focsTreeBundled as TextbookTreeRoot;
   return sessionTreeCache.get(id) ?? {};

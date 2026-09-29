@@ -16,7 +16,7 @@ const EN = {
   "profile.notSignedIn": "You are not signed in. Sign in to save chat history and sync learning progress.",
   "profile.textbooks": "Textbooks and outlines",
   "profile.textbooksDesc":
-    "When you pick a textbook, the learning progress bar and all outline / PDF references in Learning Mode switch to that book. After you upload a PDF, the server checks that it is a real textbook or course book, then builds an outline JSON in the same shape as FCOS (nested objects and page numbers). Other PDF types are not accepted here—use Auto Grader for those.",
+    "When you pick a textbook, the learning progress bar and all outline / PDF references in Learning Mode switch to that book. After you upload a PDF, the server checks that it is a real textbook or course book, then builds an outline JSON in the same nested shape (objects and page numbers). Other PDF types are not accepted here—use Auto Grader for those.",
   "profile.signInToUpload": "Sign in to upload your own PDF and save it to your account.",
   "profile.currentTextbook": "Current textbook",
   "profile.deleteUpload": "Delete this uploaded textbook",
@@ -34,7 +34,7 @@ const EN = {
   "profile.noFileChosen": "No file chosen",
   "profile.buildingOutline": "Building outline…",
   "profile.clearLocalConfirm":
-    "Remove every uploaded book from this browser only? This does not delete files on the server. FCOS stays available.",
+    "Remove every uploaded book from this browser only? This does not delete files on the server. The built-in CSCI 1100 entry stays available.",
   "profile.deleteConfirm":
     'Permanently delete "{label}"? The PDF, outline, and learning progress for this book will be removed. This cannot be undone.',
   "profile.errSignInUpload": "Sign in to upload a PDF textbook.",

@@ -287,9 +287,9 @@ export default function Sidebar() {
         <button className="sb-toggle" onClick={toggleCollapsed} title="Toggle sidebar" aria-label="Toggle sidebar">
           {I.menu}
         </button>
-        <button className="sb-brand" onClick={() => navigate("/")} title="AI Tutor">
+        <button className="sb-brand" onClick={() => navigate("/")} title="CS1 Tutor">
           <span className="sb-brand-mark">∑</span>
-          <span className="sb-brand-name">AI Tutor</span>
+          <span className="sb-brand-name">CS1 Tutor</span>
         </button>
         <button
           type="button"

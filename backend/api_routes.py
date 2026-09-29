@@ -417,12 +417,12 @@ def _chat_direct_in_section(
 ) -> dict[str, Any]:
     """Answer in the context of the section the student has open — no history, memory, bar, or intake."""
     _book_label = (
-        "FOCS (Mathematics for Computer Science)"
+        "Computer Science 1 (CSCI 1100) at Rensselaer Polytechnic Institute (Fall 2026)"
         if textbook_id == "focs"
         else "the textbook the student selected"
     )
     system_content = (
-        f"You are an AI math tutor for {_book_label}. "
+        f"You are an AI tutor for {_book_label}. No course outline or practice bank is loaded, so do not claim that a specific lecture, lab, or textbook section is part of the course. The course language is Python. "
         "The student is viewing a specific textbook section (reference below). "
         "Answer their question directly with a clear explanation and a short example when helpful. "
         "Never ask intake questions, never list optional sections, never say 'closest match', "
@@ -553,12 +553,12 @@ async def chat(chat_message: ChatMessage, authorization: Optional[str] = Header(
             tid = "focs"
         with lr.request_book(tid, user_email):
             _book_label = (
-                "FOCS (Mathematics for Computer Science)"
+                "Computer Science 1 (CSCI 1100) at Rensselaer Polytechnic Institute (Fall 2026)"
                 if tid == "focs"
                 else "the textbook the student selected"
             )
             system_content = (
-                f"You are an AI math tutor for {_book_label}. "
+                f"You are an AI tutor for {_book_label}. No course outline or practice bank is loaded, so do not claim that a specific lecture, lab, or textbook section is part of the course. The course language is Python. "
                 "The student asked a SIMPLE definition/meaning question. "
                 "Reply with EXACTLY ONE sentence, concise textbook-style. "
                 "Do NOT include bullet points, steps, study plans, examples, or follow-up questions. "
@@ -619,14 +619,14 @@ async def chat(chat_message: ChatMessage, authorization: Optional[str] = Header(
             print(f"[Learning] topic match/page extract failed: {e}")
 
         _book_label = (
-            "FOCS (Mathematics for Computer Science)"
+            "Computer Science 1 (CSCI 1100) at Rensselaer Polytechnic Institute (Fall 2026)"
             if tid == "focs"
             else "the textbook the student selected (outline + PDF pages)"
         )
         is_simple_def = _is_simple_definition_question(chat_message.message) and not combined_images
         if is_simple_def:
             system_content = (
-                f"You are an AI math tutor for {_book_label}. "
+                f"You are an AI tutor for {_book_label}. No course outline or practice bank is loaded, so do not claim that a specific lecture, lab, or textbook section is part of the course. The course language is Python. "
                 "The student asked a SIMPLE definition/meaning question. "
                 "Answer in EXACTLY ONE sentence, textbook-style, grounded in the textbook reference when available. "
                 "Do NOT include bullet points, steps, study plans, examples, or follow-up questions. "
@@ -634,7 +634,7 @@ async def chat(chat_message: ChatMessage, authorization: Optional[str] = Header(
             )
         else:
             system_content = (
-                f"You are an AI math tutor for {_book_label}. "
+                f"You are an AI tutor for {_book_label}. No course outline or practice bank is loaded, so do not claim that a specific lecture, lab, or textbook section is part of the course. The course language is Python. "
                 "Answer the student's question directly: explain clearly step-by-step, use the textbook reference below when available, "
                 "and include a short worked example when it helps. "
                 "Never list optional sections, never ask the student to pick a section/chapter, "
@@ -876,8 +876,8 @@ async def focs_tree():
 
 FOCS_STYLE_OUTLINE_PROMPT_HEAD = """You must return ONLY a valid JSON object. No markdown, no code fences.
 
-The JSON must match this textbook outline shape (same style as FOCS / MCS):
-- Top-level keys are chapter or section titles as strings (e.g. "1 Introduction" or "5 Induction: ...").
+The JSON must match this textbook outline shape:
+- Top-level keys are chapter or section titles as strings (e.g. "1 Introduction").
 - Do NOT return a flat "topics" / "chapters" curriculum wrapper — use ONLY nested objects like the example.
 - Each node that covers printed book pages is an object with EITHER:
   - "_range": {"start": <int>, "end": <int>} (inclusive printed book page numbers), OR
@@ -963,7 +963,7 @@ async def list_my_textbooks(authorization: Optional[str] = Header(None)):
     if not email:
         raise HTTPException(status_code=401, detail="Not authenticated")
     return {
-        "textbooks": [{"id": "focs", "label": "FCOS (built-in)"}]
+        "textbooks": [{"id": "focs", "label": "CSCI 1100 (outline not loaded)"}]
         + uts.list_user_textbooks(email),
     }
 

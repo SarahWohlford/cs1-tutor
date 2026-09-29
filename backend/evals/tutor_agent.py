@@ -31,7 +31,7 @@ class ChatTurn:
 
 def _book_label(textbook_id: str) -> str:
     if textbook_id == "focs":
-        return "FOCS (Mathematics for Computer Science)"
+        return "Computer Science 1 (CSCI 1100) at Rensselaer Polytechnic Institute (Fall 2026)"
     return "the textbook the student selected"
 
 
@@ -73,7 +73,7 @@ def build_tutor_messages(
     }
 
     system_content = (
-        f"You are an AI math tutor for {_book_label(context.textbook_id)}. "
+        f"You are an AI tutor for {_book_label(context.textbook_id)}. No course outline or practice bank is loaded, so do not claim that a specific lecture, lab, or textbook section is part of the course. The course language is Python. "
         "Answer the student's question directly with a clear explanation and a short example when helpful. "
         "Never ask intake questions, never list optional sections, and never ask them to pick a chapter."
     )

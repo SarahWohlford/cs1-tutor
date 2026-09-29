@@ -1,4 +1,8 @@
-# Math AI Tutor
+# CS1 Tutor
+
+Tutor shell for **Computer Science 1 (CSCI 1100)** at Rensselaer Polytechnic Institute, Fall 2026. The course language is Python. No course outline or practice bank is loaded.
+
+Course site: https://www.cs.rpi.edu/~mushtu/CS1100/index.html
 
 ### Instruction placeholder....
 
@@ -13,8 +17,8 @@ Install Node.js 18+, Python 3.9+, and Git.
 Clone the repository and navigate to the project directory. Set up the backend by creating a virtual environment, activating it, and installing dependencies from requirements.txt. Set up the frontend by installing npm packages.
 
 ```bash
-git clone URL
-cd AI_tutor
+git clone https://github.com/SarahWohlford/cs1-tutor
+cd cs1-tutor
 
 # Backend setup
 cd backend

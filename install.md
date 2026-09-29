@@ -93,9 +93,9 @@ python init.py
    pip install -r requirements.txt
    ```
 
-### Textbook data (required for full Learning Mode)
+### Textbook data (Learning Mode)
 
-Place the **FOCS PDF** under `backend/data/` (default name **`FOCS.pdf`**). Keep **`backend/data/FOCS.json`** in sync with the repo for the chapter tree and page ranges.
+The built-in outline `backend/data/FOCS.json` is an empty placeholder (the filename is historical). This repo does not ship a course PDF. Uploaded PDFs still use the existing upload flow. Course site: https://www.cs.rpi.edu/~mushtu/CS1100/index.html
 
 ### Environment variables
 
@@ -107,7 +107,7 @@ copy .env.example .env
 
 ### Node.js (optional portable layout)
 
-Extract a Windows Node ZIP under **`frontend/node.js/`** so **`npm.cmd`** exists there, or use a system-wide Node on `PATH`.
+Extract a Windows Node ZIP under **`frontend/node.js/`** so **`npm.cmd`** exists there, or use a system-wide Node on `PATH`. Do not commit the extracted files.
 
 ### Run (recommended)
 

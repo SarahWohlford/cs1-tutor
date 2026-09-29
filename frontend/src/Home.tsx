@@ -8,31 +8,34 @@ export default function Home() {
   return (
     <div className="home-scrap">
       <div className="home-inner">
-        {/* scattered discrete-math glyphs */}
         <div className="hs-glyphs" aria-hidden>
-          <span className="hs-g g1">∀</span>
-          <span className="hs-g g2">∃</span>
-          <span className="hs-g g3">∧</span>
-          <span className="hs-g g4">¬</span>
-          <span className="hs-g g5">⊆</span>
-          <span className="hs-g g6">∈</span>
-          <span className="hs-g g7">≡</span>
-          <span className="hs-g g8">∅</span>
-          <span className="hs-g g9 mono">p→q</span>
-          <span className="hs-g g10 mono">(mod n)</span>
+          <span className="hs-g g1">CS</span>
+          <span className="hs-g g2">1</span>
+          <span className="hs-g g3">1100</span>
+          <span className="hs-g g4">RPI</span>
+          <span className="hs-g g5">F26</span>
+          <span className="hs-g g6">py</span>
+          <span className="hs-g g7">#</span>
+          <span className="hs-g g8">{"{ }"}</span>
+          <span className="hs-g g9 mono">def</span>
+          <span className="hs-g g10 mono">print</span>
         </div>
 
         <div className="hs-wrap">
           {/* HERO */}
           <section className="hs-hero">
             <div className="hs-hero-copy">
-              <span className="hs-eyebrow">start here</span>
+              <span className="hs-eyebrow">Fall 2026</span>
               <h1 className="hs-headline">
-                Equal Education<br />
-                for <span className="hs-mark">Everyone</span>
+                Computer Science 1<br />
+                <span className="hs-mark">CSCI 1100</span>
               </h1>
               <p className="hs-lede">
-                Ask a question, view notes and textbook, practice proofs, acquire reasoning skills.
+                Rensselaer Polytechnic Institute. The course language is Python.
+                No course outline is loaded yet, so this tutor will not name lectures or labs for you.
+              </p>
+              <p className="hs-lede">
+                <a href="https://www.cs.rpi.edu/~mushtu/CS1100/index.html">Course site</a>
               </p>
 
               {!loading && user && (
@@ -97,30 +100,29 @@ export default function Home() {
                 <span className="hs-pin" />
                 <div className="hs-kicker">Topic checklist</div>
                 <ul>
-                  <li className="done"><span className="hs-box">✓</span><span>Logic &amp; Proofs</span></li>
-                  <li className="done"><span className="hs-box">✓</span><span>Sets &amp; Relations</span></li>
-                  <li><span className="hs-box" /><span>Combinatorics</span></li>
-                  <li><span className="hs-box" /><span>Graph Theory</span></li>
+                  <li><span className="hs-box" /><span>Course outline (not loaded)</span></li>
+                  <li><span className="hs-box" /><span>Practice bank (empty)</span></li>
+                  <li><span className="hs-box" /><span>Your uploaded PDF</span></li>
+                  <li><span className="hs-box" /><span>Saved progress</span></li>
                 </ul>
               </div>
 
               <div className="hs-card hs-chat">
                 <div className="hs-dots"><i /><i /><i /></div>
                 <div className="hs-bubble q">
-                  <code>¬(p→q) ≡ p ∧ ¬q</code>? 🤔
+                  Where should I start?
                 </div>
                 <div className="hs-bubble a">
-                  <code>p→q</code> is false only when p is true, q false. So its negation is exactly{" "}
-                  <code>p ∧ ¬q</code> — truth table →
+                  No course outline is loaded yet, so I can&apos;t point you at a lecture or lab.
                 </div>
-                <span className="hs-srctag">▦ your textbook · Ch.1 Logic</span>
+                <span className="hs-srctag">▦ CSCI 1100 · Fall 2026</span>
               </div>
 
               <div className="hs-card hs-formula">
                 <span className="hs-pin hs-pin--pen" />
-                <div className="hs-formula-lbl">counting</div>
-                <div className="hs-formula-eq">C(8,3)=56</div>
-                <div className="hs-formula-sub">ways to choose 3</div>
+                <div className="hs-formula-lbl">course</div>
+                <div className="hs-formula-eq">CSCI 1100</div>
+                <div className="hs-formula-sub">outline not loaded</div>
               </div>
             </div>
           </section>
@@ -135,27 +137,27 @@ export default function Home() {
                     Personalize your <span className="hs-hl"><span>learning.</span></span>
                   </h2>
                   <p>
-                    It doesn't just answer. It pulls the exact definition or theorem from your book, lays
-                    out a proof skeleton, then turns it into practice you can check.
+                    It answers questions about Computer Science 1. With no outline loaded, it will not
+                    pretend a lecture or lab is part of the course.
                   </p>
                 </div>
                 <div className="hs-agents" aria-label="teaching pipeline">
                   <article className="hs-agent s1">
                     <div className="hs-agent-id">STEP 01 · TEXTBOOK</div>
-                    <div className="hs-agent-t">Read the source</div>
-                    <p>Definitions, theorems, and worked examples from your exact section get pulled into one grounded packet.</p>
+                    <div className="hs-agent-t">Read what is loaded</div>
+                    <p>If you upload a PDF, that file can ground the answer. The built-in outline is empty.</p>
                   </article>
                   <span className="hs-arrow-cx" aria-hidden />
                   <article className="hs-agent s2">
                     <div className="hs-agent-id">STEP 02 · PLAN</div>
-                    <div className="hs-agent-t">Build the proof skeleton</div>
-                    <p>Cases, base &amp; inductive steps, and the formulas you'll need get ordered like a study guide before any prose.</p>
+                    <div className="hs-agent-t">Answer the question</div>
+                    <p>A direct explanation. It does not invent a lecture list or a problem set.</p>
                   </article>
                   <span className="hs-arrow-cx" aria-hidden />
                   <article className="hs-agent s3">
                     <div className="hs-agent-id">STEP 03 · CHECK</div>
-                    <div className="hs-agent-t">Teach, then test</div>
-                    <p>The explanation becomes truth tables and practice problems — not a paragraph you trust blindly.</p>
+                    <div className="hs-agent-t">Practice when a bank exists</div>
+                    <p>Practice problems show up only after a bank is loaded. None is loaded now.</p>
                   </article>
                 </div>
               </div>
@@ -180,7 +182,7 @@ export default function Home() {
                 <span className="hs-tab">/autograder</span>
                 <div className="hs-ic">✓</div>
                 <h3>Auto Grader</h3>
-                <p>Drop a Question PDF and an Answer PDF. Get structured, criterion-by-criterion grading on proofs and problem sets.</p>
+                <p>Drop a question PDF and an answer PDF. Get structured, criterion-by-criterion grading.</p>
                 <span className="hs-go">Grade a paper <span className="hs-arrow">→</span></span>
               </Link>
               <Link to="/profile" className="hs-tool">
@@ -211,15 +213,15 @@ export default function Home() {
                     Create free account <span>→</span>
                   </button>
                 )}
-                <div className="hs-ace-meta">© 2026 AI Tutor · equal education for everyone</div>
+                <div className="hs-ace-meta">© 2026 CSCI 1100 · Rensselaer Polytechnic Institute</div>
               </div>
               <aside className="hs-ace-checklist" aria-label="exam prep checklist">
                 <div className="hs-ace-grade">A+</div>
                 <h3>before test day</h3>
                 <ul>
-                  <li>Truth tables drilled</li>
-                  <li>Proof techniques mapped</li>
-                  <li>Counting &amp; graphs practiced</li>
+                  <li>Outline not loaded</li>
+                  <li>Don&apos;t assume a topic is in the course</li>
+                  <li>Use the course site for the real schedule</li>
                 </ul>
               </aside>
             </div>

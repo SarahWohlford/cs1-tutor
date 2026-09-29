@@ -116,7 +116,7 @@ export default function SignInModal() {
                 <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
               </svg>
             </div>
-            <h3 className="signin-brand-title">AI Tutor</h3>
+            <h3 className="signin-brand-title">CS1 Tutor</h3>
             <p className="signin-brand-tagline">{t("signin.tagline")}</p>
           </div>
         </div>
