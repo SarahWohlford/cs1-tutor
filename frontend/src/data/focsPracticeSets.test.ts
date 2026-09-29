@@ -49,17 +49,17 @@ describe("focsPracticeSets content integrity", () => {
     }
   });
 
-  it("every FOCS Problems chapter has a practice set", () => {
-    expect(FOCS_PROBLEM_CHAPTERS.length).toBeGreaterThan(1);
+  it("ships no Problems chapters and no practice sets until a bank is loaded", () => {
+    expect(FOCS_PROBLEM_CHAPTERS).toEqual([]);
+    expect(FOCS_PRACTICE_SETS).toEqual({});
     for (const chapter of FOCS_PROBLEM_CHAPTERS) {
       expect(getPracticeSet(chapter), `chapter ${chapter}`).not.toBeNull();
     }
   });
 
-  it("getPracticeSet returns Chapter 4 and null for unknown", () => {
-    expect(getPracticeSet("4")?.title).toBe("Proofs");
-    expect(getPracticeSet("1")?.chapter).toBe("1");
-    expect(getPracticeSet("1")?.warmup[0].front).not.toBe(getPracticeSet("4")?.warmup[0].front);
+  it("getPracticeSet returns null while the bank is empty", () => {
+    expect(getPracticeSet("4")).toBeNull();
+    expect(getPracticeSet("1")).toBeNull();
     expect(getPracticeSet("99")).toBeNull();
   });
 

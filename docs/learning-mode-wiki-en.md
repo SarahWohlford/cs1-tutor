@@ -1,10 +1,5 @@
-# Learning Mode documentation (index)
+# Learning Mode wiki
 
-Docs are split into **user** vs **developer/ops** guides.
+The previous Foundations of Computer Science walkthrough was removed.
 
-| Doc | Audience |
-|-----|----------|
-| [learning-mode-user-en.md](./learning-mode-user-en.md) | End users: UI, tree, textbook panel, chat, flows |
-| [learning-mode-dev-en.md](./learning-mode-dev-en.md) | Developers / operators: APIs, code map, env, deploy, troubleshooting |
-
-**中文版索引：** [learning-mode-wiki.md](./learning-mode-wiki.md)
+No course outline, practice bank, or guided lesson is loaded. This page is not a syllabus.
