@@ -162,3 +162,36 @@ frontend/build/
 *.h5
 *.pkl
 *.pth
+
+# ==========================================
+# Dead weight kept out of the CS1 tree
+# ==========================================
+# Portable Windows Node zips (optional local install; do not commit)
+frontend/node.js/
+
+# Crash dumps
+*.stackdump
+
+# FOCS textbook binary (outline JSON is a separate placeholder)
+backend/data/FOCS.pdf
+
+# Runtime memory / progress / eval dumps
+backend/data/memory/**
+backend/data/memory_store/**
+backend/data/student_bars/*.json
+backend/data/eval/runs/**
+!backend/data/eval/runs/.gitkeep
+
+# Captured test logs
+backend/test_output.txt
+backend/AutoGrader/test_local_score_output.txt
+
+# Local agent settings
+.claude/
+
+# One-off scratch captures
+agent-tools-*.txt
+spatial_error_report.md
+spatial_error_report.json
+my_labeled.jsonl
+my_errors.jsonl
