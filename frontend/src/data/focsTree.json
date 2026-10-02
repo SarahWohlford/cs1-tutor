@@ -1,1 +1,17 @@
-{}
+{
+  "2 Python as a Calculator": {
+    "2.1 Expressions and values": {},
+    "2.2 Whole-number division": {},
+    "2.3 float and int": {},
+    "2.4 Precedence": {},
+    "2.5 Variables and assignment": {},
+    "2.6 print": {},
+    "2.7 Variable names": {},
+    "2.8 Programs in a file": {},
+    "2.9 Syntax and semantic errors": {},
+    "2.10 Python keywords": {},
+    "2.11 Mixed operators": {},
+    "2.12 Expressions": {},
+    "2.13 Problems": {}
+  }
+}

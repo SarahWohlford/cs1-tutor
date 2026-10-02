@@ -1,6 +1,6 @@
 # CS1 Tutor
 
-Tutor shell for **Computer Science 1 (CSCI 1100)** at Rensselaer Polytechnic Institute, Fall 2026. The course language is Python. No course outline or practice bank is loaded.
+Tutor for **Computer Science 1 (CSCI 1100)** at Rensselaer Polytechnic Institute, Fall 2026. The course language is Python. Lecture 2 (Python as a calculator) is loaded. Lecture 1 is administrative and is not in the tutor yet.
 
 Course site: https://www.cs.rpi.edu/~mushtu/CS1100/index.html
 

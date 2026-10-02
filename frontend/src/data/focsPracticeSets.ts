@@ -1,9 +1,10 @@
-// Practice-bank registry. Problem sets are not loaded; the lookup still follows the outline.
+// Practice-bank registry. Loaded sets are keyed by chapter token from the outline.
 import focsTree from "./focsTree.json";
 import { chapterOfProblems } from "../practice/isProblemsSection";
 import type { PracticeSet } from "../practice/types";
+import { LECTURE_02_PRACTICE } from "./practice/lecture02";
 
-const ALL_CHAPTER_SETS: PracticeSet[] = [];
+const ALL_CHAPTER_SETS: PracticeSet[] = [LECTURE_02_PRACTICE];
 
 export const FOCS_PROBLEM_CHAPTERS: string[] = (() => {
   const chapters = new Set<string>();

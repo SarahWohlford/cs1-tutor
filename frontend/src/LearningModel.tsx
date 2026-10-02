@@ -317,6 +317,16 @@ export default function LearningModel() {
       setSectionPageIndex(0);
       setOutlinePreviewLoading(true);
       const previewHint = detail.sectionHint.trim() || sectionTokenFromTitle(detail.sectionTitle) || "";
+      if (!detail.startBook || !detail.endBook) {
+        setDataMatchedTopic({
+          name: detail.sectionTitle,
+          startBook: detail.startBook,
+          endBook: detail.endBook,
+          sectionHint: previewHint || undefined,
+        });
+        setOutlinePreviewLoading(false);
+        return;
+      }
       if (textbookId.startsWith("user_") && !token) {
         setOutlinePreviewLoading(false);
         setOutlinePreviewError(t("learning.errSignInTextbook"));
@@ -1287,15 +1297,19 @@ export default function LearningModel() {
                 <span className="left-panel-topic-bar-title">
                   {t("learning.textbook")} {dataMatchedTopic.name}
                 </span>
-                <span className="left-panel-topic-bar-sep" aria-hidden="true">
-                  ·
-                </span>
-                <span className="left-panel-topic-bar-pages">
-                  {t("learning.pages", {
-                    start: String(dataMatchedTopic.startBook),
-                    end: String(dataMatchedTopic.endBook),
-                  })}
-                </span>
+                {dataMatchedTopic.startBook > 0 ? (
+                  <>
+                    <span className="left-panel-topic-bar-sep" aria-hidden="true">
+                      ·
+                    </span>
+                    <span className="left-panel-topic-bar-pages">
+                      {t("learning.pages", {
+                        start: String(dataMatchedTopic.startBook),
+                        end: String(dataMatchedTopic.endBook),
+                      })}
+                    </span>
+                  </>
+                ) : null}
               </div>
               <div className="left-panel-topic-bar-actions">
                 {activeSectionNote ? (

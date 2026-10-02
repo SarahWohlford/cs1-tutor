@@ -422,7 +422,7 @@ def _chat_direct_in_section(
         else "the textbook the student selected"
     )
     system_content = (
-        f"You are an AI tutor for {_book_label}. No course outline or practice bank is loaded, so do not claim that a specific lecture, lab, or textbook section is part of the course. The course language is Python. "
+        f"You are an AI tutor for {_book_label}. {lr.tutor_scope_clause(textbook_id)} "
         "The student is viewing a specific textbook section (reference below). "
         "Answer their question directly with a clear explanation and a short example when helpful. "
         "Never ask intake questions, never list optional sections, never say 'closest match', "
@@ -558,7 +558,7 @@ async def chat(chat_message: ChatMessage, authorization: Optional[str] = Header(
                 else "the textbook the student selected"
             )
             system_content = (
-                f"You are an AI tutor for {_book_label}. No course outline or practice bank is loaded, so do not claim that a specific lecture, lab, or textbook section is part of the course. The course language is Python. "
+                f"You are an AI tutor for {_book_label}. {lr.tutor_scope_clause(tid)} "
                 "The student asked a SIMPLE definition/meaning question. "
                 "Reply with EXACTLY ONE sentence, concise textbook-style. "
                 "Do NOT include bullet points, steps, study plans, examples, or follow-up questions. "
@@ -626,7 +626,7 @@ async def chat(chat_message: ChatMessage, authorization: Optional[str] = Header(
         is_simple_def = _is_simple_definition_question(chat_message.message) and not combined_images
         if is_simple_def:
             system_content = (
-                f"You are an AI tutor for {_book_label}. No course outline or practice bank is loaded, so do not claim that a specific lecture, lab, or textbook section is part of the course. The course language is Python. "
+                f"You are an AI tutor for {_book_label}. {lr.tutor_scope_clause(tid)} "
                 "The student asked a SIMPLE definition/meaning question. "
                 "Answer in EXACTLY ONE sentence, textbook-style, grounded in the textbook reference when available. "
                 "Do NOT include bullet points, steps, study plans, examples, or follow-up questions. "
@@ -634,7 +634,7 @@ async def chat(chat_message: ChatMessage, authorization: Optional[str] = Header(
             )
         else:
             system_content = (
-                f"You are an AI tutor for {_book_label}. No course outline or practice bank is loaded, so do not claim that a specific lecture, lab, or textbook section is part of the course. The course language is Python. "
+                f"You are an AI tutor for {_book_label}. {lr.tutor_scope_clause(tid)} "
                 "Answer the student's question directly: explain clearly step-by-step, use the textbook reference below when available, "
                 "and include a short worked example when it helps. "
                 "Never list optional sections, never ask the student to pick a section/chapter, "
@@ -963,7 +963,7 @@ async def list_my_textbooks(authorization: Optional[str] = Header(None)):
     if not email:
         raise HTTPException(status_code=401, detail="Not authenticated")
     return {
-        "textbooks": [{"id": "focs", "label": "CSCI 1100 (outline not loaded)"}]
+        "textbooks": [{"id": "focs", "label": "CSCI 1100 · Lecture 2"}]
         + uts.list_user_textbooks(email),
     }
 

@@ -191,12 +191,12 @@ function FocsTreeBranch({
     onToggleToken(token, hasKids ? node : undefined, hasKids ? path : undefined);
 
   const titleClick = () => {
-    if (onOpenPages && bookRange) {
+    if (onOpenPages) {
       onOpenPages({
         sectionTitle: title,
         path,
-        startBook: bookRange.start,
-        endBook: bookRange.end,
+        startBook: bookRange?.start ?? 0,
+        endBook: bookRange?.end ?? 0,
         sectionHint: firstSectionToken(title) ?? "",
       });
     } else {
