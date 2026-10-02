@@ -1491,5 +1491,5 @@ export function chatLanguageSuffix(locale: AppLocale): string {
   return hint ? `\n\n${hint}` : "";
 }
 
-/** Sentinel stored in chat message list to render the localized welcome card. */
+// Sentinel stored in chat message list to render the localized welcome card.
 export const WELCOME_MSG_SENTINEL = "__welcome__";

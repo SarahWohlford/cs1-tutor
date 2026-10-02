@@ -13,5 +13,14 @@
     "2.11 Mixed operators": {},
     "2.12 Expressions": {},
     "2.13 Problems": {}
+  },
+  "3 Python Strings": {
+    "3.1 Creating strings": {},
+    "3.2 Length and concatenation": {},
+    "3.3 Converting with str, int, and float": {},
+    "3.4 Repeating strings": {},
+    "3.5 Quotes and escapes": {},
+    "3.6 Multiline strings": {},
+    "3.7 Problems": {}
   }
 }

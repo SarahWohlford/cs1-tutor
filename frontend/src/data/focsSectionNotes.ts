@@ -2,7 +2,7 @@ import type { SectionNote } from "../utils/sectionNotes";
 
 const empty = { vocabulary: [] as SectionNote["vocabulary"], formulas: [] as SectionNote["formulas"] };
 
-/** Study notes for CSCI 1100 Fall 2026 Lecture 2. Lecture 1 is not loaded. */
+// Study notes for CSCI 1100 Fall 2026 Lecture 2. Lecture 1 is not loaded.
 export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "2": {
     objectives:
@@ -199,6 +199,82 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
     objectives:
       "Lecture 2 exercises for Submitty, submitted as part of Lab 1. Work them during or right after lecture. You may discuss them in a small group, but write and submit your own file. Three problems: convert 64 Celsius to Fahrenheit in one line, compute a 16.5 x 12.5 x 5 box, and predict the two-line output of the z/x program.",
     ...empty,
+    vocabulary: [],
+    formulas: [],
+  },
+  "3": {
+    objectives:
+      "Lecture 3 is strings: text in quotes, length, concatenation, conversion with str and int, repetition, escape characters, and multiline strings. These notes follow the course textbook topics. The textbook wording is not stored here.",
+    vocabulary: [
+      {
+        term: "str",
+        definition: "The string type. A string is a sequence of characters written between matching quotes.",
+      },
+    ],
+    formulas: [],
+  },
+  "3.1": {
+    objectives: "Write a string with matching single or double quotes. The empty string is '' or \"\". Mismatched quotes are a syntax error (EOL while scanning a string).",
+    vocabulary: [
+      {
+        term: "empty string",
+        definition: "A string with no characters. len('') is 0.",
+      },
+    ],
+    formulas: [],
+  },
+  "3.2": {
+    objectives: "len counts every character, including spaces. + on two strings concatenates them. + cannot mix a string and a number.",
+    vocabulary: [
+      {
+        term: "concatenation",
+        definition: "Joining two strings with +. 'cs' + '1' is 'cs1'.",
+      },
+    ],
+    formulas: [],
+  },
+  "3.3": {
+    objectives: "str(n) turns a number into text so it can be concatenated. int(s) and float(s) turn numeric text into a number. int('a') raises ValueError.",
+    vocabulary: [
+      {
+        term: "str()",
+        definition: "Convert a value to its text form. str(1100) is '1100'.",
+      },
+    ],
+    formulas: [],
+  },
+  "3.4": {
+    objectives: "A string times an integer repeats the string. 'ab' * 3 is 'ababab'. A count of 0 or less produces the empty string.",
+    vocabulary: [
+      {
+        term: "repetition",
+        definition: "string * n repeats the string n times when n is a positive integer.",
+      },
+    ],
+    formulas: [],
+  },
+  "3.5": {
+    objectives: "Use the other quote style when the text contains a quote. A backslash starts an escape: quote, backslash, tab, and newline. The escape is one character even though you type two.",
+    vocabulary: [
+      {
+        term: "escape sequence",
+        definition: "A backslash and the following character, stored as one character. \\n is a newline.",
+      },
+    ],
+    formulas: [],
+  },
+  "3.6": {
+    objectives: "A single-line quote cannot cross a line break. Triple quotes can. Each line break inside them becomes a \\n character. Python stores newlines as \\n even on Windows.",
+    vocabulary: [
+      {
+        term: "newline",
+        definition: "The character \\n. Triple-quoted strings insert one wherever the source starts a new line.",
+      },
+    ],
+    formulas: [],
+  },
+  "3.7": {
+    objectives: "Lecture 3 practice: length, concatenation with str, and repetition. Open Study questions on the learning page, or click this section.",
     vocabulary: [],
     formulas: [],
   },

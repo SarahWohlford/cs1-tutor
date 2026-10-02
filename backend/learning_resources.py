@@ -270,7 +270,7 @@ def tutor_scope_clause(textbook_id: str) -> str:
             "or textbook section is part of the course. The course language is Python."
         )
     return (
-        "The only loaded lecture is Lecture 2, Python as a calculator (Practical Programming, chapter 2). "
+        "The loaded lectures are Lecture 2 (Python as a calculator) and Lecture 3 (strings). "
         "Lecture 1 is administrative and is not in this tutor. Do not invent later lectures, labs, or assignments. "
         "The course language is Python.\n\n"
         f"Loaded outline:\n{tree}"

@@ -50,6 +50,6 @@ export function saveGuideProgress(
   try {
     storage.setItem(storageKey(textbookId, chapter), JSON.stringify(progress));
   } catch {
-    /* non-fatal */
+    // non-fatal
   }
 }

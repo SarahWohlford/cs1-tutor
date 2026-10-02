@@ -47,11 +47,11 @@ import {
 } from "./onboarding/onboardingDemoSection";
 import { WELCOME_MSG_SENTINEL } from "./i18n/messages";
 
-/** Left textbook panel width as % of layout (matches state rightPanelWidth). */
+// Left textbook panel width as % of layout (matches state rightPanelWidth).
 const TEXTBOOK_PANEL_MIN_PCT = 15;
 const TEXTBOOK_PANEL_MAX_PCT = 90;
 const DEFAULT_TEXTBOOK_SPLIT_PCT = 67;
-/** Drag split past this → chat collapses to the right edge. */
+// Drag split past this → chat collapses to the right edge.
 const CHAT_COLLAPSE_THRESHOLD_PCT = 88;
 
 const CHAT_PANEL_WIDTH_KEY = "ai_tutor_learning_textbook_split_pct";
@@ -103,7 +103,7 @@ function readChatCollapsed(): boolean {
   }
 }
 
-/** Client-side cap for chat PDF attach; keep in line with backend MAX_USER_PDF_MB (default 100). */
+// Client-side cap for chat PDF attach; keep in line with backend MAX_USER_PDF_MB (default 100).
 const MAX_PDF_UPLOAD_BYTES = 100 * 1024 * 1024;
 
 const NOTE_SPLIT_STORAGE_KEY = "ai_tutor_textbook_note_split_pct_v2";
@@ -194,7 +194,7 @@ export default function LearningModel() {
   const [bookHighlight, setBookHighlight] = useState<string | null>(null);
   const pendingBookPageRef = useRef<number | null>(null);
   const bookHighlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  /** Closes the section Note split; wired after useSectionNoteToggle mounts. */
+  // Closes the section Note split; wired after useSectionNoteToggle mounts.
   const closeSectionNoteRef = useRef<() => void>(() => {});
   const textbookImgRef = useRef<HTMLDivElement>(null);
   const textbookPan = useDragScroll();
@@ -215,7 +215,7 @@ export default function LearningModel() {
       if (collapsed) localStorage.setItem(CHAT_COLLAPSED_KEY, "1");
       else localStorage.removeItem(CHAT_COLLAPSED_KEY);
     } catch {
-      /* ignore */
+      // ignore
     }
   }, []);
 
@@ -235,7 +235,7 @@ export default function LearningModel() {
       try {
         localStorage.setItem(TEXTBOOK_ZOOM_STORAGE_KEY, String(next));
       } catch {
-        /* ignore */
+        // ignore
       }
       return next;
     });
@@ -246,7 +246,7 @@ export default function LearningModel() {
     try {
       localStorage.setItem(TEXTBOOK_ZOOM_STORAGE_KEY, String(TEXTBOOK_ZOOM_DEFAULT));
     } catch {
-      /* ignore */
+      // ignore
     }
   }, []);
 
@@ -261,7 +261,7 @@ export default function LearningModel() {
       try {
         localStorage.setItem(CHAT_PANEL_WIDTH_KEY, String(clamped));
       } catch {
-        /* ignore */
+        // ignore
       }
     }
   }, []);
@@ -532,7 +532,7 @@ export default function LearningModel() {
     [rightPanelWidth, handleResizeMove, handleResizeEnd]
   );
 
-  /** Screen/window capture: grab one frame and attach. */
+  // Screen/window capture: grab one frame and attach.
   const handleScreenshot = useCallback(async () => {
     if (!navigator.mediaDevices?.getDisplayMedia) {
       alert(t("learning.errNoCapture"));
@@ -570,7 +570,7 @@ export default function LearningModel() {
     }
   }, [t]);
 
-  /** On paste, attach images from the clipboard if present. */
+  // On paste, attach images from the clipboard if present.
   const handlePaste = useCallback((e: React.ClipboardEvent) => {
     const items = e.clipboardData?.items;
     if (!items) return;
@@ -1030,6 +1030,24 @@ export default function LearningModel() {
     setRefreshTrigger((n) => n + 1);
   };
 
+  const openStudyQuestions = (sectionTitle: string, sectionHint: string) => {
+    setOutlinePreviewError(null);
+    setPracticeViewNote(false);
+    setGuideViewNote(false);
+    setMatchedSection(null);
+    setReferencePageImage(null);
+    setReferencePageSnippets(null);
+    setReferenceSectionPages(null);
+    setActiveSectionTitle(sectionTitle);
+    setDataMatchedTopic({
+      name: sectionTitle,
+      startBook: 0,
+      endBook: 0,
+      sectionHint,
+    });
+    setLeftPanelOpen(true);
+  };
+
   // keep the bridge wrappers pointing at the latest closures
   sessionApiRef.current = { load: loadSession, newChat: handleNewChat, preview: handleOutlineSectionPreview };
 
@@ -1377,7 +1395,13 @@ export default function LearningModel() {
                 <PracticePanel
                   chapter={practiceChapter!}
                   textbookId={textbookId}
-                  chapterTitle={`Chapter ${practiceChapter}`}
+                  chapterTitle={
+                    practiceChapter === "2"
+                      ? "Lecture 2 · Python as a calculator"
+                      : practiceChapter === "3"
+                        ? "Lecture 3 · Strings"
+                        : `Chapter ${practiceChapter}`
+                  }
                   token={token}
                   onViewNote={activeSectionNote ? () => setPracticeViewNote(true) : undefined}
                 />
@@ -1605,6 +1629,30 @@ export default function LearningModel() {
                 </button>
               </span>
             ))}
+          </div>
+        )}
+
+        {!hasUserMessage && (
+          <div className="chat-example-prompts" role="group" aria-label="Study questions">
+            <p className="chat-example-label">Study questions</p>
+            <div className="chat-example-list">
+              <button
+                type="button"
+                className="chat-example-chip"
+                onClick={() => openStudyQuestions("2.13 Problems", "2.13")}
+              >
+                <span className="chat-example-num">L2</span>
+                <span className="chat-example-text">Lecture 2 · Python as a calculator</span>
+              </button>
+              <button
+                type="button"
+                className="chat-example-chip"
+                onClick={() => openStudyQuestions("3.7 Problems", "3.7")}
+              >
+                <span className="chat-example-num">L3</span>
+                <span className="chat-example-text">Lecture 3 · strings</span>
+              </button>
+            </div>
           </div>
         )}
 

@@ -3,14 +3,14 @@ import "./GooeyNav.css";
 
 export type GooeyNavItem = {
   label: string;
-  /** A stable key to track active state (usually a pathname like "/learning"). */
+  // A stable key to track active state (usually a pathname like "/learning").
   key: string;
   onSelect: () => void;
 };
 
 export type GooeyNavProps = {
   items: GooeyNavItem[];
-  /** If provided, GooeyNav will highlight that item. Otherwise uses internal state. */
+  // If provided, GooeyNav will highlight that item. Otherwise uses internal state.
   activeKey?: string;
   animationTime?: number;
   particleCount?: number;

@@ -963,7 +963,7 @@ async def list_my_textbooks(authorization: Optional[str] = Header(None)):
     if not email:
         raise HTTPException(status_code=401, detail="Not authenticated")
     return {
-        "textbooks": [{"id": "focs", "label": "CSCI 1100 · Lecture 2"}]
+        "textbooks": [{"id": "focs", "label": "CSCI 1100 · Lectures 2–3"}]
         + uts.list_user_textbooks(email),
     }
 

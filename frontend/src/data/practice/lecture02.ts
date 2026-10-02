@@ -1,6 +1,6 @@
 import type { PracticeSet } from "../../practice/types";
 
-/** CSCI 1100 Fall 2026 Lecture 2 practice, from the course notes and Submitty exercises. */
+// CSCI 1100 Fall 2026 Lecture 2 practice, from the course notes and Submitty exercises.
 export const LECTURE_02_PRACTICE: PracticeSet = {
   chapter: "2",
   title: "Python as a Calculator",

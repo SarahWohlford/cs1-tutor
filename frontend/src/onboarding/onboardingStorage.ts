@@ -17,7 +17,7 @@ export function writeOnboardingDone(key: string): void {
   try {
     localStorage.setItem(key, "1");
   } catch {
-    /* ignore */
+    // ignore
   }
 }
 

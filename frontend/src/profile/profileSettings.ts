@@ -2,7 +2,7 @@ export type PageBackgroundId = "default" | "mint" | "dark" | "warm" | "white" | 
 
 const STORAGE_KEY = "ai_tutor_profile_settings";
 
-/** Outer page chrome + Learning Mode chat panel (dialog) surface — paired for readability. */
+// Outer page chrome + Learning Mode chat panel (dialog) surface — paired for readability.
 const THEME: Record<PageBackgroundId, { page: string; chat: string }> = {
   default: { page: "#e6eaf2", chat: "#ffffff" },
   mint: { page: "#e0f2f0", chat: "#f5fdfb" },
@@ -24,7 +24,7 @@ const LABELS: Record<PageBackgroundId, string> = {
 export const PAGE_BACKGROUND_OPTIONS: {
   id: PageBackgroundId;
   label: string;
-  /** Swatch: page + chat split preview */
+  // Swatch: page + chat split preview
   page: string;
   chat: string;
 }[] = (Object.keys(THEME) as PageBackgroundId[]).map((id) => ({
@@ -48,7 +48,7 @@ export function readPageBackground(): PageBackgroundId {
     const id = j.pageBackground as PageBackgroundId | undefined;
     if (id && id in THEME) return id;
   } catch {
-    /* ignore */
+    // ignore
   }
   return "default";
 }
@@ -57,6 +57,6 @@ export function writePageBackground(id: PageBackgroundId): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ pageBackground: id }));
   } catch {
-    /* ignore */
+    // ignore
   }
 }

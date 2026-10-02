@@ -33,17 +33,17 @@ export type OutlineSectionPreviewDetail = {
   path: string;
   startBook: number;
   endBook: number;
-  /** 标题首段编号（如 8、8.1）；旧后端无 /api/textbook_pages 时用对话同款章节解析拉页 */
+  // 标题首段编号（如 8、8.1）；旧后端无 /api/textbook_pages 时用对话同款章节解析拉页
   sectionHint: string;
 };
 
 export type LearningBarPanelProps = {
   variant: LearningBarPanelVariant;
-  /** When set (e.g. from Learning Mode), progress uses the same student id as the chat session. */
+  // When set (e.g. from Learning Mode), progress uses the same student id as the chat session.
   studentId?: string;
-  /** Shown on the same row as the title (e.g. collapse control in Learning Mode). */
+  // Shown on the same row as the title (e.g. collapse control in Learning Mode).
   embedHeaderEnd?: ReactNode;
-  /** Learning Mode: click a row with page numbers → open PDF pages in the textbook panel. */
+  // Learning Mode: click a row with page numbers → open PDF pages in the textbook panel.
   onOutlineSectionPreview?: (detail: OutlineSectionPreviewDetail) => void;
 };
 
@@ -52,14 +52,14 @@ function firstSectionToken(title: string): string | null {
   return /^\d+(?:\.\d+)*$/.test(w) ? w : null;
 }
 
-/** 与 Python len(str) 对齐：Unicode 码位个数（非 UTF-16 长度） */
+// 与 Python len(str) 对齐：Unicode 码位个数（非 UTF-16 长度）
 function pathStringLen(path: string): number {
   let n = 0;
   for (const _ of path) n++;
   return n;
 }
 
-/** 与 backend student_bar_store._path_section_token 一致：FNV-1a / UTF-8 */
+// 与 backend student_bar_store._path_section_token 一致：FNV-1a / UTF-8
 function pathBasedToken(path: string): string {
   const bytes = new TextEncoder().encode(path);
   let h = 2166136261 >>> 0;
@@ -88,7 +88,7 @@ function formatRange(node: FocsNode): string {
   return "";
 }
 
-/** Outline book page range (printed / logical pages in JSON), same as backend chat uses before PDF offset. */
+// Outline book page range (printed / logical pages in JSON), same as backend chat uses before PDF offset.
 function bookPageRangeFromNode(node: FocsNode): { start: number; end: number } | null {
   const r = node._range as { start?: number; end?: number } | undefined;
   if (r && r.start != null) {
@@ -301,7 +301,7 @@ export default function LearningBarPanel({
   const [bookPickerOpen, setBookPickerOpen] = useState(false);
   const bookBtnRef = useRef<HTMLButtonElement>(null);
   const bookPopoverRef = useRef<HTMLDivElement>(null);
-  /** 换书前把当前内存里的 learned 写回「上一本书」的 key，避免未落盘的进度被丢掉 */
+  // 换书前把当前内存里的 learned 写回「上一本书」的 key，避免未落盘的进度被丢掉
   const learnedRef = useRef<string[]>([]);
   const prevTextbookIdRef = useRef<string | null>(null);
   const prevStudentIdRef = useRef(studentId);
