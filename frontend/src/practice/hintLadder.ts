@@ -4,7 +4,7 @@ import type { ChallengeProblem } from "./types";
 
 export type Rung = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
-/** L0 is the attempt gate; L1..L6 produce prompts. */
+// L0 is the attempt gate; L1..L6 produce prompts.
 export interface LadderState {
   rung: Rung;
   attempted: boolean;
@@ -14,7 +14,7 @@ export function initialLadder(): LadderState {
   return { rung: 0, attempted: false };
 }
 
-/** The canonical solution is included in the prompt only at this rung and above. */
+// The canonical solution is included in the prompt only at this rung and above.
 export const SOLUTION_VISIBLE_FROM: Rung = 4;
 
 const RUNG_RULES: Record<Rung, string> = {
@@ -49,7 +49,7 @@ export function advance(s: LadderState): LadderState {
   return { ...s, rung: (s.rung + 1) as Rung };
 }
 
-/** Explicit, confirmed answer reveal (L6). */
+// Explicit, confirmed answer reveal (L6).
 export function reveal(s: LadderState): LadderState {
   return { ...s, rung: 6 };
 }
@@ -96,7 +96,7 @@ export function buildGradePrompt(problem: ChallengeProblem, attempt: string): st
 
 export type GradeVerdict = "correct" | "incorrect" | "incomplete";
 
-/** Parse the model's reply into a verdict. Defaults to "incomplete" when unclear. */
+// Parse the model's reply into a verdict. Defaults to "incomplete" when unclear.
 export function parseVerdict(reply: string): GradeVerdict {
   const m = reply.toUpperCase().match(/VERDICT:\s*(CORRECT|INCORRECT|INCOMPLETE)/);
   if (m) return m[1].toLowerCase() as GradeVerdict;

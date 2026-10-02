@@ -4,14 +4,14 @@
 export type Tier = "not_started" | "familiar" | "proficient" | "mastered";
 export type Stage = "warmup" | "practice" | "challenge";
 
-/** Warm-up recall card. */
+// Warm-up recall card.
 export interface Flashcard {
   id: string;
   front: string;
   back: string;
 }
 
-/** Multiple-choice. `why` is the explain-on-wrong line (design D-1). */
+// Multiple-choice. `why` is the explain-on-wrong line (design D-1).
 export interface McqQuestion {
   kind: "mcq";
   id: string;
@@ -45,7 +45,7 @@ export interface SpotFlawLine {
   text: string;
 }
 
-/** Click the invalid line. */
+// Click the invalid line.
 export interface SpotFlawQuestion {
   kind: "spot-flaw";
   id: string;
@@ -55,7 +55,7 @@ export interface SpotFlawQuestion {
   why: string;
 }
 
-/** Fill the blank between `before` and `after`. `accept` = acceptable answers (normalized at grade time). */
+// Fill the blank between `before` and `after`. `accept` = acceptable answers (normalized at grade time).
 export interface FillBlankQuestion {
   kind: "fill-blank";
   id: string;
@@ -66,20 +66,20 @@ export interface FillBlankQuestion {
   why: string;
 }
 
-/** The four auto-graded practice formats. */
+// The four auto-graded practice formats.
 export type PracticeQuestion =
   | McqQuestion
   | ProofOrderQuestion
   | SpotFlawQuestion
   | FillBlankQuestion;
 
-/** Free-response challenge. `solution` + `rubric` drive AI grading (and L4+ hints). */
+// Free-response challenge. `solution` + `rubric` drive AI grading (and L4+ hints).
 export interface ChallengeProblem {
   id: string;
   prompt: string;
   solution: string;
   rubric: string;
-  /** Optional near-identical twin shown after an answer reveal (pedagogy, design D8). */
+  // Optional near-identical twin shown after an answer reveal (pedagogy, design D8).
   twinPromptId?: string;
 }
 

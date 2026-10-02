@@ -223,7 +223,7 @@ const EN = {
   "learning.resizeNote": "Drag to resize study note and textbook",
   "learning.resizeNoteTitle": "Drag up or down to resize note vs textbook",
   "learning.lookingUp": "Looking up the textbook and loading page images…",
-  "learning.emptyHint": "Type a math question below to get started",
+  "learning.emptyHint": "Ask about Lecture 2: Python as a calculator",
   "learning.exampleLabel": "Try an example",
   "learning.removePdf": "Remove PDF",
   "learning.removeImage": "Remove image",
@@ -320,9 +320,9 @@ const EN = {
   "onboarding.historyTitle": "Chat history",
   "onboarding.historyBody": "Pick up past tutoring sessions anytime.",
   "onboarding.chatTitle": "Let's start — ask a question",
-  "onboarding.chatBody": "Type a math question below. The AI explains step by step and links answers to the textbook.",
+  "onboarding.chatBody": "Ask about Lecture 2. The tutor explains step by step from the loaded notes.",
   "onboarding.inputTitle": "Ask a question",
-  "onboarding.inputBody": "Type a math question, or attach a photo or PDF.",
+  "onboarding.inputBody": "Ask a Python question, or attach a photo or PDF.",
   "onboarding.newSessionTitle": "Start a new session",
   "onboarding.newSessionBody": "Clear the current chat and begin fresh.",
   "onboarding.noteTitle": "Study Note",
@@ -330,7 +330,7 @@ const EN = {
     "Click a section in the left tree, then open Note for key vocabulary, formulas, and links into the book.",
   "onboarding.problemsTitle": "Chapter Problems",
   "onboarding.problemsBody":
-    "Expand Chapter 5 — Induction and click **5.3 Problems** in the left tree. Practice opens here (including Problem 5.1 on Mersenne primes).",
+    "Expand Lecture 2 and click **2.13 Problems**. Practice for Python as a calculator opens here.",
   "onboarding.next": "Next",
   "onboarding.skip": "Skip tour",
   "onboarding.done": "Done",
@@ -340,7 +340,7 @@ const EN = {
   "onboarding.restart": "Restart tour",
   "onboarding.restartShort": "Tour",
 
-  "chat.placeholder": "Ask a math question…",
+  "chat.placeholder": "Ask a Lecture 2 question…",
   "chat.newQuestion": "Start a new session",
 
   "ask.whatIs": 'What is "{term}"? Explain using this section and give a short example.',
@@ -368,7 +368,7 @@ const EN = {
   "signin.invalidCredentials": "Invalid email or password",
   "signin.emailInUse": "This email is already registered. Try signing in instead.",
   "signin.weakPassword": "Password must be at least 6 characters",
-  "signin.tagline": "Personalized math learning, powered by AI",
+  "signin.tagline": "CSCI 1100 tutoring, powered by AI",
 } as const;
 
 export type MessageKey = keyof typeof EN;
@@ -1168,6 +1168,7 @@ const TE: Record<MessageKey, string> = {
   "sidebar.autoGrader": "ఆటో గ్రేడర్",
   "sidebar.profile": "నా ప్రొఫైల్",
   "sidebar.learningProgress": "అభ్యాస పురోగతి",
+  "sidebar.resizeProgress": "Drag to show more of the checklist. Double-click to reset.",
   "sidebar.history": "చరిత్ర",
   "sidebar.signIn": "సైన్ ఇన్",
   "sidebar.signOut": "సైన్ అవుట్",
@@ -1490,5 +1491,5 @@ export function chatLanguageSuffix(locale: AppLocale): string {
   return hint ? `\n\n${hint}` : "";
 }
 
-/** Sentinel stored in chat message list to render the localized welcome card. */
+// Sentinel stored in chat message list to render the localized welcome card.
 export const WELCOME_MSG_SENTINEL = "__welcome__";

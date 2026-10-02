@@ -1,6 +1,6 @@
 import type { GuideScript } from "./types";
 
-/** Guided-lesson slot. No course walkthrough is loaded. */
+// Guided-lesson slot. No course walkthrough is loaded.
 export const INDUCTION_GUIDE: GuideScript = {
   chapter: "",
   title: "No guided lesson loaded",

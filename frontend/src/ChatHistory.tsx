@@ -87,7 +87,7 @@ export default function ChatHistory({
         localStorage.removeItem(CONVERSATIONS_SIDEBAR_COLLAPSED_KEY);
       }
     } catch {
-      /* ignore quota / private mode */
+      // ignore quota / private mode
     }
   }, []);
 

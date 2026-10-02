@@ -10,7 +10,7 @@ import { getOrCreateStudentId } from "../utils/studentId";
 import { ONBOARDING_PREPARE_EVENT, ONBOARDING_STEP_EVENT } from "../onboarding/onboardingStorage";
 import "./Sidebar.css";
 
-/* ---- inline icons (no icon dependency) ---- */
+// ---- inline icons (no icon dependency) ----
 const I = {
   menu: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round">
@@ -91,7 +91,7 @@ function writeSidebarSectionOpen(key: string, open: boolean): void {
   try {
     localStorage.setItem(key, open ? "1" : "0");
   } catch {
-    /* ignore */
+    // ignore
   }
 }
 
@@ -111,7 +111,7 @@ function writeSidebarProgressHeight(height: number | null): void {
     if (height == null) localStorage.removeItem(SIDEBAR_PROGRESS_H_KEY);
     else localStorage.setItem(SIDEBAR_PROGRESS_H_KEY, String(Math.round(height)));
   } catch {
-    /* ignore */
+    // ignore
   }
 }
 
@@ -177,7 +177,7 @@ export default function Sidebar() {
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);
     } catch {
-      /* already released */
+      // already released
     }
     setProgressHeight((h) => {
       if (h == null) return h;

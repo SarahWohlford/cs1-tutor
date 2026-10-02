@@ -46,7 +46,7 @@ void main() {
 `;
 
 export type IridescenceBackgroundProps = {
-  /** RGB each in [0..1]. */
+  // RGB each in [0..1].
   color?: [number, number, number];
   speed?: number;
   amplitude?: number;

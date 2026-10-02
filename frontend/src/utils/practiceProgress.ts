@@ -17,7 +17,7 @@ function defaultStorage(): Storage | null {
   }
 }
 
-/** Coerce an untrusted parsed value into a valid PracticeProgress, dropping junk. */
+// Coerce an untrusted parsed value into a valid PracticeProgress, dropping junk.
 export function sanitizeProgress(value: unknown): PracticeProgress {
   const base = emptyProgress();
   if (!value || typeof value !== "object") return base;
@@ -60,6 +60,6 @@ export function saveProgress(
   try {
     storage.setItem(storageKey(textbookId, chapter), JSON.stringify(progress));
   } catch {
-    /* quota / private mode — non-fatal */
+    // quota / private mode — non-fatal
   }
 }

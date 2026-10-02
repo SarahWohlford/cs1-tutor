@@ -31,7 +31,7 @@ export function loadLocalLearningBar(studentId: string, textbookId: string = "fo
           localStorage.setItem(k, legacy);
           localStorage.removeItem(legacyKey);
         } catch {
-          /* ignore */
+          // ignore
         }
       }
     }
@@ -64,7 +64,7 @@ function fetchWithTimeout(url: string, init: RequestInit & { timeoutMs?: number 
   return fetch(url, { ...rest, signal: ac.signal }).finally(() => clearTimeout(t));
 }
 
-/** If local storage is empty, try once to GET learned list from server and save locally (fails silently). */
+// If local storage is empty, try once to GET learned list from server and save locally (fails silently).
 export async function tryHydrateLearnedFromServer(
   studentId: string,
   textbookId: string = "focs",
@@ -92,12 +92,12 @@ export async function tryHydrateLearnedFromServer(
       return learned;
     }
   } catch {
-    /* offline, CORS, timeout, etc. */
+    // offline, CORS, timeout, etc.
   }
   return null;
 }
 
-/** Best-effort PUT learned list to server (fails silently; local save already done). */
+// Best-effort PUT learned list to server (fails silently; local save already done).
 export async function trySyncLearnedToServer(
   studentId: string,
   learned: string[],

@@ -96,7 +96,7 @@ function GradesAuthed({ token }: { token: string }) {
       if (saveTimer.current) clearTimeout(saveTimer.current);
       saveTimer.current = setTimeout(() => {
         saveCourse(token, next).catch(() => {
-          /* transient; next edit retries */
+          // transient; next edit retries
         });
       }, 400);
     },
@@ -212,7 +212,7 @@ function useServerStanding(
           if (alive) setData(d);
         })
         .catch(() => {
-          /* keep last good numbers */
+          // keep last good numbers
         });
     }, 300);
     return () => {

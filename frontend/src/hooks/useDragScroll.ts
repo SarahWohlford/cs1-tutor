@@ -2,7 +2,7 @@ import { useRef, useCallback, useState } from "react";
 
 const DRAG_THRESHOLD_PX = 4;
 
-/** Click-and-drag panning for overflow scroll containers (e.g. zoomed textbook pages). */
+// Click-and-drag panning for overflow scroll containers (e.g. zoomed textbook pages).
 export function useDragScroll() {
   const ref = useRef<HTMLDivElement>(null);
   const dragRef = useRef({

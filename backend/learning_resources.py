@@ -258,6 +258,25 @@ def get_focs_chapter_tree(chapter_filter: Optional[str] = None) -> str:
     return "\n".join(lines) if lines else ""
 
 
+def tutor_scope_clause(textbook_id: str) -> str:
+    """Scope sentence for tutor system prompts. Built-in book is Lecture 2 only."""
+    tid = (textbook_id or "focs").strip() or "focs"
+    if tid != "focs":
+        return "The course language is Python."
+    tree = get_focs_chapter_tree().strip()
+    if not tree:
+        return (
+            "No course outline or practice bank is loaded, so do not claim that a specific lecture, lab, "
+            "or textbook section is part of the course. The course language is Python."
+        )
+    return (
+        "The loaded lectures are Lecture 2 (Python as a calculator) and Lecture 3 (strings). "
+        "Lecture 1 is administrative and is not in this tutor. Do not invent later lectures, labs, or assignments. "
+        "The course language is Python.\n\n"
+        f"Loaded outline:\n{tree}"
+    )
+
+
 def _get_range_from_node(v: Dict[str, Any]) -> Optional[tuple]:
     start = v.get("start") or (v.get("_range") or {}).get("start")
     end = v.get("end") or (v.get("_range") or {}).get("end")

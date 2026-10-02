@@ -15,7 +15,7 @@ import { APP_LOCALES } from "./types";
 
 type LocaleContextValue = {
   locale: AppLocale;
-  /** One-click switch: updates UI strings, html lang, storage, and AI reply language. */
+  // One-click switch: updates UI strings, html lang, storage, and AI reply language.
   applyLocale: (next: AppLocale) => void;
   t: (key: MessageKey, vars?: Record<string, string>) => string;
   chatLanguageSuffix: () => string;

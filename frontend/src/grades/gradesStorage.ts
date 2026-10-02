@@ -18,7 +18,7 @@ async function authFetch(token: string, path: string, init?: RequestInit): Promi
   });
 }
 
-/** GET /api/grades → the saved course, or null if the user has none yet. */
+// GET /api/grades → the saved course, or null if the user has none yet.
 export async function fetchCourse(token: string): Promise<Course | null> {
   const r = await authFetch(token, "/api/grades");
   if (!r.ok) throw new Error(`GET /api/grades ${r.status}`);
@@ -26,7 +26,7 @@ export async function fetchCourse(token: string): Promise<Course | null> {
   return (data.course as Course | null) ?? null;
 }
 
-/** PUT /api/grades → persist the rich course verbatim; returns rubric warnings. */
+// PUT /api/grades → persist the rich course verbatim; returns rubric warnings.
 export async function saveCourse(token: string, course: Course): Promise<string[]> {
   const r = await authFetch(token, "/api/grades", {
     method: "PUT",
@@ -37,7 +37,7 @@ export async function saveCourse(token: string, course: Course): Promise<string[
   return (data.warnings as string[]) ?? [];
 }
 
-/** DELETE /api/grades → clear the saved course. */
+// DELETE /api/grades → clear the saved course.
 export async function deleteCourse(token: string): Promise<void> {
   const r = await authFetch(token, "/api/grades", { method: "DELETE" });
   if (!r.ok) throw new Error(`DELETE /api/grades ${r.status}`);
@@ -79,7 +79,7 @@ export async function parseSyllabus(token: string, file: File): Promise<Course> 
     try {
       detail = (await r.json()).detail ?? detail;
     } catch {
-      /* non-JSON error body */
+      // non-JSON error body
     }
     throw new Error(detail);
   }
@@ -101,7 +101,7 @@ export function clearLegacyLocalCourse(): void {
   try {
     localStorage.removeItem(LEGACY_LOCAL_KEY);
   } catch {
-    /* ignore */
+    // ignore
   }
 }
 

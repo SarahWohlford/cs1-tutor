@@ -1,14 +1,19 @@
-/** Starter prompts above Learning Mode chat input (book content stays English). */
+// Starter prompts above Learning Mode chat input (book content stays English).
 export const LEARNING_CHAT_EXAMPLES = [
   {
-    id: "induction",
-    label: "What is induction?",
-    sendText: "What is induction?",
+    id: "floor-div",
+    label: "What is the difference between / and //?",
+    sendText: "In Lecture 2, what is the difference between / and //? Give a short example.",
   },
   {
-    id: "problem-5-1",
-    label: "Problem 5.1: Is 2^p − 1 prime for p = 2, 3, 5, 7?",
+    id: "celsius",
+    label: "Convert 64 Celsius to Fahrenheit",
     sendText:
-      "Problem 5.1: Is 2^p - 1 prime for the primes p = 2, 3, 5, 7? Is 2^p - 1 prime whenever p is prime?",
+      "Write a single line of Python that converts 64 degrees Celsius to Fahrenheit and prints the number.",
+  },
+  {
+    id: "string-len",
+    label: "What does len do on a string?",
+    sendText: "In Lecture 3, what does len return for a string? Give a short example that includes a space.",
   },
 ] as const;
