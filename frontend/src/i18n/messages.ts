@@ -223,7 +223,7 @@ const EN = {
   "learning.resizeNote": "Drag to resize study note and textbook",
   "learning.resizeNoteTitle": "Drag up or down to resize note vs textbook",
   "learning.lookingUp": "Looking up the textbook and loading page images…",
-  "learning.emptyHint": "Ask about Lecture 2: Python as a calculator",
+  "learning.emptyHint": "Ask about Lectures 2–4",
   "learning.exampleLabel": "Try an example",
   "learning.removePdf": "Remove PDF",
   "learning.removeImage": "Remove image",
@@ -340,7 +340,7 @@ const EN = {
   "onboarding.restart": "Restart tour",
   "onboarding.restartShort": "Tour",
 
-  "chat.placeholder": "Ask a Lecture 2 question…",
+  "chat.placeholder": "Ask a CSCI 1100 question…",
   "chat.newQuestion": "Start a new session",
 
   "ask.whatIs": 'What is "{term}"? Explain using this section and give a short example.',

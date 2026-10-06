@@ -4,8 +4,9 @@ import { chapterOfProblems } from "../practice/isProblemsSection";
 import type { PracticeSet } from "../practice/types";
 import { LECTURE_02_PRACTICE } from "./practice/lecture02";
 import { LECTURE_03_PRACTICE } from "./practice/lecture03";
+import { LECTURE_04_PRACTICE } from "./practice/lecture04";
 
-const ALL_CHAPTER_SETS: PracticeSet[] = [LECTURE_02_PRACTICE, LECTURE_03_PRACTICE];
+const ALL_CHAPTER_SETS: PracticeSet[] = [LECTURE_02_PRACTICE, LECTURE_03_PRACTICE, LECTURE_04_PRACTICE];
 
 export const FOCS_PROBLEM_CHAPTERS: string[] = (() => {
   const chapters = new Set<string>();

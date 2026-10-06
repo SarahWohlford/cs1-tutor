@@ -32,7 +32,7 @@ export default function Home() {
               </h1>
               <p className="hs-lede">
                 Rensselaer Polytechnic Institute. The course language is Python.
-                Lecture 2 is loaded: Python as a calculator. Lecture 1 is administrative and is not in the tutor yet.
+                Lectures 2–4 are loaded: calculator, strings, and functions. Lecture 1 is administrative and is not in the tutor yet.
               </p>
               <p className="hs-lede">
                 <a href="https://www.cs.rpi.edu/~mushtu/CS1100/index.html">Course site</a>
@@ -100,8 +100,8 @@ export default function Home() {
                 <span className="hs-pin" />
                 <div className="hs-kicker">Topic checklist</div>
                 <ul>
-                  <li><span className="hs-box" /><span>Lecture 2 outline</span></li>
-                  <li><span className="hs-box" /><span>Lecture 2 exercises</span></li>
+                  <li><span className="hs-box" /><span>Lectures 2–4 outlines</span></li>
+                  <li><span className="hs-box" /><span>Study questions</span></li>
                   <li><span className="hs-box" /><span>Your uploaded PDF</span></li>
                   <li><span className="hs-box" /><span>Saved progress</span></li>
                 </ul>
@@ -113,7 +113,7 @@ export default function Home() {
                   Where should I start?
                 </div>
                 <div className="hs-bubble a">
-                  Start with Lecture 2: expressions, types, and variables.
+                  Start with Lecture 2, then strings, then functions.
                 </div>
                 <span className="hs-srctag">▦ CSCI 1100 · Fall 2026</span>
               </div>
@@ -122,7 +122,7 @@ export default function Home() {
                 <span className="hs-pin hs-pin--pen" />
                 <div className="hs-formula-lbl">course</div>
                 <div className="hs-formula-eq">CSCI 1100</div>
-                <div className="hs-formula-sub">Lecture 2 loaded</div>
+                <div className="hs-formula-sub">Lectures 2–4 loaded</div>
               </div>
             </div>
           </section>
@@ -137,7 +137,7 @@ export default function Home() {
                     Personalize your <span className="hs-hl"><span>learning.</span></span>
                   </h2>
                   <p>
-                    It answers questions about Computer Science 1 from Lecture 2. It will not
+                    It answers questions about Computer Science 1 from Lectures 2–4. It will not
                     pretend a later lecture or lab is already in the course.
                   </p>
                 </div>
@@ -145,19 +145,19 @@ export default function Home() {
                   <article className="hs-agent s1">
                     <div className="hs-agent-id">STEP 01 · TEXTBOOK</div>
                     <div className="hs-agent-t">Read what is loaded</div>
-                    <p>Lecture 2 notes are built in. If you upload a PDF, that file can ground the answer too.</p>
+                    <p>Lectures 2–4 notes are built in. If you upload a PDF, that file can ground the answer too.</p>
                   </article>
                   <span className="hs-arrow-cx" aria-hidden />
                   <article className="hs-agent s2">
                     <div className="hs-agent-id">STEP 02 · PLAN</div>
                     <div className="hs-agent-t">Answer the question</div>
-                    <p>A direct explanation from the Lecture 2 notes, without inventing later topics.</p>
+                    <p>A direct explanation from the loaded lecture notes, without inventing later topics.</p>
                   </article>
                   <span className="hs-arrow-cx" aria-hidden />
                   <article className="hs-agent s3">
                     <div className="hs-agent-id">STEP 03 · CHECK</div>
                     <div className="hs-agent-t">Practice when a bank exists</div>
-                    <p>Open 2.13 Problems for the Lecture 2 exercises.</p>
+                    <p>Open the Problems section for Lecture 2, 3, or 4.</p>
                   </article>
                 </div>
               </div>
@@ -219,7 +219,7 @@ export default function Home() {
                 <div className="hs-ace-grade">A+</div>
                 <h3>before test day</h3>
                 <ul>
-                  <li>Lecture 2 is loaded</li>
+                  <li>Lectures 2–4 are loaded</li>
                   <li>Later lectures are not in yet</li>
                   <li>Use the course site for the real schedule</li>
                 </ul>

@@ -49,9 +49,9 @@ describe("focsPracticeSets content integrity", () => {
     }
   });
 
-  it("ships Lecture 2 and Lecture 3 practice and no other chapter bank", () => {
-    expect(FOCS_PROBLEM_CHAPTERS).toEqual(["2", "3"]);
-    expect(Object.keys(FOCS_PRACTICE_SETS)).toEqual(["2", "3"]);
+  it("ships Lecture 2, 3, and 4 practice and no other chapter bank", () => {
+    expect(FOCS_PROBLEM_CHAPTERS).toEqual(["2", "3", "4"]);
+    expect(Object.keys(FOCS_PRACTICE_SETS)).toEqual(["2", "3", "4"]);
     for (const chapter of FOCS_PROBLEM_CHAPTERS) {
       expect(getPracticeSet(chapter), `chapter ${chapter}`).not.toBeNull();
     }
@@ -60,8 +60,9 @@ describe("focsPracticeSets content integrity", () => {
   it("getPracticeSet returns null for lectures that are not loaded", () => {
     expect(getPracticeSet("2")?.title).toBe("Python as a Calculator");
     expect(getPracticeSet("3")?.title).toBe("Python Strings");
+    expect(getPracticeSet("4")?.title).toBe("Functions and Modules");
     expect(getPracticeSet("1")).toBeNull();
-    expect(getPracticeSet("4")).toBeNull();
+    expect(getPracticeSet("5")).toBeNull();
     expect(getPracticeSet("99")).toBeNull();
   });
 

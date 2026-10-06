@@ -1,7 +1,7 @@
 import type { PracticeSet } from "../../practice/types";
 
 // Original CSCI 1100 Lecture 3 questions on strings.
-// Topics follow Practical Programming's strings chapter. Wording is not copied from the book.
+// Topics follow the course lecture. Wording is not copied from the notes or the exercises.
 export const LECTURE_03_PRACTICE: PracticeSet = {
   chapter: "3",
   title: "Python Strings",
@@ -114,6 +114,43 @@ export const LECTURE_03_PRACTICE: PracticeSet = {
       answerIndex: 1,
       why: "Each line break inside a triple-quoted string becomes one newline character, written \\n.",
     },
+    {
+      kind: "mcq",
+      id: "l3-p-sep",
+      prompt: "What does print('red', 'blue', sep='-') display?",
+      choices: ["red blue", "red-blue", "redblue", "red - blue"],
+      answerIndex: 1,
+      why: "sep replaces the default space between values. end is still a newline, so the next print starts on the following line.",
+    },
+    {
+      kind: "mcq",
+      id: "l3-p-input",
+      prompt: "The user types 15 and presses Enter. What is the type of input('n: ')?",
+      choices: ["int", "float", "str", "bool"],
+      answerIndex: 2,
+      why: "input always returns a string. int or float is a separate step if you need a number.",
+    },
+    {
+      kind: "mcq",
+      id: "l3-p-adjacent",
+      prompt: "Which line is legal and equals 'Hi!'?",
+      choices: ["'Hi' '!'", "s t   after s = 'Hi' and t = '!'", "'Hi' + '!'", "Both the first and the third"],
+      answerIndex: 3,
+      why: "Quoted pieces written next to each other are joined. Two variables written next to each other are a syntax error. + joins either.",
+    },
+    {
+      kind: "spot-flaw",
+      id: "l3-p-vars",
+      prompt: "Click the line that is a syntax error.",
+      lines: [
+        { id: "a", text: "first = 'Good'" },
+        { id: "b", text: "second = 'night'" },
+        { id: "bad", text: "print(first second)" },
+        { id: "c", text: "print(first + second)" },
+      ],
+      flawLineId: "bad",
+      why: "Only string literals can sit next to each other. Variables need +.",
+    },
   ],
   challenge: [
     {
@@ -136,6 +173,14 @@ export const LECTURE_03_PRACTICE: PracticeSet = {
       prompt: "Print a line of exactly 12 dashes, using repetition rather than typing twelve dash characters.",
       solution: "print('-' * 12)",
       rubric: "Full credit for print('-' * 12) or the same expression with double quotes. The output must be ------------.",
+    },
+    {
+      id: "l3-c-input",
+      prompt:
+        "Write a program that asks for a city with input, stores the answer, and prints it as City: followed by the name. The prompt string is your choice.",
+      solution: "city = input('City: ')\nprint('City:', city)",
+      rubric:
+        "Full credit if input reads one line as a string and print shows City: and that text. Do not call int or float on the answer.",
     },
   ],
 };

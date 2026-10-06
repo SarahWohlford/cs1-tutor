@@ -16,4 +16,9 @@ export const LEARNING_CHAT_EXAMPLES = [
     label: "What does len do on a string?",
     sendText: "In Lecture 3, what does len return for a string? Give a short example that includes a space.",
   },
+  {
+    id: "math-import",
+    label: "How do you call math.sqrt?",
+    sendText: "In Lecture 4, how do you import math and call sqrt? Show one short example.",
+  },
 ] as const;

@@ -2,7 +2,7 @@ import type { SectionNote } from "../utils/sectionNotes";
 
 const empty = { vocabulary: [] as SectionNote["vocabulary"], formulas: [] as SectionNote["formulas"] };
 
-// Study notes for CSCI 1100 Fall 2026 Lecture 2. Lecture 1 is not loaded.
+// Study notes for CSCI 1100 Fall 2026 Lectures 2–4. Lecture 1 is not loaded.
 export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "2": {
     objectives:
@@ -204,7 +204,7 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   },
   "3": {
     objectives:
-      "Lecture 3 is strings: text in quotes, length, concatenation, conversion with str and int, repetition, escape characters, and multiline strings. These notes follow the course textbook topics. The textbook wording is not stored here.",
+      "Lecture 3 is strings, the third type after int and float. A lot of programs deal with text. These notes cover quotes, escapes, concatenation, repetition, len and conversions, print's sep and end, and input. Wording here is original.",
     vocabulary: [
       {
         term: "str",
@@ -214,7 +214,8 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
     formulas: [],
   },
   "3.1": {
-    objectives: "Write a string with matching single or double quotes. The empty string is '' or \"\". Mismatched quotes are a syntax error (EOL while scanning a string).",
+    objectives:
+      "A string is zero or more characters between matching single quotes or matching double quotes. '' is empty. print shows the characters. Asking the interpreter for the value also shows the quotes. Assign a string the same way you assign a number.",
     vocabulary: [
       {
         term: "empty string",
@@ -224,37 +225,19 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
     formulas: [],
   },
   "3.2": {
-    objectives: "len counts every character, including spaces. + on two strings concatenates them. + cannot mix a string and a number.",
+    objectives:
+      "A double-quoted string may contain single quotes, and a single-quoted string may contain double quotes. The opening and closing marks must match. Triple quotes may cross lines. Each line break inside them is stored as a newline, which shows up as \\n when you look at the value and as a real line break when you print it.",
     vocabulary: [
       {
-        term: "concatenation",
-        definition: "Joining two strings with +. 'cs' + '1' is 'cs1'.",
+        term: "triple quotes",
+        definition: "''' or \"\"\" around text that is allowed to span lines.",
       },
     ],
     formulas: [],
   },
   "3.3": {
-    objectives: "str(n) turns a number into text so it can be concatenated. int(s) and float(s) turn numeric text into a number. int('a') raises ValueError.",
-    vocabulary: [
-      {
-        term: "str()",
-        definition: "Convert a value to its text form. str(1100) is '1100'.",
-      },
-    ],
-    formulas: [],
-  },
-  "3.4": {
-    objectives: "A string times an integer repeats the string. 'ab' * 3 is 'ababab'. A count of 0 or less produces the empty string.",
-    vocabulary: [
-      {
-        term: "repetition",
-        definition: "string * n repeats the string n times when n is a positive integer.",
-      },
-    ],
-    formulas: [],
-  },
-  "3.5": {
-    objectives: "Use the other quote style when the text contains a quote. A backslash starts an escape: quote, backslash, tab, and newline. The escape is one character even though you type two.",
+    objectives:
+      "A backslash in a string gives the next character a special meaning. \\n starts a new line, \\t jumps to the next tab stop, \\' and \\\" put a quote in the text, and \\\\ puts one backslash. You type two characters; Python stores one.",
     vocabulary: [
       {
         term: "escape sequence",
@@ -263,18 +246,156 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
     ],
     formulas: [],
   },
-  "3.6": {
-    objectives: "A single-line quote cannot cross a line break. Triple quotes can. Each line break inside them becomes a \\n character. Python stores newlines as \\n even on Windows.",
+  "3.4": {
+    objectives:
+      "+ joins strings. 'Good' + ' ' + 'day' is 'Good day'. Two quoted pieces written next to each other also join, but two variables written next to each other are a syntax error. * an integer repeats the string. A count of 0 or less yields ''. A string times a float, or a string plus a number, is illegal.",
     vocabulary: [
       {
-        term: "newline",
-        definition: "The character \\n. Triple-quoted strings insert one wherever the source starts a new line.",
+        term: "concatenation",
+        definition: "Joining strings with + or by writing two string literals next to each other.",
+      },
+      {
+        term: "replication",
+        definition: "string * n repeats the string when n is an integer. 'Ha' * 3 is 'HaHaHa'.",
       },
     ],
     formulas: [],
   },
+  "3.5": {
+    objectives:
+      "len(s) returns how many characters are in s, spaces included. str turns a number into text so it can be joined to a string. int and float turn numeric text into a number. int('a') or float('x') raises ValueError. Lectures 4 and 5 go further on functions.",
+    vocabulary: [
+      {
+        term: "len()",
+        definition: "Returns the number of characters in a string. len('Hello!') is 6.",
+      },
+      {
+        term: "str()",
+        definition: "Convert a value to text. str(1100) is '1100'.",
+      },
+    ],
+    formulas: [],
+  },
+  "3.6": {
+    objectives:
+      "print takes any number of values. sep is placed between them (default is a space) and end is placed after the last one (default is a newline). input(prompt) waits for a line and returns it as a string. Convert with int or float before you do arithmetic. In class the cylinder program reads a radius and a height, computes base area, volume, and surface area, and prints both results.",
+    vocabulary: [
+      {
+        term: "sep",
+        definition: "The string print inserts between values. print(4, 2, sep=',') shows 4,2.",
+      },
+      {
+        term: "end",
+        definition: "The string print adds after the last value. The default is a newline. end='' stays on the same line.",
+      },
+      {
+        term: "input()",
+        definition: "Reads one line from the user and returns a string, even when the line looks like a number.",
+      },
+    ],
+    formulas: [
+      {
+        expr: "volume = pi * radius ** 2 * height",
+        explanation: "Surface area is 2 * base_area + 2 * pi * radius * height, with base_area = pi * radius ** 2.",
+      },
+    ],
+  },
   "3.7": {
-    objectives: "Lecture 3 practice: length, concatenation with str, and repetition. Open Study questions on the learning page, or click this section.",
+    objectives:
+      "Lecture 3 practice: valid strings, escapes, concatenation, repetition, len, conversions, print's sep and end, and input. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "4": {
+    objectives:
+      "Lecture 4 is functions and modules. Built-in functions work on numbers and strings. Methods are functions attached to an object and called with a dot. Modules such as math add more functions after you import them.",
+    vocabulary: [
+      {
+        term: "built-in function",
+        definition: "A function that is available as soon as Python starts, such as len, abs, or round.",
+      },
+    ],
+    formulas: [],
+  },
+  "4.1": {
+    objectives:
+      "Numerical built-ins to know: abs, pow, int, float, round, max, and min. abs(-4.6) is 4.6. round(-4.6) is -5. pow(2, 5) is 32. max and min take two or more values. int chops toward zero when given a float; float adds a decimal.",
+    vocabulary: [
+      {
+        term: "round()",
+        definition: "Nearest integer by default. A second argument sets the number of decimal places.",
+      },
+    ],
+    formulas: [],
+  },
+  "4.2": {
+    objectives:
+      "Every value is an object. A method is a function that belongs to that object. Call it as value.method(arguments), for example 'good morning'.find('o', 3). Some operations stay in function form (len) or operator form (+). help(str) lists the string methods.",
+    vocabulary: [
+      {
+        term: "method",
+        definition: "A function called on an object with a dot: name.lower().",
+      },
+    ],
+    formulas: [],
+  },
+  "4.3": {
+    objectives:
+      "Useful string methods: lower, upper, capitalize, title, replace, find, count, and strip. find returns the first index, or -1 when the text is missing. strip removes the given characters from both ends. None of these methods change the original string. Save the result if you need it.",
+    vocabulary: [
+      {
+        term: "find()",
+        definition: "Index of the first match, or -1. A second argument is the index to start at.",
+      },
+      {
+        term: "replace()",
+        definition: "A new string with each match swapped. 'book'.replace('o', 'a') is 'baak'.",
+      },
+    ],
+    formulas: [],
+  },
+  "4.4": {
+    objectives:
+      "str.format fills the { } slots in a string from the arguments. {:.2f} shows a float with two digits after the decimal and rounds. You can number the slots ({0}, {1}) when the printed order should differ from the argument order. Leaving off :.2f uses the usual float text.",
+    vocabulary: [
+      {
+        term: "format()",
+        definition: "Builds a string by replacing each { } with an argument, with an optional format such as .2f.",
+      },
+    ],
+    formulas: [],
+  },
+  "4.5": {
+    objectives:
+      "A module is a collection of functions and constants that is not loaded until you import it. import math, then call math.sqrt, math.trunc, math.ceil, math.log, and use math.pi and math.e. help(math) describes them. Assigning math.pi = 3 changes that name for the rest of the session.",
+    vocabulary: [
+      {
+        term: "module",
+        definition: "A library you load with import. math is one that ships with Python.",
+      },
+    ],
+    formulas: [],
+  },
+  "4.6": {
+    objectives:
+      "import math keeps the names under math. from math import sqrt, pi brings those names in directly. import math as m shortens the prefix. from math import * dumps every name into your file and is a bad idea, because a later name can hide one of yours.",
+    vocabulary: [
+      {
+        term: "import",
+        definition: "Loads a module. The form you use decides whether you write math.sqrt or just sqrt.",
+      },
+    ],
+    formulas: [],
+  },
+  "4.7": {
+    objectives:
+      "Order a file so the flow is easy to see: a short comment on what the program does, then imports, then variables and input, then the calculation, then output. The in-class sketch asks for a name, a radius, and a height, then prints the cylinder's surface area and volume with format.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "4.8": {
+    objectives:
+      "Lecture 4 practice: built-ins, string methods, format, and the math module. Open Study questions on the learning page, or click this section.",
     vocabulary: [],
     formulas: [],
   },

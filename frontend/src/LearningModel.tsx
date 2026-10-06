@@ -1400,7 +1400,9 @@ export default function LearningModel() {
                       ? "Lecture 2 · Python as a calculator"
                       : practiceChapter === "3"
                         ? "Lecture 3 · Strings"
-                        : `Chapter ${practiceChapter}`
+                        : practiceChapter === "4"
+                          ? "Lecture 4 · Functions and modules"
+                          : `Chapter ${practiceChapter}`
                   }
                   token={token}
                   onViewNote={activeSectionNote ? () => setPracticeViewNote(true) : undefined}
@@ -1651,6 +1653,14 @@ export default function LearningModel() {
               >
                 <span className="chat-example-num">L3</span>
                 <span className="chat-example-text">Lecture 3 · strings</span>
+              </button>
+              <button
+                type="button"
+                className="chat-example-chip"
+                onClick={() => openStudyQuestions("4.8 Problems", "4.8")}
+              >
+                <span className="chat-example-num">L4</span>
+                <span className="chat-example-text">Lecture 4 · functions and modules</span>
               </button>
             </div>
           </div>
