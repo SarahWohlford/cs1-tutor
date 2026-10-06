@@ -72,9 +72,9 @@ def effective_pdf_page_offset() -> int:
 
 def get_effective_pdf_bytes() -> Optional[bytes]:
     ctx = getattr(_tls, "book", None)
-    if ctx is not None and ctx.pdf_bytes is not None:
+    if ctx is not None:
         return ctx.pdf_bytes
-    return load_focs_pdf()
+    return None
 
 
 def effective_memory_book_id() -> str:
@@ -114,8 +114,8 @@ def resolve_textbook_for_request(book_id: Optional[str], user_email: Optional[st
         return ActiveTextbook(
             book_id="focs",
             raw=raw,
-            pdf_bytes=load_focs_pdf(),
-            pdf_page_offset=PDF_PAGE_OFFSET,
+            pdf_bytes=None,
+            pdf_page_offset=0,
         )
     if (
         bid.startswith("user_")
@@ -132,8 +132,8 @@ def resolve_textbook_for_request(book_id: Optional[str], user_email: Optional[st
     return ActiveTextbook(
         book_id="focs",
         raw=raw,
-        pdf_bytes=load_focs_pdf(),
-        pdf_page_offset=PDF_PAGE_OFFSET,
+        pdf_bytes=None,
+        pdf_page_offset=0,
     )
 
 

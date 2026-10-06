@@ -4,6 +4,7 @@ import "./Chat.css";
 import { apiUrl } from "./apiBase";
 import { useCurriculum } from "./context/CurriculumContext";
 import {
+  courseHasTextbookPdf,
   fetchTextbookTreeForId,
   focsOutlineToCurriculum,
   readSelectedTextbookId,
@@ -317,7 +318,7 @@ export default function LearningModel() {
       setSectionPageIndex(0);
       setOutlinePreviewLoading(true);
       const previewHint = detail.sectionHint.trim() || sectionTokenFromTitle(detail.sectionTitle) || "";
-      if (!detail.startBook || !detail.endBook) {
+      if (!courseHasTextbookPdf(textbookId) || !detail.startBook || !detail.endBook) {
         setDataMatchedTopic({
           name: detail.sectionTitle,
           startBook: detail.startBook,
@@ -672,36 +673,42 @@ export default function LearningModel() {
         const reply = data.reply || "[Empty reply]";
         const conf = typeof data.confidence === "number" ? data.confidence : null;
 
-        if (data.matched_topic) {
-          const sb = data.matched_topic.start_book ?? data.matched_topic.startBook ?? data.matched_topic.start;
-          const eb = data.matched_topic.end_book ?? data.matched_topic.endBook ?? data.matched_topic.end;
-          setDataMatchedTopic({
-            name: data.matched_topic.name,
-            startBook: sb,
-            endBook: eb,
-            sectionHint: sectionTokenFromTitle(data.matched_topic.name) || undefined,
-          });
+        if (!courseHasTextbookPdf(textbookId)) {
+          setReferencePageImage(null);
+          setReferencePageSnippets(null);
+          setReferenceSectionPages(null);
         } else {
-          setDataMatchedTopic(null);
-          setMatchedSection(null);
-        }
-        if (data.reference_section_pages_b64?.length) {
-          setReferenceSectionPages(
-            data.reference_section_pages_b64.map((b64) => `data:image/png;base64,${b64}`)
-          );
-          setSectionPageIndex(0);
-          setReferencePageSnippets(null);
-          setReferencePageImage(null);
-        } else if (data.reference_page_snippets_b64?.length) {
-          setReferencePageSnippets(
-            data.reference_page_snippets_b64.map((b64) => `data:image/png;base64,${b64}`)
-          );
-          setReferencePageImage(null);
-          setReferenceSectionPages(null);
-        } else if (data.reference_page_image_b64) {
-          setReferencePageImage(`data:image/png;base64,${data.reference_page_image_b64}`);
-          setReferencePageSnippets(null);
-          setReferenceSectionPages(null);
+          if (data.matched_topic) {
+            const sb = data.matched_topic.start_book ?? data.matched_topic.startBook ?? data.matched_topic.start;
+            const eb = data.matched_topic.end_book ?? data.matched_topic.endBook ?? data.matched_topic.end;
+            setDataMatchedTopic({
+              name: data.matched_topic.name,
+              startBook: sb,
+              endBook: eb,
+              sectionHint: sectionTokenFromTitle(data.matched_topic.name) || undefined,
+            });
+          } else {
+            setDataMatchedTopic(null);
+            setMatchedSection(null);
+          }
+          if (data.reference_section_pages_b64?.length) {
+            setReferenceSectionPages(
+              data.reference_section_pages_b64.map((b64) => `data:image/png;base64,${b64}`)
+            );
+            setSectionPageIndex(0);
+            setReferencePageSnippets(null);
+            setReferencePageImage(null);
+          } else if (data.reference_page_snippets_b64?.length) {
+            setReferencePageSnippets(
+              data.reference_page_snippets_b64.map((b64) => `data:image/png;base64,${b64}`)
+            );
+            setReferencePageImage(null);
+            setReferenceSectionPages(null);
+          } else if (data.reference_page_image_b64) {
+            setReferencePageImage(`data:image/png;base64,${data.reference_page_image_b64}`);
+            setReferencePageSnippets(null);
+            setReferenceSectionPages(null);
+          }
         }
 
         if (conf === null) {
@@ -880,40 +887,46 @@ export default function LearningModel() {
       const reply = data.reply || "[Empty reply]";
       const conf = typeof data.confidence === "number" ? data.confidence : null;
 
-      if (data.matched_topic) {
-        const sb = data.matched_topic.start_book ?? data.matched_topic.startBook ?? data.matched_topic.start;
-        const eb = data.matched_topic.end_book ?? data.matched_topic.endBook ?? data.matched_topic.end;
-        setDataMatchedTopic({
-          name: data.matched_topic.name,
-          startBook: sb,
-          endBook: eb,
-          sectionHint: sectionTokenFromTitle(data.matched_topic.name) || undefined,
-        });
-      } else {
-        setDataMatchedTopic(null);
-        setMatchedSection(null);
-      }
-      if (data.reference_section_pages_b64?.length) {
-        setReferenceSectionPages(
-          data.reference_section_pages_b64.map((b64) => `data:image/png;base64,${b64}`)
-        );
-        setSectionPageIndex(0);
-        setReferencePageSnippets(null);
+      if (!courseHasTextbookPdf(textbookId)) {
         setReferencePageImage(null);
-      } else if (data.reference_page_snippets_b64?.length) {
-        setReferencePageSnippets(
-          data.reference_page_snippets_b64.map((b64) => `data:image/png;base64,${b64}`)
-        );
-        setReferencePageImage(null);
-        setReferenceSectionPages(null);
-      } else if (data.reference_page_image_b64) {
-        setReferencePageImage(`data:image/png;base64,${data.reference_page_image_b64}`);
         setReferencePageSnippets(null);
         setReferenceSectionPages(null);
       } else {
-        setReferencePageImage(null);
-        setReferencePageSnippets(null);
-        setReferenceSectionPages(null);
+        if (data.matched_topic) {
+          const sb = data.matched_topic.start_book ?? data.matched_topic.startBook ?? data.matched_topic.start;
+          const eb = data.matched_topic.end_book ?? data.matched_topic.endBook ?? data.matched_topic.end;
+          setDataMatchedTopic({
+            name: data.matched_topic.name,
+            startBook: sb,
+            endBook: eb,
+            sectionHint: sectionTokenFromTitle(data.matched_topic.name) || undefined,
+          });
+        } else {
+          setDataMatchedTopic(null);
+          setMatchedSection(null);
+        }
+        if (data.reference_section_pages_b64?.length) {
+          setReferenceSectionPages(
+            data.reference_section_pages_b64.map((b64) => `data:image/png;base64,${b64}`)
+          );
+          setSectionPageIndex(0);
+          setReferencePageSnippets(null);
+          setReferencePageImage(null);
+        } else if (data.reference_page_snippets_b64?.length) {
+          setReferencePageSnippets(
+            data.reference_page_snippets_b64.map((b64) => `data:image/png;base64,${b64}`)
+          );
+          setReferencePageImage(null);
+          setReferenceSectionPages(null);
+        } else if (data.reference_page_image_b64) {
+          setReferencePageImage(`data:image/png;base64,${data.reference_page_image_b64}`);
+          setReferencePageSnippets(null);
+          setReferenceSectionPages(null);
+        } else {
+          setReferencePageImage(null);
+          setReferencePageSnippets(null);
+          setReferenceSectionPages(null);
+        }
       }
 
       if (conf === null) {

@@ -26,6 +26,11 @@ export function isValidUploadedTextbookId(id: string): boolean {
   return USER_BOOK_ID_RE.test(id);
 }
 
+// CSCI 1100 is lecture notes and practice. Only an uploaded PDF should open book pages.
+export function courseHasTextbookPdf(textbookId: string): boolean {
+  return isValidUploadedTextbookId(textbookId);
+}
+
 function dedupeCatalogById(items: { id: string; linkLabel: string }[]): { id: string; linkLabel: string }[] {
   const map = new Map<string, string>();
   for (const row of items) {
