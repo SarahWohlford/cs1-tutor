@@ -41,7 +41,7 @@ export default function UserProfile() {
       try {
         await fetchTextbookOptionsFromServer(token);
       } catch {
-        /* keep current in-memory list */
+        // keep current in-memory list
       }
     }
     setTextbookOptions(readTextbookOptionList());
@@ -141,7 +141,7 @@ export default function UserProfile() {
       try {
         data = (await resp.json()) as { detail?: string };
       } catch {
-        /* non-JSON body */
+        // non-JSON body
       }
       if (!resp.ok) {
         if (resp.status === 404 && isValidUploadedTextbookId(selectedTextbook)) {
@@ -168,7 +168,7 @@ export default function UserProfile() {
     }
   };
 
-  /** Re-fetch the textbook list from the server and refresh this browser (fixes “ghost” books after a race or 404 delete). */
+  // Re-fetch the textbook list from the server and refresh this browser (fixes “ghost” books after a race or 404 delete).
   const onResyncCatalogFromServer = async () => {
     if (!token) return;
     setCatalogSyncing(true);

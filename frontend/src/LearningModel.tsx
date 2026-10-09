@@ -4,6 +4,7 @@ import "./Chat.css";
 import { apiUrl } from "./apiBase";
 import { useCurriculum } from "./context/CurriculumContext";
 import {
+  courseHasTextbookPdf,
   fetchTextbookTreeForId,
   focsOutlineToCurriculum,
   readSelectedTextbookId,
@@ -32,6 +33,9 @@ import { INDUCTION_GUIDE } from "./guide/inductionGuide";
 import { getSectionNoteWithNewVocab, sectionTokenFromTitle, type BookAnchor } from "./utils/sectionNotes";
 import { FOCS_SECTION_TOKENS_PREORDER } from "./utils/focsSectionOrder";
 import { useLocale } from "./i18n/LocaleContext";
+import { CS1_TEXTBOOK_NAME, lectureBarTitle, lectureById, lectureForHint } from "./data/cs1Lectures";
+import { isPracticalProgrammingHint } from "./data/practicalProgramming";
+import { renderPracticalProgrammingPages } from "./textbook/renderPracticalProgramming";
 import { LEARNING_CHAT_EXAMPLES } from "./learningChatExamples";
 import {
   ONBOARDING_STEP_EVENT,
@@ -47,11 +51,11 @@ import {
 } from "./onboarding/onboardingDemoSection";
 import { WELCOME_MSG_SENTINEL } from "./i18n/messages";
 
-/** Left textbook panel width as % of layout (matches state rightPanelWidth). */
+// Left textbook panel width as % of layout (matches state rightPanelWidth).
 const TEXTBOOK_PANEL_MIN_PCT = 15;
 const TEXTBOOK_PANEL_MAX_PCT = 90;
 const DEFAULT_TEXTBOOK_SPLIT_PCT = 67;
-/** Drag split past this → chat collapses to the right edge. */
+// Drag split past this → chat collapses to the right edge.
 const CHAT_COLLAPSE_THRESHOLD_PCT = 88;
 
 const CHAT_PANEL_WIDTH_KEY = "ai_tutor_learning_textbook_split_pct";
@@ -103,7 +107,7 @@ function readChatCollapsed(): boolean {
   }
 }
 
-/** Client-side cap for chat PDF attach; keep in line with backend MAX_USER_PDF_MB (default 100). */
+// Client-side cap for chat PDF attach; keep in line with backend MAX_USER_PDF_MB (default 100).
 const MAX_PDF_UPLOAD_BYTES = 100 * 1024 * 1024;
 
 const NOTE_SPLIT_STORAGE_KEY = "ai_tutor_textbook_note_split_pct_v2";
@@ -194,8 +198,10 @@ export default function LearningModel() {
   const [bookHighlight, setBookHighlight] = useState<string | null>(null);
   const pendingBookPageRef = useRef<number | null>(null);
   const bookHighlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  /** Closes the section Note split; wired after useSectionNoteToggle mounts. */
+  // Closes the section Note split; wired after useSectionNoteToggle mounts.
   const closeSectionNoteRef = useRef<() => void>(() => {});
+  const pendingNoteHintRef = useRef<string | null>(null);
+  const outlinePreviewSeq = useRef(0);
   const textbookImgRef = useRef<HTMLDivElement>(null);
   const textbookPan = useDragScroll();
   const [attachedImages, setAttachedImages] = useState<string[]>([]);
@@ -215,7 +221,7 @@ export default function LearningModel() {
       if (collapsed) localStorage.setItem(CHAT_COLLAPSED_KEY, "1");
       else localStorage.removeItem(CHAT_COLLAPSED_KEY);
     } catch {
-      /* ignore */
+      // ignore
     }
   }, []);
 
@@ -235,7 +241,7 @@ export default function LearningModel() {
       try {
         localStorage.setItem(TEXTBOOK_ZOOM_STORAGE_KEY, String(next));
       } catch {
-        /* ignore */
+        // ignore
       }
       return next;
     });
@@ -246,7 +252,7 @@ export default function LearningModel() {
     try {
       localStorage.setItem(TEXTBOOK_ZOOM_STORAGE_KEY, String(TEXTBOOK_ZOOM_DEFAULT));
     } catch {
-      /* ignore */
+      // ignore
     }
   }, []);
 
@@ -261,7 +267,7 @@ export default function LearningModel() {
       try {
         localStorage.setItem(CHAT_PANEL_WIDTH_KEY, String(clamped));
       } catch {
-        /* ignore */
+        // ignore
       }
     }
   }, []);
@@ -317,6 +323,47 @@ export default function LearningModel() {
       setSectionPageIndex(0);
       setOutlinePreviewLoading(true);
       const previewHint = detail.sectionHint.trim() || sectionTokenFromTitle(detail.sectionTitle) || "";
+      const localBook =
+        textbookId === "focs" && detail.startBook > 0 && detail.endBook >= detail.startBook;
+      pendingNoteHintRef.current =
+        isProblemsSection(detail.sectionTitle) || localBook ? null : previewHint;
+      if (localBook) {
+        const seq = ++outlinePreviewSeq.current;
+        setDataMatchedTopic({
+          name: detail.sectionTitle,
+          startBook: detail.startBook,
+          endBook: detail.endBook,
+          sectionHint: previewHint || undefined,
+        });
+        try {
+          const pages = await renderPracticalProgrammingPages(detail.startBook, detail.endBook);
+          if (seq !== outlinePreviewSeq.current) return;
+          setReferenceSectionPages(pages);
+          setSectionPageIndex(0);
+          setOutlinePreviewError(null);
+        } catch (error) {
+          if (seq !== outlinePreviewSeq.current) return;
+          setReferenceSectionPages(null);
+          setOutlinePreviewError(
+            error instanceof Error && error.message
+              ? error.message
+              : "Could not open Practical Programming."
+          );
+        } finally {
+          if (seq === outlinePreviewSeq.current) setOutlinePreviewLoading(false);
+        }
+        return;
+      }
+      if (!courseHasTextbookPdf(textbookId) || !detail.startBook || !detail.endBook) {
+        setDataMatchedTopic({
+          name: detail.sectionTitle,
+          startBook: detail.startBook,
+          endBook: detail.endBook,
+          sectionHint: previewHint || undefined,
+        });
+        setOutlinePreviewLoading(false);
+        return;
+      }
       if (textbookId.startsWith("user_") && !token) {
         setOutlinePreviewLoading(false);
         setOutlinePreviewError(t("learning.errSignInTextbook"));
@@ -446,6 +493,13 @@ export default function LearningModel() {
     ? chapterOfProblems(activeSectionTitle)
     : null;
   const practiceActive = Boolean(practiceChapter && getPracticeSet(practiceChapter));
+  const bookPagesOpen = Boolean(
+    outlinePreviewLoading ||
+      outlinePreviewError ||
+      (referenceSectionPages && referenceSectionPages.length > 0) ||
+      (referencePageSnippets && referencePageSnippets.length > 0) ||
+      referencePageImage
+  );
   const guideActive = textbookId === "focs" && isInductionGuideSection(activeSectionTitle);
 
   const hasLeftPanelContent = Boolean(
@@ -522,7 +576,7 @@ export default function LearningModel() {
     [rightPanelWidth, handleResizeMove, handleResizeEnd]
   );
 
-  /** Screen/window capture: grab one frame and attach. */
+  // Screen/window capture: grab one frame and attach.
   const handleScreenshot = useCallback(async () => {
     if (!navigator.mediaDevices?.getDisplayMedia) {
       alert(t("learning.errNoCapture"));
@@ -560,7 +614,7 @@ export default function LearningModel() {
     }
   }, [t]);
 
-  /** On paste, attach images from the clipboard if present. */
+  // On paste, attach images from the clipboard if present.
   const handlePaste = useCallback((e: React.ClipboardEvent) => {
     const items = e.clipboardData?.items;
     if (!items) return;
@@ -662,36 +716,42 @@ export default function LearningModel() {
         const reply = data.reply || "[Empty reply]";
         const conf = typeof data.confidence === "number" ? data.confidence : null;
 
-        if (data.matched_topic) {
-          const sb = data.matched_topic.start_book ?? data.matched_topic.startBook ?? data.matched_topic.start;
-          const eb = data.matched_topic.end_book ?? data.matched_topic.endBook ?? data.matched_topic.end;
-          setDataMatchedTopic({
-            name: data.matched_topic.name,
-            startBook: sb,
-            endBook: eb,
-            sectionHint: sectionTokenFromTitle(data.matched_topic.name) || undefined,
-          });
+        if (!courseHasTextbookPdf(textbookId)) {
+          setReferencePageImage(null);
+          setReferencePageSnippets(null);
+          setReferenceSectionPages(null);
         } else {
-          setDataMatchedTopic(null);
-          setMatchedSection(null);
-        }
-        if (data.reference_section_pages_b64?.length) {
-          setReferenceSectionPages(
-            data.reference_section_pages_b64.map((b64) => `data:image/png;base64,${b64}`)
-          );
-          setSectionPageIndex(0);
-          setReferencePageSnippets(null);
-          setReferencePageImage(null);
-        } else if (data.reference_page_snippets_b64?.length) {
-          setReferencePageSnippets(
-            data.reference_page_snippets_b64.map((b64) => `data:image/png;base64,${b64}`)
-          );
-          setReferencePageImage(null);
-          setReferenceSectionPages(null);
-        } else if (data.reference_page_image_b64) {
-          setReferencePageImage(`data:image/png;base64,${data.reference_page_image_b64}`);
-          setReferencePageSnippets(null);
-          setReferenceSectionPages(null);
+          if (data.matched_topic) {
+            const sb = data.matched_topic.start_book ?? data.matched_topic.startBook ?? data.matched_topic.start;
+            const eb = data.matched_topic.end_book ?? data.matched_topic.endBook ?? data.matched_topic.end;
+            setDataMatchedTopic({
+              name: data.matched_topic.name,
+              startBook: sb,
+              endBook: eb,
+              sectionHint: sectionTokenFromTitle(data.matched_topic.name) || undefined,
+            });
+          } else {
+            setDataMatchedTopic(null);
+            setMatchedSection(null);
+          }
+          if (data.reference_section_pages_b64?.length) {
+            setReferenceSectionPages(
+              data.reference_section_pages_b64.map((b64) => `data:image/png;base64,${b64}`)
+            );
+            setSectionPageIndex(0);
+            setReferencePageSnippets(null);
+            setReferencePageImage(null);
+          } else if (data.reference_page_snippets_b64?.length) {
+            setReferencePageSnippets(
+              data.reference_page_snippets_b64.map((b64) => `data:image/png;base64,${b64}`)
+            );
+            setReferencePageImage(null);
+            setReferenceSectionPages(null);
+          } else if (data.reference_page_image_b64) {
+            setReferencePageImage(`data:image/png;base64,${data.reference_page_image_b64}`);
+            setReferencePageSnippets(null);
+            setReferenceSectionPages(null);
+          }
         }
 
         if (conf === null) {
@@ -870,40 +930,46 @@ export default function LearningModel() {
       const reply = data.reply || "[Empty reply]";
       const conf = typeof data.confidence === "number" ? data.confidence : null;
 
-      if (data.matched_topic) {
-        const sb = data.matched_topic.start_book ?? data.matched_topic.startBook ?? data.matched_topic.start;
-        const eb = data.matched_topic.end_book ?? data.matched_topic.endBook ?? data.matched_topic.end;
-        setDataMatchedTopic({
-          name: data.matched_topic.name,
-          startBook: sb,
-          endBook: eb,
-          sectionHint: sectionTokenFromTitle(data.matched_topic.name) || undefined,
-        });
-      } else {
-        setDataMatchedTopic(null);
-        setMatchedSection(null);
-      }
-      if (data.reference_section_pages_b64?.length) {
-        setReferenceSectionPages(
-          data.reference_section_pages_b64.map((b64) => `data:image/png;base64,${b64}`)
-        );
-        setSectionPageIndex(0);
-        setReferencePageSnippets(null);
+      if (!courseHasTextbookPdf(textbookId)) {
         setReferencePageImage(null);
-      } else if (data.reference_page_snippets_b64?.length) {
-        setReferencePageSnippets(
-          data.reference_page_snippets_b64.map((b64) => `data:image/png;base64,${b64}`)
-        );
-        setReferencePageImage(null);
-        setReferenceSectionPages(null);
-      } else if (data.reference_page_image_b64) {
-        setReferencePageImage(`data:image/png;base64,${data.reference_page_image_b64}`);
         setReferencePageSnippets(null);
         setReferenceSectionPages(null);
       } else {
-        setReferencePageImage(null);
-        setReferencePageSnippets(null);
-        setReferenceSectionPages(null);
+        if (data.matched_topic) {
+          const sb = data.matched_topic.start_book ?? data.matched_topic.startBook ?? data.matched_topic.start;
+          const eb = data.matched_topic.end_book ?? data.matched_topic.endBook ?? data.matched_topic.end;
+          setDataMatchedTopic({
+            name: data.matched_topic.name,
+            startBook: sb,
+            endBook: eb,
+            sectionHint: sectionTokenFromTitle(data.matched_topic.name) || undefined,
+          });
+        } else {
+          setDataMatchedTopic(null);
+          setMatchedSection(null);
+        }
+        if (data.reference_section_pages_b64?.length) {
+          setReferenceSectionPages(
+            data.reference_section_pages_b64.map((b64) => `data:image/png;base64,${b64}`)
+          );
+          setSectionPageIndex(0);
+          setReferencePageSnippets(null);
+          setReferencePageImage(null);
+        } else if (data.reference_page_snippets_b64?.length) {
+          setReferencePageSnippets(
+            data.reference_page_snippets_b64.map((b64) => `data:image/png;base64,${b64}`)
+          );
+          setReferencePageImage(null);
+          setReferenceSectionPages(null);
+        } else if (data.reference_page_image_b64) {
+          setReferencePageImage(`data:image/png;base64,${data.reference_page_image_b64}`);
+          setReferencePageSnippets(null);
+          setReferenceSectionPages(null);
+        } else {
+          setReferencePageImage(null);
+          setReferencePageSnippets(null);
+          setReferenceSectionPages(null);
+        }
       }
 
       if (conf === null) {
@@ -1020,6 +1086,24 @@ export default function LearningModel() {
     setRefreshTrigger((n) => n + 1);
   };
 
+  const openStudyQuestions = (sectionTitle: string, sectionHint: string) => {
+    setOutlinePreviewError(null);
+    setPracticeViewNote(false);
+    setGuideViewNote(false);
+    setMatchedSection(null);
+    setReferencePageImage(null);
+    setReferencePageSnippets(null);
+    setReferenceSectionPages(null);
+    setActiveSectionTitle(sectionTitle);
+    setDataMatchedTopic({
+      name: sectionTitle,
+      startBook: 0,
+      endBook: 0,
+      sectionHint,
+    });
+    setLeftPanelOpen(true);
+  };
+
   // keep the bridge wrappers pointing at the latest closures
   sessionApiRef.current = { load: loadSession, newChat: handleNewChat, preview: handleOutlineSectionPreview };
 
@@ -1038,6 +1122,14 @@ export default function LearningModel() {
     : "";
 
   const sectionNoteToggle = useSectionNoteToggle(sectionNoteLabel);
+
+  useEffect(() => {
+    const pending = pendingNoteHintRef.current;
+    if (!pending || practiceActive || !activeSectionNote) return;
+    if ((dataMatchedTopic?.sectionHint ?? "") !== pending) return;
+    pendingNoteHintRef.current = null;
+    sectionNoteToggle.setOpen(true);
+  }, [activeSectionNote, practiceActive, dataMatchedTopic, sectionNoteToggle.setOpen]);
 
   closeSectionNoteRef.current = () => {
     sectionNoteToggle.setOpen(false);
@@ -1285,17 +1377,39 @@ export default function LearningModel() {
                 aria-label={t("learning.currentSection")}
               >
                 <span className="left-panel-topic-bar-title">
-                  {t("learning.textbook")} {dataMatchedTopic.name}
+                  {isPracticalProgrammingHint(dataMatchedTopic.sectionHint ?? "")
+                    ? dataMatchedTopic.name
+                    : lectureBarTitle(
+                        dataMatchedTopic.sectionHint ?? "",
+                        isProblemsSection(dataMatchedTopic.name)
+                      ) ?? `${t("learning.textbook")} ${dataMatchedTopic.name}`}
                 </span>
-                <span className="left-panel-topic-bar-sep" aria-hidden="true">
-                  ·
-                </span>
-                <span className="left-panel-topic-bar-pages">
-                  {t("learning.pages", {
-                    start: String(dataMatchedTopic.startBook),
-                    end: String(dataMatchedTopic.endBook),
-                  })}
-                </span>
+                {isPracticalProgrammingHint(dataMatchedTopic.sectionHint ?? "") ? (
+                  <span className="left-panel-topic-bar-pages">
+                    {CS1_TEXTBOOK_NAME}
+                    {" · "}
+                    {t("learning.pages", {
+                      start: String(dataMatchedTopic.startBook),
+                      end: String(dataMatchedTopic.endBook),
+                    })}
+                  </span>
+                ) : lectureForHint(dataMatchedTopic.sectionHint ?? "") && !courseHasTextbookPdf(textbookId) ? (
+                  <span className="left-panel-topic-bar-pages">
+                    {lectureForHint(dataMatchedTopic.sectionHint ?? "")?.textbookLabel}
+                  </span>
+                ) : dataMatchedTopic.startBook > 0 ? (
+                  <>
+                    <span className="left-panel-topic-bar-sep" aria-hidden="true">
+                      ·
+                    </span>
+                    <span className="left-panel-topic-bar-pages">
+                      {t("learning.pages", {
+                        start: String(dataMatchedTopic.startBook),
+                        end: String(dataMatchedTopic.endBook),
+                      })}
+                    </span>
+                  </>
+                ) : null}
               </div>
               <div className="left-panel-topic-bar-actions">
                 {activeSectionNote ? (
@@ -1334,7 +1448,7 @@ export default function LearningModel() {
             <div
               className="textbook-note-pane"
               data-onboarding="chapter-practice"
-              style={{ flex: `0 0 ${practiceSplit.pct}%` }}
+              style={{ flex: bookPagesOpen ? `0 0 ${practiceSplit.pct}%` : "1 1 auto" }}
             >
               {practiceViewNote && activeSectionNote ? (
                 <div className="left-panel-section-note">
@@ -1363,24 +1477,29 @@ export default function LearningModel() {
                 <PracticePanel
                   chapter={practiceChapter!}
                   textbookId={textbookId}
-                  chapterTitle={`Chapter ${practiceChapter}`}
+                  chapterTitle={lectureById(practiceChapter!)?.practiceTitle ?? `Chapter ${practiceChapter}`}
+                  source={lectureById(practiceChapter!)?.textbookLabel}
                   token={token}
                   onViewNote={activeSectionNote ? () => setPracticeViewNote(true) : undefined}
                 />
               )}
             </div>
-            <div
-              className="textbook-note-split-handle"
-              role="separator"
-              aria-orientation="horizontal"
-              aria-label={t("learning.resizeNote")}
-              aria-valuenow={Math.round(practiceSplit.pct)}
-              onMouseDown={practiceSplit.onResizeStart}
-              title={t("learning.resizeNoteTitle")}
-            >
-              <span className="textbook-note-split-handle-grip" aria-hidden />
-            </div>
-            <div className="textbook-pages-pane">{textbookBody}</div>
+            {bookPagesOpen ? (
+              <>
+                <div
+                  className="textbook-note-split-handle"
+                  role="separator"
+                  aria-orientation="horizontal"
+                  aria-label={t("learning.resizeNote")}
+                  aria-valuenow={Math.round(practiceSplit.pct)}
+                  onMouseDown={practiceSplit.onResizeStart}
+                  title={t("learning.resizeNoteTitle")}
+                >
+                  <span className="textbook-note-split-handle-grip" aria-hidden />
+                </div>
+                <div className="textbook-pages-pane">{textbookBody}</div>
+              </>
+            ) : null}
           </div>
         ) : guideActive ? (
           <div className="textbook-note-split" ref={practiceSplit.containerRef}>
@@ -1438,7 +1557,7 @@ export default function LearningModel() {
           <div className="textbook-note-split" ref={noteSplit.containerRef}>
             <div
               className="textbook-note-pane"
-              style={{ flex: `0 0 ${noteSplit.pct}%` }}
+              style={{ flex: bookPagesOpen ? `0 0 ${noteSplit.pct}%` : "1 1 auto" }}
             >
               <SectionNotePanel
                 note={activeSectionNote}
@@ -1446,18 +1565,22 @@ export default function LearningModel() {
                 actions={sectionNoteActions}
               />
             </div>
-            <div
-              className="textbook-note-split-handle"
-              role="separator"
-              aria-orientation="horizontal"
-              aria-label={t("learning.resizeNote")}
-              aria-valuenow={Math.round(noteSplit.pct)}
-              onMouseDown={noteSplit.onResizeStart}
-              title={t("learning.resizeNoteTitle")}
-            >
-              <span className="textbook-note-split-handle-grip" aria-hidden />
-            </div>
-            <div className="textbook-pages-pane">{textbookBody}</div>
+            {bookPagesOpen ? (
+              <>
+                <div
+                  className="textbook-note-split-handle"
+                  role="separator"
+                  aria-orientation="horizontal"
+                  aria-label={t("learning.resizeNote")}
+                  aria-valuenow={Math.round(noteSplit.pct)}
+                  onMouseDown={noteSplit.onResizeStart}
+                  title={t("learning.resizeNoteTitle")}
+                >
+                  <span className="textbook-note-split-handle-grip" aria-hidden />
+                </div>
+                <div className="textbook-pages-pane">{textbookBody}</div>
+              </>
+            ) : null}
           </div>
         ) : (
           <div className="textbook-pages-pane textbook-pages-pane--full">{textbookBody}</div>
@@ -1591,6 +1714,38 @@ export default function LearningModel() {
                 </button>
               </span>
             ))}
+          </div>
+        )}
+
+        {!hasUserMessage && (
+          <div className="chat-example-prompts" role="group" aria-label="Study questions">
+            <p className="chat-example-label">Study questions</p>
+            <div className="chat-example-list">
+              <button
+                type="button"
+                className="chat-example-chip"
+                onClick={() => openStudyQuestions("2.13 Problems", "2.13")}
+              >
+                <span className="chat-example-num">L2</span>
+                <span className="chat-example-text">Lecture 2 · Python as a calculator</span>
+              </button>
+              <button
+                type="button"
+                className="chat-example-chip"
+                onClick={() => openStudyQuestions("3.7 Problems", "3.7")}
+              >
+                <span className="chat-example-num">L3</span>
+                <span className="chat-example-text">Lecture 3 · strings</span>
+              </button>
+              <button
+                type="button"
+                className="chat-example-chip"
+                onClick={() => openStudyQuestions("4.8 Problems", "4.8")}
+              >
+                <span className="chat-example-num">L4</span>
+                <span className="chat-example-text">Lecture 4 · functions and modules</span>
+              </button>
+            </div>
           </div>
         )}
 

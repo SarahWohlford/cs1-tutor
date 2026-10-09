@@ -19,7 +19,7 @@ interface ChatResponse {
   error?: string;
 }
 
-/** Pure: take only the tutor text, dropping every matching/reference field. */
+// Pure: take only the tutor text, dropping every matching/reference field.
 export function extractReply(data: ChatResponse): string {
   return (data.reply ?? data.detail ?? data.error ?? "").trim();
 }
@@ -37,7 +37,7 @@ async function postChat(message: string, token?: string | null): Promise<string>
   return extractReply(data);
 }
 
-/** Fetch the hint for the current rung. Solution is only in the prompt at L4+ (leak guard). */
+// Fetch the hint for the current rung. Solution is only in the prompt at L4+ (leak guard).
 export function fetchHint(
   rung: Rung,
   problem: ChallengeProblem,
@@ -47,7 +47,7 @@ export function fetchHint(
   return postChat(buildHintPrompt(rung, problem, attempt), token);
 }
 
-/** Grade a free-response attempt → verdict (correct / incorrect / incomplete). */
+// Grade a free-response attempt → verdict (correct / incorrect / incomplete).
 export async function gradeChallenge(
   problem: ChallengeProblem,
   attempt: string,

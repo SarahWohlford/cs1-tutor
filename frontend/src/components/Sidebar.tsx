@@ -4,13 +4,16 @@ import { useAuth } from "../context/AuthContext";
 import { useLocale } from "../i18n/LocaleContext";
 import SidebarHistory from "./SidebarHistory";
 import LearningBarPanel, { type OutlineSectionPreviewDetail } from "../LearningBarPanel";
+import { LectureProgress } from "./LectureProgress";
+import { TextbookOutline } from "./TextbookOutline";
+import { readSelectedTextbookId } from "../learningTextbooks";
 import { useSessionBridge } from "../context/SessionBridge";
 import { useOnboarding } from "../context/OnboardingContext";
 import { getOrCreateStudentId } from "../utils/studentId";
 import { ONBOARDING_PREPARE_EVENT, ONBOARDING_STEP_EVENT } from "../onboarding/onboardingStorage";
 import "./Sidebar.css";
 
-/* ---- inline icons (no icon dependency) ---- */
+// ---- inline icons (no icon dependency) ----
 const I = {
   menu: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round">
@@ -74,16 +77,19 @@ const TABS: Tab[] = [
 ];
 
 const SIDEBAR_PROGRESS_OPEN_KEY = "sidebar-open-progress";
+const SIDEBAR_TEXTBOOK_OPEN_KEY = "sidebar-open-textbook";
 const SIDEBAR_HISTORY_OPEN_KEY = "sidebar-open-history";
 const SIDEBAR_PROGRESS_H_KEY = "sidebar-progress-height";
 const PROGRESS_MIN_H = 160;
 const HISTORY_MIN_RESERVE = 56;
 
-function readSidebarSectionOpen(key: string): boolean {
+function readSidebarSectionOpen(key: string, fallback = false): boolean {
   try {
-    return localStorage.getItem(key) === "1";
+    const raw = localStorage.getItem(key);
+    if (raw == null) return fallback;
+    return raw === "1";
   } catch {
-    return false;
+    return fallback;
   }
 }
 
@@ -91,7 +97,7 @@ function writeSidebarSectionOpen(key: string, open: boolean): void {
   try {
     localStorage.setItem(key, open ? "1" : "0");
   } catch {
-    /* ignore */
+    // ignore
   }
 }
 
@@ -111,7 +117,7 @@ function writeSidebarProgressHeight(height: number | null): void {
     if (height == null) localStorage.removeItem(SIDEBAR_PROGRESS_H_KEY);
     else localStorage.setItem(SIDEBAR_PROGRESS_H_KEY, String(Math.round(height)));
   } catch {
-    /* ignore */
+    // ignore
   }
 }
 
@@ -123,7 +129,9 @@ export default function Sidebar() {
   const bridge = useSessionBridge();
   const { startOnboarding } = useOnboarding();
   const [studentId] = useState(() => getOrCreateStudentId());
+  const [textbookId, setTextbookId] = useState(() => readSelectedTextbookId());
   const onLearning = location.pathname.startsWith("/learning");
+  const builtinCourse = textbookId === "focs";
 
   const previewSection = (detail: OutlineSectionPreviewDetail) => {
     bridge.previewSection(detail);
@@ -132,6 +140,7 @@ export default function Sidebar() {
 
   const [collapsed, setCollapsed] = useState<boolean>(() => localStorage.getItem("sidebar-collapsed") === "1");
   const [openProgress, setOpenProgress] = useState(() => readSidebarSectionOpen(SIDEBAR_PROGRESS_OPEN_KEY));
+  const [openTextbook, setOpenTextbook] = useState(() => readSidebarSectionOpen(SIDEBAR_TEXTBOOK_OPEN_KEY, true));
   const [openHistory, setOpenHistory] = useState(() => readSidebarSectionOpen(SIDEBAR_HISTORY_OPEN_KEY));
   const [progressHeight, setProgressHeight] = useState<number | null>(() => readSidebarProgressHeight());
   const shellRef = useRef<HTMLDivElement>(null);
@@ -177,7 +186,7 @@ export default function Sidebar() {
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);
     } catch {
-      /* already released */
+      // already released
     }
     setProgressHeight((h) => {
       if (h == null) return h;
@@ -208,10 +217,24 @@ export default function Sidebar() {
     return () => window.removeEventListener("resize", reclamp);
   }, [clampProgressHeight, openHistory, collapsed, openProgress]);
 
+  useEffect(() => {
+    const syncBook = () => setTextbookId(readSelectedTextbookId());
+    window.addEventListener("ai-tutor-textbook-changed", syncBook);
+    return () => window.removeEventListener("ai-tutor-textbook-changed", syncBook);
+  }, []);
+
   const toggleProgress = () => {
     setOpenProgress((o) => {
       const next = !o;
       writeSidebarSectionOpen(SIDEBAR_PROGRESS_OPEN_KEY, next);
+      return next;
+    });
+  };
+
+  const toggleTextbook = () => {
+    setOpenTextbook((o) => {
+      const next = !o;
+      writeSidebarSectionOpen(SIDEBAR_TEXTBOOK_OPEN_KEY, next);
       return next;
     });
   };
@@ -335,7 +358,11 @@ export default function Sidebar() {
           </button>
           <div className="sb-section-body">
             <div className="sb-progress-embed" data-onboarding="learning-progress" ref={progressEmbedRef}>
-              <LearningBarPanel variant="embed" studentId={studentId} onOutlineSectionPreview={previewSection} />
+              {builtinCourse ? (
+                <LectureProgress onOpen={previewSection} />
+              ) : (
+                <LearningBarPanel variant="embed" studentId={studentId} onOutlineSectionPreview={previewSection} />
+              )}
               <div
                 className="sb-progress-resize"
                 role="separator"
@@ -362,6 +389,19 @@ export default function Sidebar() {
             </div>
           </div>
         </div>
+
+        {builtinCourse ? (
+          <div className={`sb-section sb-section--textbook${openTextbook ? " is-open" : ""}`}>
+            <button className="sb-section-head" onClick={toggleTextbook} aria-expanded={openTextbook}>
+              <span className="sb-link-ic">{I.learning}</span>
+              <span className="sb-link-label">Textbook</span>
+              <span className="sb-caret">{I.chevron}</span>
+            </button>
+            <div className="sb-section-body">
+              <TextbookOutline onOpen={previewSection} />
+            </div>
+          </div>
+        ) : null}
 
         {/* History (our "recent") */}
         <div

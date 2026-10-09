@@ -30,6 +30,7 @@
 .pr-mastery { border-bottom: 1px solid var(--pr-rule); padding-bottom: 12px; }
 .pr-mastery-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .pr-mastery-title { font-family: var(--pr-serif); font-size: 1.15rem; }
+.pr-mastery-source { margin: 4px 0 0; font-size: 0.75rem; color: var(--pr-ink-soft); }
 .pr-mastery-tier {
   font-family: var(--pr-mono); font-size: 0.72rem; letter-spacing: 0.05em;
   text-transform: uppercase; color: var(--pr-teal-deep);

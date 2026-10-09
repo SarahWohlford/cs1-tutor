@@ -4,7 +4,7 @@ import type { PracticeSet, PracticeProgress, Tier, Stage } from "./types";
 
 const TIER_ORDER: Tier[] = ["not_started", "familiar", "proficient", "mastered"];
 
-/** Highest tier by TIER_ORDER among the eligible set. */
+// Highest tier by TIER_ORDER among the eligible set.
 function maxTier(tiers: Tier[]): Tier {
   return tiers.reduce(
     (best, t) => (TIER_ORDER.indexOf(t) > TIER_ORDER.indexOf(best) ? t : best),
@@ -12,7 +12,7 @@ function maxTier(tiers: Tier[]): Tier {
   );
 }
 
-/** Fraction of practice questions answered correctly at least once (0 when the set is empty). */
+// Fraction of practice questions answered correctly at least once (0 when the set is empty).
 export function practiceCorrectFraction(set: PracticeSet, p: PracticeProgress): number {
   const total = set.practice.length;
   if (total === 0) return 0;

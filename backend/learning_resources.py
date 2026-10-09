@@ -72,9 +72,9 @@ def effective_pdf_page_offset() -> int:
 
 def get_effective_pdf_bytes() -> Optional[bytes]:
     ctx = getattr(_tls, "book", None)
-    if ctx is not None and ctx.pdf_bytes is not None:
+    if ctx is not None:
         return ctx.pdf_bytes
-    return load_focs_pdf()
+    return None
 
 
 def effective_memory_book_id() -> str:
@@ -114,8 +114,8 @@ def resolve_textbook_for_request(book_id: Optional[str], user_email: Optional[st
         return ActiveTextbook(
             book_id="focs",
             raw=raw,
-            pdf_bytes=load_focs_pdf(),
-            pdf_page_offset=PDF_PAGE_OFFSET,
+            pdf_bytes=None,
+            pdf_page_offset=0,
         )
     if (
         bid.startswith("user_")
@@ -132,8 +132,8 @@ def resolve_textbook_for_request(book_id: Optional[str], user_email: Optional[st
     return ActiveTextbook(
         book_id="focs",
         raw=raw,
-        pdf_bytes=load_focs_pdf(),
-        pdf_page_offset=PDF_PAGE_OFFSET,
+        pdf_bytes=None,
+        pdf_page_offset=0,
     )
 
 
@@ -256,6 +256,26 @@ def get_focs_chapter_tree(chapter_filter: Optional[str] = None) -> str:
 
     lines = walk(raw, 0)
     return "\n".join(lines) if lines else ""
+
+
+def tutor_scope_clause(textbook_id: str) -> str:
+    """Scope sentence for tutor system prompts. Built-in book is Lectures 2–4."""
+    tid = (textbook_id or "focs").strip() or "focs"
+    if tid != "focs":
+        return "The course language is Python."
+    tree = get_focs_chapter_tree().strip()
+    if not tree:
+        return (
+            "No course outline or practice bank is loaded, so do not claim that a specific lecture, lab, "
+            "or textbook section is part of the course. The course language is Python."
+        )
+    return (
+        "The loaded lectures are Lecture 2 (Python as a calculator), Lecture 3 (strings), "
+        "and Lecture 4 (functions and modules). "
+        "Lecture 1 is administrative and is not in this tutor. Do not invent later lectures, labs, or assignments. "
+        "The course language is Python.\n\n"
+        f"Loaded outline:\n{tree}"
+    )
 
 
 def _get_range_from_node(v: Dict[str, Any]) -> Optional[tuple]:

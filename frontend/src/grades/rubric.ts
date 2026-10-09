@@ -24,7 +24,7 @@ export const genId = (prefix = "it"): string =>
 // --------------------------------------------------------------------------- //
 // rule <-> mode
 // --------------------------------------------------------------------------- //
-/** The selected mode, or null for a legacy rank-weights rule (no button highlighted). */
+// The selected mode, or null for a legacy rank-weights rule (no button highlighted).
 export function activeMode(rule: Rule): ScoringMode | null {
   if (rule.kind === "dropLowest") return "dropLowest";
   if (rule.kind === "fixedWeights") return "fixedWeights";
@@ -54,7 +54,7 @@ export function slotCountOf(rule: Rule): number {
 // --------------------------------------------------------------------------- //
 const round2 = (n: number): number => Math.round(n * 100) / 100;
 
-/** Split `total` into `n` weights that sum EXACTLY to total (rounding drift on the first). */
+// Split `total` into `n` weights that sum EXACTLY to total (rounding drift on the first).
 export function evenWeights(total: number, n: number): number[] {
   if (n <= 0) return [];
   const each = round2(total / n);
@@ -63,11 +63,11 @@ export function evenWeights(total: number, n: number): number[] {
   return arr;
 }
 
-/** Sum of per-item fixed weights in a category (0 for missing weights). */
+// Sum of per-item fixed weights in a category (0 for missing weights).
 export const itemWeightSum = (cat: Category): number =>
   round2(cat.items.reduce((s, it) => s + (it.weight ?? 0), 0));
 
-/** Sum of category weights across the course (for the global "should be 100%" chip). */
+// Sum of category weights across the course (for the global "should be 100%" chip).
 export const categoryWeightSum = (course: Course): number =>
   round2(course.categories.reduce((s, c) => s + c.weight, 0));
 
@@ -136,7 +136,7 @@ export function setMode(cat: Category, mode: ScoringMode): Category {
   return { ...cat, rule: { kind: "fixedWeights" }, items };
 }
 
-/** Flag exactly one item as the replacer (the final); clear the rest. */
+// Flag exactly one item as the replacer (the final); clear the rest.
 export function setReplacer(cat: Category, itemId: string): Category {
   return { ...cat, items: cat.items.map((it) => ({ ...it, replacer: it.id === itemId })) };
 }
@@ -144,11 +144,11 @@ export function setReplacer(cat: Category, itemId: string): Category {
 // --------------------------------------------------------------------------- //
 // weighting schemes
 // --------------------------------------------------------------------------- //
-/** Sum of a scheme's per-category weights (for the "should be 100" chip). */
+// Sum of a scheme's per-category weights (for the "should be 100" chip).
 export const schemeSum = (s: WeightScheme): number =>
   Math.round(Object.values(s.weights).reduce((a, b) => a + b, 0) * 100) / 100;
 
-/** Append a new scheme seeded from the current category weights. */
+// Append a new scheme seeded from the current category weights.
 export function addScheme(course: Course): Course {
   const weights: Record<string, number> = {};
   for (const cat of course.categories) weights[cat.id] = cat.weight;
@@ -156,12 +156,12 @@ export function addScheme(course: Course): Course {
   return { ...course, weightings: [...(course.weightings ?? []), scheme] };
 }
 
-/** Remove scheme at index i. */
+// Remove scheme at index i.
 export function removeScheme(course: Course, i: number): Course {
   return { ...course, weightings: (course.weightings ?? []).filter((_, j) => j !== i) };
 }
 
-/** Set one category's weight within scheme i. */
+// Set one category's weight within scheme i.
 export function setSchemeWeight(course: Course, i: number, catId: string, weight: number): Course {
   return {
     ...course,
@@ -201,7 +201,7 @@ export function removeCategory(course: Course, catId: string): Course {
   return syncSchemes({ ...course, categories: course.categories.filter((c) => c.id !== catId) });
 }
 
-/** True if a category holds any entered score — deleting it should be confirmed (T5). */
+// True if a category holds any entered score — deleting it should be confirmed (T5).
 export const hasEnteredScores = (cat: Category): boolean =>
   cat.items.some((it) => it.score != null);
 

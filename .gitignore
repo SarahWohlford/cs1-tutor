@@ -175,6 +175,9 @@ frontend/node.js/
 # FOCS textbook binary (outline JSON is a separate placeholder)
 backend/data/FOCS.pdf
 
+# Practical Programming stays on the machine. Do not commit the book.
+frontend/public/textbooks/*.pdf
+
 # Runtime memory / progress / eval dumps
 backend/data/memory/**
 backend/data/memory_store/**

@@ -8,7 +8,7 @@ export function isProblemsSection(title: string | null | undefined): boolean {
   return !!title && PROBLEMS_RE.test(title.trim());
 }
 
-/** Chapter token (e.g. "4") from a "4.6 Problems" title, or null if not a problem set. */
+// Chapter token (e.g. "4") from a "4.6 Problems" title, or null if not a problem set.
 export function chapterOfProblems(title: string | null | undefined): string | null {
   if (!title) return null;
   const m = title.trim().match(PROBLEMS_RE);
