@@ -5,6 +5,8 @@ import { emptyProgress, type PracticeProgress } from "../practice/types";
 
 const VERSION = "v1";
 
+export const PRACTICE_PROGRESS_EVENT = "cs1-practice-progress";
+
 function storageKey(textbookId: string, chapter: string): string {
   return `practice.${VERSION}.${textbookId}.${chapter}`;
 }
@@ -59,6 +61,9 @@ export function saveProgress(
   if (!storage) return;
   try {
     storage.setItem(storageKey(textbookId, chapter), JSON.stringify(progress));
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event(PRACTICE_PROGRESS_EVENT));
+    }
   } catch {
     // quota / private mode — non-fatal
   }

@@ -33,6 +33,7 @@ import { INDUCTION_GUIDE } from "./guide/inductionGuide";
 import { getSectionNoteWithNewVocab, sectionTokenFromTitle, type BookAnchor } from "./utils/sectionNotes";
 import { FOCS_SECTION_TOKENS_PREORDER } from "./utils/focsSectionOrder";
 import { useLocale } from "./i18n/LocaleContext";
+import { lectureBarTitle, lectureById, lectureForHint } from "./data/cs1Lectures";
 import { LEARNING_CHAT_EXAMPLES } from "./learningChatExamples";
 import {
   ONBOARDING_STEP_EVENT,
@@ -197,6 +198,7 @@ export default function LearningModel() {
   const bookHighlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Closes the section Note split; wired after useSectionNoteToggle mounts.
   const closeSectionNoteRef = useRef<() => void>(() => {});
+  const pendingNoteHintRef = useRef<string | null>(null);
   const textbookImgRef = useRef<HTMLDivElement>(null);
   const textbookPan = useDragScroll();
   const [attachedImages, setAttachedImages] = useState<string[]>([]);
@@ -318,6 +320,7 @@ export default function LearningModel() {
       setSectionPageIndex(0);
       setOutlinePreviewLoading(true);
       const previewHint = detail.sectionHint.trim() || sectionTokenFromTitle(detail.sectionTitle) || "";
+      pendingNoteHintRef.current = isProblemsSection(detail.sectionTitle) ? null : previewHint;
       if (!courseHasTextbookPdf(textbookId) || !detail.startBook || !detail.endBook) {
         setDataMatchedTopic({
           name: detail.sectionTitle,
@@ -457,6 +460,13 @@ export default function LearningModel() {
     ? chapterOfProblems(activeSectionTitle)
     : null;
   const practiceActive = Boolean(practiceChapter && getPracticeSet(practiceChapter));
+  const bookPagesOpen = Boolean(
+    outlinePreviewLoading ||
+      outlinePreviewError ||
+      (referenceSectionPages && referenceSectionPages.length > 0) ||
+      (referencePageSnippets && referencePageSnippets.length > 0) ||
+      referencePageImage
+  );
   const guideActive = textbookId === "focs" && isInductionGuideSection(activeSectionTitle);
 
   const hasLeftPanelContent = Boolean(
@@ -1080,6 +1090,14 @@ export default function LearningModel() {
 
   const sectionNoteToggle = useSectionNoteToggle(sectionNoteLabel);
 
+  useEffect(() => {
+    const pending = pendingNoteHintRef.current;
+    if (!pending || practiceActive || !activeSectionNote) return;
+    if ((dataMatchedTopic?.sectionHint ?? "") !== pending) return;
+    pendingNoteHintRef.current = null;
+    sectionNoteToggle.setOpen(true);
+  }, [activeSectionNote, practiceActive, dataMatchedTopic, sectionNoteToggle.setOpen]);
+
   closeSectionNoteRef.current = () => {
     sectionNoteToggle.setOpen(false);
     setPracticeViewNote(false);
@@ -1326,9 +1344,16 @@ export default function LearningModel() {
                 aria-label={t("learning.currentSection")}
               >
                 <span className="left-panel-topic-bar-title">
-                  {t("learning.textbook")} {dataMatchedTopic.name}
+                  {lectureBarTitle(
+                    dataMatchedTopic.sectionHint ?? "",
+                    isProblemsSection(dataMatchedTopic.name)
+                  ) ?? `${t("learning.textbook")} ${dataMatchedTopic.name}`}
                 </span>
-                {dataMatchedTopic.startBook > 0 ? (
+                {lectureForHint(dataMatchedTopic.sectionHint ?? "") && !courseHasTextbookPdf(textbookId) ? (
+                  <span className="left-panel-topic-bar-pages">
+                    {lectureForHint(dataMatchedTopic.sectionHint ?? "")?.textbookLabel}
+                  </span>
+                ) : dataMatchedTopic.startBook > 0 ? (
                   <>
                     <span className="left-panel-topic-bar-sep" aria-hidden="true">
                       ·
@@ -1379,7 +1404,7 @@ export default function LearningModel() {
             <div
               className="textbook-note-pane"
               data-onboarding="chapter-practice"
-              style={{ flex: `0 0 ${practiceSplit.pct}%` }}
+              style={{ flex: bookPagesOpen ? `0 0 ${practiceSplit.pct}%` : "1 1 auto" }}
             >
               {practiceViewNote && activeSectionNote ? (
                 <div className="left-panel-section-note">
@@ -1408,32 +1433,29 @@ export default function LearningModel() {
                 <PracticePanel
                   chapter={practiceChapter!}
                   textbookId={textbookId}
-                  chapterTitle={
-                    practiceChapter === "2"
-                      ? "Lecture 2 · Python as a calculator"
-                      : practiceChapter === "3"
-                        ? "Lecture 3 · Strings"
-                        : practiceChapter === "4"
-                          ? "Lecture 4 · Functions and modules"
-                          : `Chapter ${practiceChapter}`
-                  }
+                  chapterTitle={lectureById(practiceChapter!)?.practiceTitle ?? `Chapter ${practiceChapter}`}
+                  source={lectureById(practiceChapter!)?.textbookLabel}
                   token={token}
                   onViewNote={activeSectionNote ? () => setPracticeViewNote(true) : undefined}
                 />
               )}
             </div>
-            <div
-              className="textbook-note-split-handle"
-              role="separator"
-              aria-orientation="horizontal"
-              aria-label={t("learning.resizeNote")}
-              aria-valuenow={Math.round(practiceSplit.pct)}
-              onMouseDown={practiceSplit.onResizeStart}
-              title={t("learning.resizeNoteTitle")}
-            >
-              <span className="textbook-note-split-handle-grip" aria-hidden />
-            </div>
-            <div className="textbook-pages-pane">{textbookBody}</div>
+            {bookPagesOpen ? (
+              <>
+                <div
+                  className="textbook-note-split-handle"
+                  role="separator"
+                  aria-orientation="horizontal"
+                  aria-label={t("learning.resizeNote")}
+                  aria-valuenow={Math.round(practiceSplit.pct)}
+                  onMouseDown={practiceSplit.onResizeStart}
+                  title={t("learning.resizeNoteTitle")}
+                >
+                  <span className="textbook-note-split-handle-grip" aria-hidden />
+                </div>
+                <div className="textbook-pages-pane">{textbookBody}</div>
+              </>
+            ) : null}
           </div>
         ) : guideActive ? (
           <div className="textbook-note-split" ref={practiceSplit.containerRef}>
@@ -1491,7 +1513,7 @@ export default function LearningModel() {
           <div className="textbook-note-split" ref={noteSplit.containerRef}>
             <div
               className="textbook-note-pane"
-              style={{ flex: `0 0 ${noteSplit.pct}%` }}
+              style={{ flex: bookPagesOpen ? `0 0 ${noteSplit.pct}%` : "1 1 auto" }}
             >
               <SectionNotePanel
                 note={activeSectionNote}
@@ -1499,18 +1521,22 @@ export default function LearningModel() {
                 actions={sectionNoteActions}
               />
             </div>
-            <div
-              className="textbook-note-split-handle"
-              role="separator"
-              aria-orientation="horizontal"
-              aria-label={t("learning.resizeNote")}
-              aria-valuenow={Math.round(noteSplit.pct)}
-              onMouseDown={noteSplit.onResizeStart}
-              title={t("learning.resizeNoteTitle")}
-            >
-              <span className="textbook-note-split-handle-grip" aria-hidden />
-            </div>
-            <div className="textbook-pages-pane">{textbookBody}</div>
+            {bookPagesOpen ? (
+              <>
+                <div
+                  className="textbook-note-split-handle"
+                  role="separator"
+                  aria-orientation="horizontal"
+                  aria-label={t("learning.resizeNote")}
+                  aria-valuenow={Math.round(noteSplit.pct)}
+                  onMouseDown={noteSplit.onResizeStart}
+                  title={t("learning.resizeNoteTitle")}
+                >
+                  <span className="textbook-note-split-handle-grip" aria-hidden />
+                </div>
+                <div className="textbook-pages-pane">{textbookBody}</div>
+              </>
+            ) : null}
           </div>
         ) : (
           <div className="textbook-pages-pane textbook-pages-pane--full">{textbookBody}</div>

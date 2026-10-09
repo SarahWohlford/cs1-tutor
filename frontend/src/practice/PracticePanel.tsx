@@ -20,12 +20,14 @@ export function PracticePanel({
   chapter,
   textbookId,
   chapterTitle,
+  source,
   token,
   onViewNote,
 }: {
   chapter: string;
   textbookId: string;
   chapterTitle: string;
+  source?: string;
   token: string | null;
   onViewNote?: () => void;
 }) {
@@ -190,7 +192,7 @@ export function PracticePanel({
 
   return (
     <div className="practice">
-      <MasteryHeader chapterTitle={chapterTitle} tier={tier} />
+      <MasteryHeader chapterTitle={chapterTitle} tier={tier} source={source} />
       {tier === "mastered" && <p className="pr-mastered-note">Mastered — nice work.</p>}
       <StageStepper stage={stage} unlocked={unlocked} onStage={goTo} />
       <div className="pr-toolbar">
