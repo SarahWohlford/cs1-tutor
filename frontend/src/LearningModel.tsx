@@ -33,7 +33,9 @@ import { INDUCTION_GUIDE } from "./guide/inductionGuide";
 import { getSectionNoteWithNewVocab, sectionTokenFromTitle, type BookAnchor } from "./utils/sectionNotes";
 import { FOCS_SECTION_TOKENS_PREORDER } from "./utils/focsSectionOrder";
 import { useLocale } from "./i18n/LocaleContext";
-import { lectureBarTitle, lectureById, lectureForHint } from "./data/cs1Lectures";
+import { CS1_TEXTBOOK_NAME, lectureBarTitle, lectureById, lectureForHint } from "./data/cs1Lectures";
+import { isPracticalProgrammingHint } from "./data/practicalProgramming";
+import { renderPracticalProgrammingPages } from "./textbook/renderPracticalProgramming";
 import { LEARNING_CHAT_EXAMPLES } from "./learningChatExamples";
 import {
   ONBOARDING_STEP_EVENT,
@@ -199,6 +201,7 @@ export default function LearningModel() {
   // Closes the section Note split; wired after useSectionNoteToggle mounts.
   const closeSectionNoteRef = useRef<() => void>(() => {});
   const pendingNoteHintRef = useRef<string | null>(null);
+  const outlinePreviewSeq = useRef(0);
   const textbookImgRef = useRef<HTMLDivElement>(null);
   const textbookPan = useDragScroll();
   const [attachedImages, setAttachedImages] = useState<string[]>([]);
@@ -320,7 +323,37 @@ export default function LearningModel() {
       setSectionPageIndex(0);
       setOutlinePreviewLoading(true);
       const previewHint = detail.sectionHint.trim() || sectionTokenFromTitle(detail.sectionTitle) || "";
-      pendingNoteHintRef.current = isProblemsSection(detail.sectionTitle) ? null : previewHint;
+      const localBook =
+        textbookId === "focs" && detail.startBook > 0 && detail.endBook >= detail.startBook;
+      pendingNoteHintRef.current =
+        isProblemsSection(detail.sectionTitle) || localBook ? null : previewHint;
+      if (localBook) {
+        const seq = ++outlinePreviewSeq.current;
+        setDataMatchedTopic({
+          name: detail.sectionTitle,
+          startBook: detail.startBook,
+          endBook: detail.endBook,
+          sectionHint: previewHint || undefined,
+        });
+        try {
+          const pages = await renderPracticalProgrammingPages(detail.startBook, detail.endBook);
+          if (seq !== outlinePreviewSeq.current) return;
+          setReferenceSectionPages(pages);
+          setSectionPageIndex(0);
+          setOutlinePreviewError(null);
+        } catch (error) {
+          if (seq !== outlinePreviewSeq.current) return;
+          setReferenceSectionPages(null);
+          setOutlinePreviewError(
+            error instanceof Error && error.message
+              ? error.message
+              : "Could not open Practical Programming."
+          );
+        } finally {
+          if (seq === outlinePreviewSeq.current) setOutlinePreviewLoading(false);
+        }
+        return;
+      }
       if (!courseHasTextbookPdf(textbookId) || !detail.startBook || !detail.endBook) {
         setDataMatchedTopic({
           name: detail.sectionTitle,
@@ -1344,12 +1377,23 @@ export default function LearningModel() {
                 aria-label={t("learning.currentSection")}
               >
                 <span className="left-panel-topic-bar-title">
-                  {lectureBarTitle(
-                    dataMatchedTopic.sectionHint ?? "",
-                    isProblemsSection(dataMatchedTopic.name)
-                  ) ?? `${t("learning.textbook")} ${dataMatchedTopic.name}`}
+                  {isPracticalProgrammingHint(dataMatchedTopic.sectionHint ?? "")
+                    ? dataMatchedTopic.name
+                    : lectureBarTitle(
+                        dataMatchedTopic.sectionHint ?? "",
+                        isProblemsSection(dataMatchedTopic.name)
+                      ) ?? `${t("learning.textbook")} ${dataMatchedTopic.name}`}
                 </span>
-                {lectureForHint(dataMatchedTopic.sectionHint ?? "") && !courseHasTextbookPdf(textbookId) ? (
+                {isPracticalProgrammingHint(dataMatchedTopic.sectionHint ?? "") ? (
+                  <span className="left-panel-topic-bar-pages">
+                    {CS1_TEXTBOOK_NAME}
+                    {" · "}
+                    {t("learning.pages", {
+                      start: String(dataMatchedTopic.startBook),
+                      end: String(dataMatchedTopic.endBook),
+                    })}
+                  </span>
+                ) : lectureForHint(dataMatchedTopic.sectionHint ?? "") && !courseHasTextbookPdf(textbookId) ? (
                   <span className="left-panel-topic-bar-pages">
                     {lectureForHint(dataMatchedTopic.sectionHint ?? "")?.textbookLabel}
                   </span>

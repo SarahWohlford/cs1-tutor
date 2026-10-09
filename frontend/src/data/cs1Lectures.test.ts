@@ -10,7 +10,7 @@ describe("CS1 lectures", () => {
     for (const lecture of CS1_LECTURES) {
       expect(lecture.practiceTitle.startsWith(`Lecture ${lecture.id}`)).toBe(true);
       expect(lecture.textbookLabel).toContain("Practical Programming");
-      expect(lecture.textbookLabel).toContain(`chapter ${lecture.id}`);
+      expect(lecture.textbookLabel).toContain(lecture.id === "4" ? "chapters 2 and 4" : `chapter ${lecture.id}`);
       expect(isProblemsSection(lecture.problemsTitle)).toBe(true);
       expect(getPracticeSet(lecture.id)).not.toBeNull();
       for (const section of lecture.sections) {

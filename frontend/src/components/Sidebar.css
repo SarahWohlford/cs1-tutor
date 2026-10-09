@@ -149,7 +149,7 @@
   flex-direction: column;
 }
 .sb-section--textbook.is-open .sb-section-body {
-  max-height: 240px;
+  max-height: 320px;
   overflow: auto;
   padding-left: 0;
 }
@@ -207,7 +207,21 @@
   color: #5eead4;
 }
 .sb-lecture-tier--not_started { color: rgba(148, 163, 184, 0.9); }
-.sb-textbook-sec { font-size: 0.78rem; padding: 6px 10px; }
+.sb-textbook-sec {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.78rem;
+  padding: 6px 10px;
+}
+.sb-textbook-title { min-width: 0; }
+.sb-textbook-pages {
+  flex: 0 0 auto;
+  color: rgba(148, 163, 184, 0.95);
+  font-size: 0.68rem;
+  font-variant-numeric: tabular-nums;
+}
 
 .sb-section--hist {
   flex: 0 0 auto;

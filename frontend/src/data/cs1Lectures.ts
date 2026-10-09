@@ -63,7 +63,7 @@ export const CS1_LECTURES: Cs1Lecture[] = [
   {
     id: "4",
     practiceTitle: "Lecture 4 · Functions and modules",
-    textbookLabel: `${CS1_TEXTBOOK_NAME}, chapter 4`,
+    textbookLabel: `${CS1_TEXTBOOK_NAME}, chapters 2 and 4`,
     problemsTitle: "4.8 Problems",
     problemsHint: "4.8",
     sections: [
