@@ -5,7 +5,7 @@ import { CS1_LECTURES, CS1_TEXTBOOK_NAME } from "./cs1Lectures";
 export const PRACTICAL_PROGRAMMING_PDF_URL = "/textbooks/practical-programming.pdf";
 
 export const PRACTICAL_PROGRAMMING_MISSING =
-  "Save Practical Programming as frontend/public/textbooks/practical-programming.pdf, then refresh.";
+  "Choose your Practical Programming PDF. It stays on this computer and is not uploaded.";
 
 export type BookSection = {
   id: string;

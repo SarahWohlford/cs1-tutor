@@ -613,6 +613,30 @@
   border: 1px solid #fecaca;
 }
 
+.textbook-pdf-missing {
+  margin: 16px;
+  max-width: 28rem;
+}
+
+.textbook-pdf-pick {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #0f766e;
+  color: #f8fafc;
+  font-size: 0.88rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.textbook-pdf-pick input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
 .left-panel-hide-btn:hover {
   background: #e5e7eb;
   color: #374151;
@@ -1255,6 +1279,15 @@
   object-fit: contain;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.reference-page-frame {
+  display: block;
+  width: 100%;
+  min-height: 70vh;
+  height: 70vh;
+  border: 0;
+  background: #fff;
 }
 
 .reference-page-sidebar .reference-page-img {
