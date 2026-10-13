@@ -34,8 +34,12 @@ import { getSectionNoteWithNewVocab, sectionTokenFromTitle, type BookAnchor } fr
 import { FOCS_SECTION_TOKENS_PREORDER } from "./utils/focsSectionOrder";
 import { useLocale } from "./i18n/LocaleContext";
 import { CS1_TEXTBOOK_NAME, lectureBarTitle, lectureById, lectureForHint } from "./data/cs1Lectures";
-import { isPracticalProgrammingHint } from "./data/practicalProgramming";
-import { renderPracticalProgrammingPages } from "./textbook/renderPracticalProgramming";
+import { isPracticalProgrammingHint, PRACTICAL_PROGRAMMING_MISSING } from "./data/practicalProgramming";
+import { looksLikePdf, savePracticalProgrammingPdf } from "./textbook/practicalProgrammingFile";
+import {
+  clearPracticalProgrammingCache,
+  renderPracticalProgrammingPages,
+} from "./textbook/renderPracticalProgramming";
 import { LEARNING_CHAT_EXAMPLES } from "./learningChatExamples";
 import {
   ONBOARDING_STEP_EVENT,
@@ -485,6 +489,37 @@ export default function LearningModel() {
     },
     [textbookId, token, studentId, t]
   );
+
+  const choosePracticalProgrammingFile = async (file: File) => {
+    const seq = ++outlinePreviewSeq.current;
+    setOutlinePreviewLoading(true);
+    setOutlinePreviewError(null);
+    try {
+      const bytes = await file.arrayBuffer();
+      if (!looksLikePdf(bytes)) {
+        if (seq !== outlinePreviewSeq.current) return;
+        setOutlinePreviewError("That file is not a PDF. Choose Practical Programming.");
+        return;
+      }
+      await savePracticalProgrammingPdf(bytes);
+      clearPracticalProgrammingCache();
+      const start = dataMatchedTopic?.startBook ?? 0;
+      const end = dataMatchedTopic?.endBook ?? 0;
+      if (start < 1 || end < start) return;
+      const pages = await renderPracticalProgrammingPages(start, end);
+      if (seq !== outlinePreviewSeq.current) return;
+      setReferenceSectionPages(pages);
+      setSectionPageIndex(0);
+      setOutlinePreviewError(null);
+    } catch (error) {
+      if (seq !== outlinePreviewSeq.current) return;
+      setOutlinePreviewError(
+        error instanceof Error && error.message ? error.message : PRACTICAL_PROGRAMMING_MISSING
+      );
+    } finally {
+      if (seq === outlinePreviewSeq.current) setOutlinePreviewLoading(false);
+    }
+  };
 
   // Learning Progress now lives in the global Sidebar (see Sidebar.tsx). The
   // in-workspace learning-bar column + its resize/collapse machinery were removed.
@@ -1248,9 +1283,25 @@ export default function LearningModel() {
         </div>
       ) : null}
       {outlinePreviewError ? (
-        <p className="outline-preview-error" role="alert">
-          {outlinePreviewError}
-        </p>
+        <div className="textbook-pdf-missing">
+          <p className="outline-preview-error" role="alert">
+            {outlinePreviewError}
+          </p>
+          {outlinePreviewError === PRACTICAL_PROGRAMMING_MISSING ? (
+            <label className="textbook-pdf-pick">
+              Choose Practical Programming PDF
+              <input
+                type="file"
+                accept="application/pdf,.pdf"
+                onChange={(event) => {
+                  const file = event.target.files?.[0];
+                  event.target.value = "";
+                  if (file) void choosePracticalProgrammingFile(file);
+                }}
+              />
+            </label>
+          ) : null}
+        </div>
       ) : null}
 
       {(referenceSectionPages?.length || referencePageSnippets?.length || referencePageImage) && (

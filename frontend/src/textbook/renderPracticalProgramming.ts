@@ -1,9 +1,7 @@
 import { getDocument, GlobalWorkerOptions, type PDFDocumentProxy } from "pdfjs-dist";
 import pdfWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
-import {
-  PRACTICAL_PROGRAMMING_MISSING,
-  PRACTICAL_PROGRAMMING_PDF_URL,
-} from "../data/practicalProgramming";
+import { PRACTICAL_PROGRAMMING_MISSING } from "../data/practicalProgramming";
+import { loadPracticalProgrammingBytes } from "./practicalProgrammingFile";
 
 GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -11,12 +9,18 @@ const SCALE = 1.5;
 
 let documentPromise: Promise<PDFDocumentProxy> | null = null;
 
+export function clearPracticalProgrammingCache(): void {
+  documentPromise = null;
+}
+
 function loadDocument(): Promise<PDFDocumentProxy> {
   if (!documentPromise) {
-    documentPromise = getDocument(PRACTICAL_PROGRAMMING_PDF_URL).promise.catch((error: unknown) => {
-      documentPromise = null;
-      throw error;
-    });
+    documentPromise = loadPracticalProgrammingBytes()
+      .then((data) => getDocument({ data }).promise)
+      .catch((error: unknown) => {
+        documentPromise = null;
+        throw error;
+      });
   }
   return documentPromise;
 }
