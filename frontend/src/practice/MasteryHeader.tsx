@@ -10,7 +10,15 @@ const TIER_LABEL: Record<Tier, string> = {
 // Khan-style fill: Familiar half, Proficient most of the way, Mastered full.
 const TIER_FILL: Record<Tier, number> = { not_started: 0, familiar: 50, proficient: 80, mastered: 100 };
 
-export function MasteryHeader({ chapterTitle, tier }: { chapterTitle: string; tier: Tier }) {
+export function MasteryHeader({
+  chapterTitle,
+  tier,
+  source,
+}: {
+  chapterTitle: string;
+  tier: Tier;
+  source?: string;
+}) {
   return (
     <div className="pr-mastery">
       <div className="pr-mastery-top">
@@ -19,6 +27,7 @@ export function MasteryHeader({ chapterTitle, tier }: { chapterTitle: string; ti
           {TIER_LABEL[tier]}
         </span>
       </div>
+      {source ? <p className="pr-mastery-source">{source}</p> : null}
       <div
         className="pr-mastery-bar"
         role="progressbar"

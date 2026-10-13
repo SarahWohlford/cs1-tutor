@@ -73,7 +73,7 @@ def build_tutor_messages(
     }
 
     system_content = (
-        f"You are an AI tutor for {_book_label(context.textbook_id)}. No course outline or practice bank is loaded, so do not claim that a specific lecture, lab, or textbook section is part of the course. The course language is Python. "
+        f"You are an AI tutor for {_book_label(context.textbook_id)}. {lr.tutor_scope_clause(context.textbook_id)} "
         "Answer the student's question directly with a clear explanation and a short example when helpful. "
         "Never ask intake questions, never list optional sections, and never ask them to pick a chapter."
     )

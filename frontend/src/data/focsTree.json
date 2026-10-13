@@ -1,1 +1,36 @@
-{}
+{
+  "2 Python as a Calculator": {
+    "2.1 Expressions and values": {},
+    "2.2 Whole-number division": {},
+    "2.3 float and int": {},
+    "2.4 Precedence": {},
+    "2.5 Variables and assignment": {},
+    "2.6 print": {},
+    "2.7 Variable names": {},
+    "2.8 Programs in a file": {},
+    "2.9 Syntax and semantic errors": {},
+    "2.10 Python keywords": {},
+    "2.11 Mixed operators": {},
+    "2.12 Expressions": {},
+    "2.13 Problems": {}
+  },
+  "3 Python Strings": {
+    "3.1 Strings": {},
+    "3.2 Quotes and multiline strings": {},
+    "3.3 Escape characters": {},
+    "3.4 Concatenation and replication": {},
+    "3.5 len, str, int, and float": {},
+    "3.6 print and input": {},
+    "3.7 Problems": {}
+  },
+  "4 Functions and modules": {
+    "4.1 Built-in functions": {},
+    "4.2 Objects and methods": {},
+    "4.3 String methods": {},
+    "4.4 The format method": {},
+    "4.5 Modules": {},
+    "4.6 How import works": {},
+    "4.7 Program structure": {},
+    "4.8 Problems": {}
+  }
+}

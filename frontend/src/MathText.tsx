@@ -44,7 +44,7 @@ function parseMathSegments(text: string): Segment[] {
   return segments;
 }
 
-/** On KaTeX error, show raw TeX so the whole message does not crash. */
+// On KaTeX error, show raw TeX so the whole message does not crash.
 class MathErrorBoundary extends React.Component<
   { children: React.ReactNode; fallback: string; inline?: boolean },
   { hasError: boolean }

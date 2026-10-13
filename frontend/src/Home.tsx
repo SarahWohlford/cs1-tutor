@@ -32,7 +32,7 @@ export default function Home() {
               </h1>
               <p className="hs-lede">
                 Rensselaer Polytechnic Institute. The course language is Python.
-                No course outline is loaded yet, so this tutor will not name lectures or labs for you.
+                Lectures 2–4 are loaded: calculator, strings, and functions. Lecture 1 is administrative and is not in the tutor yet.
               </p>
               <p className="hs-lede">
                 <a href="https://www.cs.rpi.edu/~mushtu/CS1100/index.html">Course site</a>
@@ -100,8 +100,8 @@ export default function Home() {
                 <span className="hs-pin" />
                 <div className="hs-kicker">Topic checklist</div>
                 <ul>
-                  <li><span className="hs-box" /><span>Course outline (not loaded)</span></li>
-                  <li><span className="hs-box" /><span>Practice bank (empty)</span></li>
+                  <li><span className="hs-box" /><span>Lectures 2–4 outlines</span></li>
+                  <li><span className="hs-box" /><span>Study questions</span></li>
                   <li><span className="hs-box" /><span>Your uploaded PDF</span></li>
                   <li><span className="hs-box" /><span>Saved progress</span></li>
                 </ul>
@@ -113,7 +113,7 @@ export default function Home() {
                   Where should I start?
                 </div>
                 <div className="hs-bubble a">
-                  No course outline is loaded yet, so I can&apos;t point you at a lecture or lab.
+                  Start with Lecture 2, then strings, then functions.
                 </div>
                 <span className="hs-srctag">▦ CSCI 1100 · Fall 2026</span>
               </div>
@@ -122,7 +122,7 @@ export default function Home() {
                 <span className="hs-pin hs-pin--pen" />
                 <div className="hs-formula-lbl">course</div>
                 <div className="hs-formula-eq">CSCI 1100</div>
-                <div className="hs-formula-sub">outline not loaded</div>
+                <div className="hs-formula-sub">Lectures 2–4 loaded</div>
               </div>
             </div>
           </section>
@@ -137,27 +137,27 @@ export default function Home() {
                     Personalize your <span className="hs-hl"><span>learning.</span></span>
                   </h2>
                   <p>
-                    It answers questions about Computer Science 1. With no outline loaded, it will not
-                    pretend a lecture or lab is part of the course.
+                    It answers questions about Computer Science 1 from Lectures 2–4. It will not
+                    pretend a later lecture or lab is already in the course.
                   </p>
                 </div>
                 <div className="hs-agents" aria-label="teaching pipeline">
                   <article className="hs-agent s1">
                     <div className="hs-agent-id">STEP 01 · TEXTBOOK</div>
                     <div className="hs-agent-t">Read what is loaded</div>
-                    <p>If you upload a PDF, that file can ground the answer. The built-in outline is empty.</p>
+                    <p>Lectures 2–4 notes are built in. If you upload a PDF, that file can ground the answer too.</p>
                   </article>
                   <span className="hs-arrow-cx" aria-hidden />
                   <article className="hs-agent s2">
                     <div className="hs-agent-id">STEP 02 · PLAN</div>
                     <div className="hs-agent-t">Answer the question</div>
-                    <p>A direct explanation. It does not invent a lecture list or a problem set.</p>
+                    <p>A direct explanation from the loaded lecture notes, without inventing later topics.</p>
                   </article>
                   <span className="hs-arrow-cx" aria-hidden />
                   <article className="hs-agent s3">
                     <div className="hs-agent-id">STEP 03 · CHECK</div>
                     <div className="hs-agent-t">Practice when a bank exists</div>
-                    <p>Practice problems show up only after a bank is loaded. None is loaded now.</p>
+                    <p>Open the Problems section for Lecture 2, 3, or 4.</p>
                   </article>
                 </div>
               </div>
@@ -219,8 +219,8 @@ export default function Home() {
                 <div className="hs-ace-grade">A+</div>
                 <h3>before test day</h3>
                 <ul>
-                  <li>Outline not loaded</li>
-                  <li>Don&apos;t assume a topic is in the course</li>
+                  <li>Lectures 2–4 are loaded</li>
+                  <li>Later lectures are not in yet</li>
                   <li>Use the course site for the real schedule</li>
                 </ul>
               </aside>

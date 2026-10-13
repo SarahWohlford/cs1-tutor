@@ -1,12 +1,12 @@
 import focsTreeBundled from "./data/focsTree.json";
 import { apiUrl } from "./apiBase";
 
-/** Bundled outline roots (nested objects and page numbers). */
+// Bundled outline roots (nested objects and page numbers).
 export type TextbookTreeRoot = Record<string, unknown>;
 
-/** Only the last-selected id is persisted in the browser; lists and trees come from the API (server data dir). */
+// Only the last-selected id is persisted in the browser; lists and trees come from the API (server data dir).
 const STORAGE_KEY = "ai_tutor_selected_textbook_id";
-/** Legacy keys — removed on first successful server fetch. */
+// Legacy keys — removed on first successful server fetch.
 const TREE_PREFIX = "ai_tutor_textbook_tree_";
 const CATALOG_KEY = "ai_tutor_textbook_catalog_v1";
 
@@ -26,6 +26,11 @@ export function isValidUploadedTextbookId(id: string): boolean {
   return USER_BOOK_ID_RE.test(id);
 }
 
+// CSCI 1100 is lecture notes and practice. Only an uploaded PDF should open book pages.
+export function courseHasTextbookPdf(textbookId: string): boolean {
+  return isValidUploadedTextbookId(textbookId);
+}
+
 function dedupeCatalogById(items: { id: string; linkLabel: string }[]): { id: string; linkLabel: string }[] {
   const map = new Map<string, string>();
   for (const row of items) {
@@ -35,10 +40,10 @@ function dedupeCatalogById(items: { id: string; linkLabel: string }[]): { id: st
   return Array.from(map.entries()).map(([id, linkLabel]) => ({ id, linkLabel }));
 }
 
-/** Last successful GET /api/user_textbooks (upload rows only). */
+// Last successful GET /api/user_textbooks (upload rows only).
 let lastServerUploads: { id: string; linkLabel: string }[] = [];
 const lastServerIdSet = new Set<string>();
-/** After at least one successful list fetch (or explicit clear), selection can be validated against lastServerIdSet. */
+// After at least one successful list fetch (or explicit clear), selection can be validated against lastServerIdSet.
 let serverUploadsLoaded = false;
 
 const sessionTreeCache = new Map<string, TextbookTreeRoot>();
@@ -64,11 +69,11 @@ function purgeLegacyTextbookLocalStorage(): void {
       localStorage.removeItem(k);
     }
   } catch {
-    /* ignore */
+    // ignore
   }
 }
 
-/** Built-in course entry plus the last server list (in-memory). Not persisted to localStorage. */
+// Built-in course entry plus the last server list (in-memory). Not persisted to localStorage.
 export function readTextbookOptionList(): { id: string; linkLabel: string }[] {
   const seen = new Set<string>();
   const out: { id: string; linkLabel: string }[] = [];
@@ -80,7 +85,7 @@ export function readTextbookOptionList(): { id: string; linkLabel: string }[] {
   return out;
 }
 
-/** Fetch textbook rows from server, refresh in-memory catalog, strip legacy web cache, reconcile selection. */
+// Fetch textbook rows from server, refresh in-memory catalog, strip legacy web cache, reconcile selection.
 export async function fetchTextbookOptionsFromServer(token: string): Promise<{ id: string; linkLabel: string }[]> {
   const myGen = ++textbookCatalogSyncGeneration;
   const r = await fetch(apiUrl("/api/user_textbooks"), {
@@ -105,7 +110,7 @@ export async function fetchTextbookOptionsFromServer(token: string): Promise<{ i
   return readTextbookOptionList();
 }
 
-/** After upload: put tree in session + append row (no localStorage catalog). */
+// After upload: put tree in session + append row (no localStorage catalog).
 export function writeCatalogAndTree(id: string, linkLabel: string, tree: TextbookTreeRoot): void {
   if (!isValidUploadedTextbookId(id)) return;
   sessionTreeCache.set(id, tree);
@@ -134,7 +139,7 @@ export function readSelectedTextbookId(): string {
     }
     return raw;
   } catch {
-    /* ignore */
+    // ignore
   }
   return "focs";
 }
@@ -145,7 +150,7 @@ export function writeSelectedTextbookId(id: string): void {
     localStorage.setItem(STORAGE_KEY, safe);
     window.dispatchEvent(new CustomEvent("ai-tutor-textbook-changed", { detail: { id: safe } }));
   } catch {
-    /* ignore */
+    // ignore
   }
 }
 
@@ -161,7 +166,7 @@ export function reconcileSelectedTextbookWithCatalog(): void {
       writeSelectedTextbookId("focs");
     }
   } catch {
-    /* ignore */
+    // ignore
   }
 }
 
@@ -173,7 +178,7 @@ export function removeUploadedTextbookFromLocal(id: string): void {
   try {
     localStorage.removeItem(TREE_PREFIX + id);
   } catch {
-    /* ignore */
+    // ignore
   }
   reconcileSelectedTextbookWithCatalog();
   window.dispatchEvent(
@@ -193,13 +198,13 @@ export function clearAllUploadedTextbooksFromBrowser(): void {
   );
 }
 
-/** Built-in course entry from the bundle; user books from session cache (filled by fetchTree / writeCatalogAndTree). */
+// Built-in course entry from the bundle; user books from session cache (filled by fetchTree / writeCatalogAndTree).
 export function getTextbookTree(id: string): TextbookTreeRoot {
   if (id === "focs") return focsTreeBundled as TextbookTreeRoot;
   return sessionTreeCache.get(id) ?? {};
 }
 
-/** Load outline for one book; uses session cache. */
+// Load outline for one book; uses session cache.
 export async function fetchTextbookTreeForId(
   token: string | null | undefined,
   id: string
@@ -251,7 +256,7 @@ export function focsOutlineToCurriculum(tree: TextbookTreeRoot): {
   return { topics: [{ topic: "Textbook", chapters }] };
 }
 
-/** Refreshes in-memory catalog from server (same as opening Learning / Profile with token). */
+// Refreshes in-memory catalog from server (same as opening Learning / Profile with token).
 export async function syncTextbookCatalogFromServer(token: string): Promise<boolean> {
   try {
     await fetchTextbookOptionsFromServer(token);
@@ -261,7 +266,7 @@ export async function syncTextbookCatalogFromServer(token: string): Promise<bool
   }
 }
 
-/** Call on logout so the next user does not inherit the previous account’s in-memory list. */
+// Call on logout so the next user does not inherit the previous account’s in-memory list.
 export function resetServerTextbookSessionForLogout(): void {
   lastServerUploads = [];
   lastServerIdSet.clear();
@@ -276,6 +281,6 @@ export function resetServerTextbookSessionForLogout(): void {
       );
     }
   } catch {
-    /* ignore */
+    // ignore
   }
 }

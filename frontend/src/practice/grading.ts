@@ -15,7 +15,7 @@ export function gradeSpotFlaw(q: SpotFlawQuestion, lineId: string): boolean {
   return lineId === q.flawLineId;
 }
 
-/** Trim, lowercase, collapse internal whitespace, and strip $...$ latex delimiters. */
+// Trim, lowercase, collapse internal whitespace, and strip $...$ latex delimiters.
 export function normalizeAnswer(s: string): string {
   return s
     .trim()

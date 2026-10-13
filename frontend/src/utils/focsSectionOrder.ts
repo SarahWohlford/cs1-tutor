@@ -32,7 +32,7 @@ function collectSectionTokensPreorder(node: FocsNode): string[] {
   return out;
 }
 
-/** FCOS outline section tokens in reading order (0, 1.1, 1.2, …, 2.1, …). */
+// FCOS outline section tokens in reading order (0, 1.1, 1.2, …, 2.1, …).
 export const FOCS_SECTION_TOKENS_PREORDER: string[] = collectSectionTokensPreorder(
   focsTree as FocsNode
 );

@@ -18,7 +18,7 @@ type UseVerticalSplitPctOptions = {
   maxPct: number;
 };
 
-/** Drag a horizontal splitter to set top pane height as % of container. */
+// Drag a horizontal splitter to set top pane height as % of container.
 export function useVerticalSplitPct({
   storageKey,
   defaultPct,
@@ -36,7 +36,7 @@ export function useVerticalSplitPct({
       try {
         localStorage.setItem(storageKey, String(value));
       } catch {
-        /* ignore */
+        // ignore
       }
     },
     [storageKey]

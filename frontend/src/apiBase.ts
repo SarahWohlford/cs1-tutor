@@ -39,9 +39,7 @@ export function apiUrl(path: string): string {
   return base + normalizedPath;
 }
 
-/**
- * HTTPS page + explicit http:// API triggers mixed-content blocking (failed to fetch).
- */
+// HTTPS page + explicit http:// API triggers mixed-content blocking (failed to fetch).
 export function apiBlockedByMixedContent(): boolean {
   if (typeof window === "undefined") return false;
   if (!API_BASE) return false;

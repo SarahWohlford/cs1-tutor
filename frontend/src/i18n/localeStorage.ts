@@ -9,7 +9,7 @@ export function readStoredLocale(): AppLocale {
       return raw as AppLocale;
     }
   } catch {
-    /* ignore */
+    // ignore
   }
   return "en";
 }
@@ -18,7 +18,7 @@ export function writeStoredLocale(locale: AppLocale): void {
   try {
     localStorage.setItem(STORAGE_KEY, locale);
   } catch {
-    /* ignore */
+    // ignore
   }
 }
 

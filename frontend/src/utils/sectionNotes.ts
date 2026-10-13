@@ -1,4 +1,4 @@
-/** Printed-book page anchor for “see in textbook” jumps. */
+// Printed-book page anchor for “see in textbook” jumps.
 export type BookAnchor = {
   bookPage: number;
   startBook: number;
@@ -10,14 +10,14 @@ export type BookAnchor = {
 export type VocabEntry = {
   term: string;
   definition: string;
-  /** Curated example (usually from the book). */
+  // Curated example (usually from the book).
   example?: string;
   exampleRef?: string;
   book?: BookAnchor;
 };
 
 export type FormulaEntry = {
-  /** LaTeX allowed: $...$ inline, $$...$$ block. */
+  // LaTeX allowed: $...$ inline, $$...$$ block.
   expr: string;
   explanation: string;
   example?: string;
@@ -31,7 +31,7 @@ export type SectionNote = {
   formulas: FormulaEntry[];
 };
 
-/** First token in a section title if it looks like 1, 1.1, 24.2, … */
+// First token in a section title if it looks like 1, 1.1, 24.2, …
 export function sectionTokenFromTitle(title: string): string | null {
   const w = title.trim().split(/\s+/)[0] ?? "";
   return /^\d+(?:\.\d+)*$/.test(w) ? w : null;
@@ -44,7 +44,7 @@ export function resolveSectionToken(
   return (sectionHint?.trim() || "") || sectionTokenFromTitle(topicName || "") || "";
 }
 
-/** Raw note lookup (chapter fallback for legacy callers). */
+// Raw note lookup (chapter fallback for legacy callers).
 export function getSectionNote(
   notes: Record<string, SectionNote>,
   sectionHint?: string | null,
@@ -98,7 +98,7 @@ export function formulaExprKey(expr: string): string {
     .toLowerCase();
 }
 
-/** Normalize term text for dedup (ignore case, parentheticals, extra spaces). */
+// Normalize term text for dedup (ignore case, parentheticals, extra spaces).
 export function vocabTermKey(term: string): string {
   return term
     .replace(/\s*\([^)]*\)\s*/g, " ")
@@ -108,7 +108,7 @@ export function vocabTermKey(term: string): string {
     .toLowerCase();
 }
 
-/** First introduction of each term along outline order (for deduped display). */
+// First introduction of each term along outline order (for deduped display).
 export function buildVocabularyIntroducedByToken(
   notes: Record<string, SectionNote>,
   sectionOrder: string[]
@@ -146,7 +146,7 @@ function vocabularyForTokenDisplay(
     return introduced.get(token) ?? [];
   }
 
-  /* Whole-chapter row (e.g. "1") — not listed in leaf-only order */
+  // Whole-chapter row (e.g. "1") — not listed in leaf-only order
   const note = getMergedSectionNote(notes, token);
   if (!note) return [];
 
@@ -210,7 +210,7 @@ function formulasForTokenDisplay(
   return note.formulas.filter((entry) => !seen.has(formulaExprKey(entry.expr)));
 }
 
-/** Section note for UI: deduped vocabulary + core formulas only for this section. */
+// Section note for UI: deduped vocabulary + core formulas only for this section.
 export function getSectionNoteWithNewVocab(
   notes: Record<string, SectionNote>,
   sectionOrder: string[],
