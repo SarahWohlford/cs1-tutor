@@ -1312,7 +1312,7 @@ export default function LearningModel() {
           {...textbookPan.handlers}
         >
           <div className="section-pages-nav" data-no-drag>
-            {textbookZoomNav}
+            {referenceSectionPages?.[sectionPageIndex]?.includes("#page=") ? null : textbookZoomNav}
             {referenceSectionPages?.length ? (
               <div className="section-pages-paging">
                 <button
@@ -1359,18 +1359,27 @@ export default function LearningModel() {
                     <span className="book-page-highlight-label">{t("note.inTheBook")} {bookHighlight}</span>
                   </div>
                 ) : null}
-                <img
-                  src={referenceSectionPages[sectionPageIndex]}
-                  alt={`Section page ${sectionPageIndex + 1}`}
-                  className="reference-page-img reference-page-img--zoomable reference-img-clickable"
-                  draggable={false}
-                  onClick={() => openEnlargedIfNotDrag(referenceSectionPages[sectionPageIndex])}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) =>
-                    e.key === "Enter" && openEnlargedIfNotDrag(referenceSectionPages[sectionPageIndex])
-                  }
-                />
+                {referenceSectionPages[sectionPageIndex].includes("#page=") ? (
+                  <iframe
+                    key={referenceSectionPages[sectionPageIndex]}
+                    src={referenceSectionPages[sectionPageIndex]}
+                    title={`${CS1_TEXTBOOK_NAME} page ${sectionPageIndex + 1}`}
+                    className="reference-page-frame"
+                  />
+                ) : (
+                  <img
+                    src={referenceSectionPages[sectionPageIndex]}
+                    alt={`Section page ${sectionPageIndex + 1}`}
+                    className="reference-page-img reference-page-img--zoomable reference-img-clickable"
+                    draggable={false}
+                    onClick={() => openEnlargedIfNotDrag(referenceSectionPages[sectionPageIndex])}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) =>
+                      e.key === "Enter" && openEnlargedIfNotDrag(referenceSectionPages[sectionPageIndex])
+                    }
+                  />
+                )}
               </div>
             </>
           ) : referencePageSnippets?.length ? (

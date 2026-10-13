@@ -1281,6 +1281,15 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
+.reference-page-frame {
+  display: block;
+  width: 100%;
+  min-height: 70vh;
+  height: 70vh;
+  border: 0;
+  background: #fff;
+}
+
 .reference-page-sidebar .reference-page-img {
   width: 100%;
   max-height: none;

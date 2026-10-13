@@ -49,6 +49,18 @@ export async function savePracticalProgrammingPdf(bytes: ArrayBuffer): Promise<v
   db.close();
 }
 
+let publicCache: Uint8Array | null | undefined;
+
+export function clearPublicPracticalProgrammingCache(): void {
+  publicCache = undefined;
+}
+
+export async function publicPracticalProgrammingPdf(): Promise<Uint8Array | null> {
+  if (publicCache !== undefined) return publicCache;
+  publicCache = await fetchPublicPdf();
+  return publicCache;
+}
+
 async function fetchPublicPdf(): Promise<Uint8Array | null> {
   try {
     const response = await fetch(PRACTICAL_PROGRAMMING_PDF_URL);
@@ -58,12 +70,4 @@ async function fetchPublicPdf(): Promise<Uint8Array | null> {
   } catch {
     return null;
   }
-}
-
-export async function loadPracticalProgrammingBytes(): Promise<Uint8Array> {
-  const fromDisk = await fetchPublicPdf();
-  if (fromDisk) return fromDisk;
-  const saved = await readSavedPracticalProgrammingPdf();
-  if (saved) return new Uint8Array(saved);
-  throw new Error("missing");
 }
