@@ -155,6 +155,7 @@ export const LECTURE_03_PRACTICE: PracticeSet = {
   challenge: [
     {
       id: "l3-c-len",
+      answerMode: "code",
       prompt: "Write Python that stores 'Computer Science' in a variable and prints only its length.",
       solution: "title = 'Computer Science'\nprint(len(title))",
       rubric:
@@ -162,6 +163,7 @@ export const LECTURE_03_PRACTICE: PracticeSet = {
     },
     {
       id: "l3-c-join",
+      answerMode: "code",
       prompt:
         "The variables course = 'CSCI' and num = 1100 already exist. Write one print that shows CSCI 1100. Do not write the digits inside a string by hand; convert num.",
       solution: "print(course + ' ' + str(num))",
@@ -170,12 +172,14 @@ export const LECTURE_03_PRACTICE: PracticeSet = {
     },
     {
       id: "l3-c-rule",
+      answerMode: "code",
       prompt: "Print a line of exactly 12 dashes, using repetition rather than typing twelve dash characters.",
       solution: "print('-' * 12)",
       rubric: "Full credit for print('-' * 12) or the same expression with double quotes. The output must be ------------.",
     },
     {
       id: "l3-c-input",
+      answerMode: "code",
       prompt:
         "Write a program that asks for a city with input, stores the answer, and prints it as City: followed by the name. The prompt string is your choice.",
       solution: "city = input('City: ')\nprint('City:', city)",

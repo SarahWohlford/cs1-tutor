@@ -33,6 +33,8 @@ export function HintLadderPanel({
 
   const solved = verdict === "correct";
   const canAct = attempt.trim().length > 0 && !loading;
+  const answerMode = problem.answerMode ?? "math";
+  const isCodeAnswer = answerMode === "code";
 
   // Insert a palette symbol at the caret (falls back to append if the ref is missing),
   // then restore focus + caret just after the inserted glyph so typing continues.
@@ -104,14 +106,16 @@ export function HintLadderPanel({
       </p>
       <textarea
         ref={taRef}
-        className="pr-attempt"
-        placeholder="Type what you've tried — even a first idea unlocks help."
-        aria-label="Your proof attempt"
+        className={`pr-attempt${isCodeAnswer ? " pr-attempt--code" : ""}`}
+        placeholder={isCodeAnswer ? "Write your Python answer here." : "Type what you've tried — even a first idea unlocks help."}
+        aria-label={isCodeAnswer ? "Your Python answer" : "Your answer"}
+        spellCheck={!isCodeAnswer}
+        autoCapitalize={isCodeAnswer ? "off" : undefined}
         value={attempt}
         onChange={(e) => setAttempt(e.target.value)}
         disabled={solved}
       />
-      {!solved && <SymbolPalette onInsert={insertSymbol} />}
+      {!solved && answerMode === "math" && <SymbolPalette onInsert={insertSymbol} />}
 
       {hints.length > 0 && (
         <div className="pr-hints">
@@ -125,7 +129,7 @@ export function HintLadderPanel({
       )}
 
       {loading && (
-        <p className="pr-spinner">{loading === "grade" ? "Checking your proof…" : "Thinking…"}</p>
+        <p className="pr-spinner">{loading === "grade" ? "Checking your answer…" : "Preparing a hint…"}</p>
       )}
       {error && (
         <p className="pr-error" role="alert">
@@ -166,7 +170,7 @@ export function HintLadderPanel({
 
       {askReveal && (
         <div className="pr-reveal-confirm">
-          <p>You've worked through the hints. Reveal the full proof? You'll get a similar problem to try afterward.</p>
+          <p>You've worked through the hints. Reveal the full solution? You'll get a similar problem to try afterward.</p>
           <div className="pr-actions">
             <button type="button" className="pr-btn" onClick={doReveal}>
               Yes, show it
