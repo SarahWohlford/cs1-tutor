@@ -223,7 +223,7 @@ const EN = {
   "learning.resizeNote": "Drag to resize study note and textbook",
   "learning.resizeNoteTitle": "Drag up or down to resize note vs textbook",
   "learning.lookingUp": "Looking up the textbook and loading page images…",
-  "learning.emptyHint": "Ask about Lectures 2–4",
+  "learning.emptyHint": "Ask about Lectures 2–8",
   "learning.exampleLabel": "Try an example",
   "learning.removePdf": "Remove PDF",
   "learning.removeImage": "Remove image",

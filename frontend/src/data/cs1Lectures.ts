@@ -11,7 +11,7 @@ export type Cs1Section = {
 };
 
 export type Cs1Lecture = {
-  id: "2" | "3" | "4";
+  id: "2" | "3" | "4" | "5" | "6" | "7" | "8";
   practiceTitle: string;
   textbookLabel: string;
   problemsTitle: string;
@@ -74,6 +74,71 @@ export const CS1_LECTURES: Cs1Lecture[] = [
       section("4.5", "Modules"),
       section("4.6", "How import works"),
       section("4.7", "Program structure"),
+    ],
+  },
+  {
+    id: "5",
+    practiceTitle: "Lecture 5 · Python functions",
+    textbookLabel: `${CS1_TEXTBOOK_NAME}, late in chapter 3`,
+    problemsTitle: "5.10 Problems",
+    problemsHint: "5.10",
+    sections: [
+      section("5.1", "Why functions"),
+      section("5.2", "def, return, and indentation"),
+      section("5.3", "Parameters, arguments, and local variables"),
+      section("5.4", "Flow of control"),
+      section("5.5", "Functions calling functions"),
+      section("5.6", "Multiple parameters"),
+      section("5.7", "math.pi"),
+      section("5.8", "Program structure"),
+      section("5.9", "Encapsulation"),
+    ],
+  },
+  {
+    id: "6",
+    practiceTitle: "Lecture 6 · Decisions",
+    textbookLabel: `${CS1_TEXTBOOK_NAME}, chapter 5`,
+    problemsTitle: "6.8 Problems",
+    problemsHint: "6.8",
+    sections: [
+      section("6.1", "Boolean values"),
+      section("6.2", "Relational operators"),
+      section("6.3", "== versus ="),
+      section("6.4", "if and else"),
+      section("6.5", "elif"),
+      section("6.6", "and, or, and not"),
+      section("6.7", "Inclusive or"),
+    ],
+  },
+  {
+    id: "7",
+    practiceTitle: "Lecture 7 · Tuples, modules, and images",
+    textbookLabel: `Mostly outside ${CS1_TEXTBOOK_NAME}`,
+    problemsTitle: "7.8 Problems",
+    problemsHint: "7.8",
+    sections: [
+      section("7.1", "Tuple indexing"),
+      section("7.2", "Immutability"),
+      section("7.3", "Multiple assignment"),
+      section("7.4", "Returning two values"),
+      section("7.5", "Import and module functions"),
+      section("7.6", "Images"),
+      section("7.7", "Skills already taught"),
+    ],
+  },
+  {
+    id: "8",
+    practiceTitle: "Lecture 8 · Lists, part 1",
+    textbookLabel: `${CS1_TEXTBOOK_NAME}, sections 8.1–8.3`,
+    problemsTitle: "8.7 Problems",
+    problemsHint: "8.7",
+    sections: [
+      section("8.1", "List syntax and indexing"),
+      section("8.2", "Changing items and negative indexes"),
+      section("8.3", "sum, max, and min"),
+      section("8.4", "sort versus sorted"),
+      section("8.5", "append, insert, pop, and remove"),
+      section("8.6", "Lists of lists"),
     ],
   },
 ];

@@ -2,7 +2,7 @@ import type { SectionNote } from "../utils/sectionNotes";
 
 const empty = { vocabulary: [] as SectionNote["vocabulary"], formulas: [] as SectionNote["formulas"] };
 
-// Study notes for CSCI 1100 Fall 2026 Lectures 2–4. Lecture 1 is not loaded.
+// Study notes for CSCI 1100 Fall 2026 Lectures 2–8. Lecture 1 is not loaded.
 export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "2": {
     objectives:
@@ -396,6 +396,379 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "4.8": {
     objectives:
       "Lecture 4 practice: built-ins, string methods, format, and the math module. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "5": {
+    objectives:
+      "Lecture 5 is writing your own functions. Name a job once, then call it wherever you need it. def stores the function, the indented body runs on a call, and return sends a value back. The course places this late in Practical Programming chapter 3.",
+    vocabulary: [
+      {
+        term: "function",
+        definition: "A named block of steps. You call it by name instead of copying the steps.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.1": {
+    objectives:
+      "If the same lines appear twice, a bug has to be fixed twice. A function gives that job one name. Call the name each time. That habit is DRY: don't repeat yourself.",
+    vocabulary: [
+      {
+        term: "DRY",
+        definition: "Don't repeat yourself. One function, many calls.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.2": {
+    objectives:
+      "def starts a function and the header ends with a colon. The body is indented underneath. return hands a value back to the caller and skips the rest of the body. A function that never reaches return gives back None.",
+    vocabulary: [
+      {
+        term: "return",
+        definition: "Leaves the function and sends a value back. Without it, the call is worth None.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.3": {
+    objectives:
+      "A parameter is the name written in the def header. An argument is the value passed at the call. A local variable is a name assigned inside the body. Locals exist only during that call. Assigning a local does not change a variable in the caller, even when the names match.",
+    vocabulary: [
+      {
+        term: "parameter",
+        definition: "The name in the header that receives an argument.",
+      },
+      {
+        term: "local variable",
+        definition: "A name created inside the function. It is gone when the call ends.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.4": {
+    objectives:
+      "Python reads the file from top to bottom, but a def line only stores the function. The body runs when a call happens. Execution jumps into the body, hits return, and continues at the next line of the caller.",
+    vocabulary: [
+      {
+        term: "flow of control",
+        definition: "The order in which lines actually run. A call jumps in and return jumps back.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.5": {
+    objectives:
+      "One function may call another. The inner call runs all the way to its return before the outer function continues. The same function can also be called more than once with different arguments.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "5.6": {
+    objectives:
+      "Several parameters are separated by commas. At the call, arguments line up by position: the first argument fills the first parameter. def fence(length, width): return 2 * (length + width), so fence(5, 3) is 16.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "5.7": {
+    objectives:
+      "import math belongs near the top of the file. math.pi is the circle constant. Use it inside a function you write, as in return math.pi * radius ** 2, instead of typing a shortened decimal.",
+    vocabulary: [
+      {
+        term: "math.pi",
+        definition: "The constant π from the math module, available after import math.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.8": {
+    objectives:
+      "Lay a file out in four layers: a short comment saying what the program does, then imports, then the def blocks, then a main function that reads input, calls the other functions, and prints. Call main() on the last line, after every def.",
+    vocabulary: [
+      {
+        term: "main",
+        definition: "The function that starts the program's work by calling the others.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.9": {
+    objectives:
+      "Encapsulation means the caller relies on the function's name, its parameters, and what it returns, not on the temporary names inside. You can rewrite the body later if the same arguments still produce the same result.",
+    vocabulary: [
+      {
+        term: "encapsulation",
+        definition: "Hiding the steps behind the function's name so callers use the result, not the locals.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.10": {
+    objectives:
+      "Lecture 5 practice: a conversion function that returns a number, and a function that only prints and does not return. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "6": {
+    objectives:
+      "Lecture 6 is decisions. Comparisons produce True or False, and if, elif, and else choose which block runs. and, or, and not combine those tests. The course places this in Practical Programming chapter 5.",
+    vocabulary: [
+      {
+        term: "condition",
+        definition: "An expression whose value is True or False, used to choose a branch.",
+      },
+    ],
+    formulas: [],
+  },
+  "6.1": {
+    objectives:
+      "A bool is either True or False. Those two names are values, not strings. A comparison such as 3 < 10 produces a bool. if expects that kind of value.",
+    vocabulary: [
+      {
+        term: "bool",
+        definition: "The type of True and False.",
+      },
+    ],
+    formulas: [],
+  },
+  "6.2": {
+    objectives:
+      "Relational operators compare two values and give back a bool: <, <=, >, >=, ==, and !=. On numbers they use numeric order. On strings they compare one character at a time, so 'cat' < 'dog' because c comes before d, and 'cat' == 'Cat' is False because the cases differ.",
+    vocabulary: [
+      {
+        term: "relational operator",
+        definition: "A comparison such as < or == that produces True or False.",
+      },
+    ],
+    formulas: [],
+  },
+  "6.3": {
+    objectives:
+      "== asks whether two values are equal. = stores a value in a name. if x = 3 is a syntax error, because that line is trying to assign inside the condition. Write if x == 3.",
+    vocabulary: [
+      {
+        term: "==",
+        definition: "Equality test. It does not store anything.",
+      },
+    ],
+    formulas: [],
+  },
+  "6.4": {
+    objectives:
+      "if runs its indented block only when the condition is true. else runs when that condition is false. Exactly one of the two blocks runs. Both headers end with a colon, and the bodies are indented.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "6.5": {
+    objectives:
+      "elif adds another condition after an if. Python checks the branches from top to bottom and runs the first one whose condition is true. Later branches, including else, are skipped. Use elif when the choices are mutually exclusive, such as grade bands.",
+    vocabulary: [
+      {
+        term: "elif",
+        definition: "An extra branch checked only when every earlier condition was false.",
+      },
+    ],
+    formulas: [],
+  },
+  "6.6": {
+    objectives:
+      "and is true only when both sides are true. or is true when at least one side is true. not flips True to False and False to True. Parentheses make a mixed expression easier to read: not (score < 0 or score > 100).",
+    vocabulary: [
+      {
+        term: "and",
+        definition: "True only if both sides are true.",
+      },
+      {
+        term: "not",
+        definition: "Flips a bool.",
+      },
+    ],
+    formulas: [],
+  },
+  "6.7": {
+    objectives:
+      "Python's or is inclusive. It is true when the left side is true, when the right side is true, or when both are true. (1 == 1) or (2 == 2) is True. Inclusive or does not mean 'one or the other, but not both'.",
+    vocabulary: [
+      {
+        term: "inclusive or",
+        definition: "or stays true when both sides are true.",
+      },
+    ],
+    formulas: [],
+  },
+  "6.8": {
+    objectives:
+      "Lecture 6 practice: predict a few comparisons, then write a short input check that uses if/elif and prints an average. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "7": {
+    objectives:
+      "Lecture 7 groups three tools: tuples, modules, and images. A tuple holds a fixed sequence and indexes from 0. A module is a file of functions you import. Images are a high-level look at open, size, crop, resize, and paste. Most of this lecture sits outside Practical Programming. No picture files are included here, and Pillow may be missing on a given machine.",
+    vocabulary: [
+      {
+        term: "tuple",
+        definition: "An ordered group of values written with parentheses. The group itself cannot be edited in place.",
+      },
+    ],
+    formulas: [],
+  },
+  "7.1": {
+    objectives:
+      "Indexes start at 0. For point = (3, 5, 7), point[0] is 3, point[1] is 5, and point[-1] is the last item, 7. len(point) is 3. A bad index raises IndexError.",
+    vocabulary: [
+      {
+        term: "index",
+        definition: "The position of an item. The first position is 0.",
+      },
+    ],
+    formulas: [],
+  },
+  "7.2": {
+    objectives:
+      "A tuple is immutable. pair[0] = 9 raises TypeError. You cannot append to it either. If you need a different pair, build a new one, such as (9, pair[1]). The old tuple stays as it was.",
+    vocabulary: [
+      {
+        term: "immutable",
+        definition: "Cannot be changed in place. Item assignment on a tuple fails.",
+      },
+    ],
+    formulas: [],
+  },
+  "7.3": {
+    objectives:
+      "One assignment can fill several names from a tuple: width, height = (80, 40) sets width to 80 and height to 40. The number of names must match the number of items. The same pattern reads a pair you already have: left, right = pair.",
+    vocabulary: [
+      {
+        term: "multiple assignment",
+        definition: "Filling several names from one tuple in a single line.",
+      },
+    ],
+    formulas: [],
+  },
+  "7.4": {
+    objectives:
+      "A function can return two values by returning one tuple: return low, high. The caller unpacks it: small, large = extremes(nums). You still returned a single object, the tuple. The caller decides the names.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "7.5": {
+    objectives:
+      "import math loads that module, and math.sqrt(9) calls a function that lives inside it. from math import sqrt lets you call sqrt(9) with no prefix. A module is just a collection of names. Use the prefix form unless you have a reason to pull one name in.",
+    vocabulary: [
+      {
+        term: "module function",
+        definition: "A function that lives in an imported module, called as module.function(arguments).",
+      },
+    ],
+    formulas: [],
+  },
+  "7.6": {
+    objectives:
+      "Pillow's Image type is the usual way to touch a picture, and the import can fail when Pillow is not installed. At a high level: Image.open(path) loads a file, image.size is a (width, height) tuple, crop(box) cuts a rectangle, resize((width, height)) builds a new size, and paste lays one image onto another at a position. This tutor does not add image files.",
+    vocabulary: [
+      {
+        term: "Image.size",
+        definition: "A tuple (width, height) for an opened picture.",
+      },
+    ],
+    formulas: [],
+  },
+  "7.7": {
+    objectives:
+      "Exam review here is only a reminder of skills already taught, not a second textbook and not a new set of page numbers. You should be able to: evaluate expressions and assign variables, work with strings and input, call built-ins and methods, import a module, define a function with parameters and return, and choose a branch with if, elif, else, and, or, and not.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "7.8": {
+    objectives:
+      "Lecture 7 practice: write a small tuple helper that returns a new tuple. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "8": {
+    objectives:
+      "Lecture 8 is the first pass at lists. A list is an ordered, editable sequence in square brackets. You can read items, replace them, ask for the sum or the extremes, reorder, and add or delete items. A list can also hold other lists. The course places this in Practical Programming sections 8.1–8.3.",
+    vocabulary: [
+      {
+        term: "list",
+        definition: "An ordered collection written with square brackets. Items can be replaced.",
+      },
+    ],
+    formulas: [],
+  },
+  "8.1": {
+    objectives:
+      "Write a list with square brackets: scores = [70, 85, 90]. Indexes start at 0, so scores[0] is 70 and scores[1] is 85. len(scores) is 3. A bad index raises IndexError.",
+    vocabulary: [
+      {
+        term: "index",
+        definition: "The position of a list item. The first position is 0.",
+      },
+    ],
+    formulas: [],
+  },
+  "8.2": {
+    objectives:
+      "Unlike a tuple, a list lets you replace an item: nums[1] = 8 changes that slot and leaves the others. A negative index counts from the end. nums[-1] is the last item, and nums[-2] is the one before it. nums[-1] = 0 replaces the last item.",
+    vocabulary: [
+      {
+        term: "negative index",
+        definition: "An index counted from the end. -1 is the last item.",
+      },
+    ],
+    formulas: [],
+  },
+  "8.3": {
+    objectives:
+      "sum(nums) adds the numbers. max(nums) is the largest, and min(nums) is the smallest. For nums = [4, 8, 7], the sum is 19, the max is 8, and the min is 4. These functions do not reorder the list.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "8.4": {
+    objectives:
+      "vals.sort() reorders that list and returns None. Do not write vals = vals.sort(), or you will replace the list with None. sorted(vals) returns a new list in order and leaves vals as it was.",
+    vocabulary: [
+      {
+        term: "sort()",
+        definition: "Reorders a list in place and returns None.",
+      },
+      {
+        term: "sorted()",
+        definition: "Returns a new ordered list and does not change the original.",
+      },
+    ],
+    formulas: [],
+  },
+  "8.5": {
+    objectives:
+      "append(item) adds at the end. insert(index, item) adds at that position and shifts the rest right. pop() removes and returns the last item; pop(index) removes that slot. remove(value) deletes the first item equal to value. pop works by position. remove works by value.",
+    vocabulary: [
+      {
+        term: "append()",
+        definition: "Adds one item at the end of the list.",
+      },
+      {
+        term: "remove()",
+        definition: "Deletes the first item equal to the given value.",
+      },
+    ],
+    formulas: [],
+  },
+  "8.6": {
+    objectives:
+      "A list item can be another list: grid = [[1, 2], [3, 4]]. grid[0] is [1, 2]. grid[1][0] is 3, the first item of the second row. Replacing grid[0][1] changes only that inner slot.",
+    vocabulary: [
+      {
+        term: "nested list",
+        definition: "A list stored as an item of another list. Reach it with two indexes.",
+      },
+    ],
+    formulas: [],
+  },
+  "8.7": {
+    objectives:
+      "Lecture 8 practice: trace a short list, then do a tiny in-place edit. Open Study questions on the learning page, or click this section.",
     vocabulary: [],
     formulas: [],
   },

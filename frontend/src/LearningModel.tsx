@@ -33,7 +33,7 @@ import { INDUCTION_GUIDE } from "./guide/inductionGuide";
 import { getSectionNoteWithNewVocab, sectionTokenFromTitle, type BookAnchor } from "./utils/sectionNotes";
 import { FOCS_SECTION_TOKENS_PREORDER } from "./utils/focsSectionOrder";
 import { useLocale } from "./i18n/LocaleContext";
-import { CS1_TEXTBOOK_NAME, lectureBarTitle, lectureById, lectureForHint } from "./data/cs1Lectures";
+import { CS1_LECTURES, CS1_TEXTBOOK_NAME, lectureBarTitle, lectureById, lectureForHint } from "./data/cs1Lectures";
 import { isPracticalProgrammingHint, PRACTICAL_PROGRAMMING_MISSING } from "./data/practicalProgramming";
 import { looksLikePdf, savePracticalProgrammingPdf } from "./textbook/practicalProgrammingFile";
 import {
@@ -1781,30 +1781,17 @@ export default function LearningModel() {
           <div className="chat-example-prompts" role="group" aria-label="Study questions">
             <p className="chat-example-label">Study questions</p>
             <div className="chat-example-list">
-              <button
-                type="button"
-                className="chat-example-chip"
-                onClick={() => openStudyQuestions("2.13 Problems", "2.13")}
-              >
-                <span className="chat-example-num">L2</span>
-                <span className="chat-example-text">Lecture 2 · Python as a calculator</span>
-              </button>
-              <button
-                type="button"
-                className="chat-example-chip"
-                onClick={() => openStudyQuestions("3.7 Problems", "3.7")}
-              >
-                <span className="chat-example-num">L3</span>
-                <span className="chat-example-text">Lecture 3 · Strings</span>
-              </button>
-              <button
-                type="button"
-                className="chat-example-chip"
-                onClick={() => openStudyQuestions("4.8 Problems", "4.8")}
-              >
-                <span className="chat-example-num">L4</span>
-                <span className="chat-example-text">Lecture 4 · Functions and modules</span>
-              </button>
+              {CS1_LECTURES.map((lecture) => (
+                <button
+                  key={lecture.id}
+                  type="button"
+                  className="chat-example-chip"
+                  onClick={() => openStudyQuestions(lecture.problemsTitle, lecture.problemsHint)}
+                >
+                  <span className="chat-example-num">L{lecture.id}</span>
+                  <span className="chat-example-text">{lecture.practiceTitle}</span>
+                </button>
+              ))}
             </div>
           </div>
         )}

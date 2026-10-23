@@ -1,5 +1,5 @@
 import type { OutlineSectionPreviewDetail } from "../LearningBarPanel";
-import { CS1_LECTURES, CS1_TEXTBOOK_NAME } from "./cs1Lectures";
+import { CS1_LECTURES, CS1_TEXTBOOK_NAME, type Cs1Lecture } from "./cs1Lectures";
 
 // Served by Vite from frontend/public. The PDF itself is gitignored.
 export const PRACTICAL_PROGRAMMING_PDF_URL = "/textbooks/practical-programming.pdf";
@@ -10,12 +10,13 @@ export const PRACTICAL_PROGRAMMING_MISSING =
 export type BookSection = {
   id: string;
   title: string;
-  startPage: number;
-  endPage: number;
+  startPage?: number;
+  endPage?: number;
+  noteHint?: string;
 };
 
 export type BookGroup = {
-  lectureId: "2" | "3" | "4";
+  lectureId: Cs1Lecture["id"];
   lectureTitle: string;
   bookLabel: string;
   sections: BookSection[];
@@ -28,7 +29,7 @@ function range(id: string, title: string, startPage: number, endPage: number): B
 // Printed page numbers match this PDF: page 19 is PDF page 19.
 // Lecture 2 uses the calculator pages in chapter 2. Function Basics and
 // Built-in Functions are also chapter 2, and this course teaches them in Lecture 4.
-const SECTIONS: Record<"2" | "3" | "4", BookSection[]> = {
+const PAGED: Record<"2" | "3" | "4", BookSection[]> = {
   "2": [
     range("big-picture", "The Big Picture", 17, 18),
     range("expressions", "Expressions", 19, 21),
@@ -58,11 +59,21 @@ const SECTIONS: Record<"2" | "3" | "4", BookSection[]> = {
   ],
 };
 
+function sectionsFor(lecture: Cs1Lecture): BookSection[] {
+  if (lecture.id === "2" || lecture.id === "3" || lecture.id === "4") return PAGED[lecture.id];
+  // Later lectures name a chapter, not a printed page, so the list has no page numbers.
+  return lecture.sections.map((section) => ({
+    id: `note-${section.id}`,
+    title: section.title,
+    noteHint: section.id,
+  }));
+}
+
 export const PRACTICAL_PROGRAMMING_GROUPS: BookGroup[] = CS1_LECTURES.map((lecture) => ({
   lectureId: lecture.id,
   lectureTitle: lecture.practiceTitle,
   bookLabel: lecture.textbookLabel,
-  sections: SECTIONS[lecture.id],
+  sections: sectionsFor(lecture),
 }));
 
 export function isPracticalProgrammingHint(hint: string): boolean {
@@ -70,16 +81,18 @@ export function isPracticalProgrammingHint(hint: string): boolean {
 }
 
 export function bookSectionPreview(section: BookSection): OutlineSectionPreviewDetail {
+  const hasPages = section.startPage != null && section.endPage != null;
   return {
     sectionTitle: section.title,
     path: `${CS1_TEXTBOOK_NAME}/${section.title}`,
-    startBook: section.startPage,
-    endBook: section.endPage,
-    sectionHint: `pp.${section.id}`,
+    startBook: hasPages ? section.startPage! : 0,
+    endBook: hasPages ? section.endPage! : 0,
+    sectionHint: hasPages ? `pp.${section.id}` : (section.noteHint ?? section.id),
   };
 }
 
 export function formatBookPages(section: BookSection): string {
+  if (section.startPage == null || section.endPage == null) return "";
   return section.startPage === section.endPage
     ? `p. ${section.startPage}`
     : `pp. ${section.startPage}–${section.endPage}`;
