@@ -7,6 +7,7 @@ import { LECTURE_03_PRACTICE } from "./practice/lecture03";
 import { LECTURE_04_PRACTICE } from "./practice/lecture04";
 import { LECTURE_05_PRACTICE } from "./practice/lecture05";
 import { LECTURE_06_PRACTICE } from "./practice/lecture06";
+import { LECTURE_07_PRACTICE } from "./practice/lecture07";
 
 const ALL_CHAPTER_SETS: PracticeSet[] = [
   LECTURE_02_PRACTICE,
@@ -14,6 +15,7 @@ const ALL_CHAPTER_SETS: PracticeSet[] = [
   LECTURE_04_PRACTICE,
   LECTURE_05_PRACTICE,
   LECTURE_06_PRACTICE,
+  LECTURE_07_PRACTICE,
 ];
 
 export const FOCS_PROBLEM_CHAPTERS: string[] = (() => {

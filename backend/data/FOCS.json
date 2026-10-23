@@ -54,5 +54,15 @@
     "6.6 and, or, and not": {},
     "6.7 Inclusive or": {},
     "6.8 Problems": {}
+  },
+  "7 Tuples, modules, and images": {
+    "7.1 Tuple indexing": {},
+    "7.2 Immutability": {},
+    "7.3 Multiple assignment": {},
+    "7.4 Returning two values": {},
+    "7.5 Import and module functions": {},
+    "7.6 Images": {},
+    "7.7 Skills already taught": {},
+    "7.8 Problems": {}
   }
 }

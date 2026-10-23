@@ -11,7 +11,7 @@ export type Cs1Section = {
 };
 
 export type Cs1Lecture = {
-  id: "2" | "3" | "4" | "5" | "6";
+  id: "2" | "3" | "4" | "5" | "6" | "7";
   practiceTitle: string;
   textbookLabel: string;
   problemsTitle: string;
@@ -108,6 +108,22 @@ export const CS1_LECTURES: Cs1Lecture[] = [
       section("6.5", "elif"),
       section("6.6", "and, or, and not"),
       section("6.7", "Inclusive or"),
+    ],
+  },
+  {
+    id: "7",
+    practiceTitle: "Lecture 7 · Tuples, modules, and images",
+    textbookLabel: `Mostly outside ${CS1_TEXTBOOK_NAME}`,
+    problemsTitle: "7.8 Problems",
+    problemsHint: "7.8",
+    sections: [
+      section("7.1", "Tuple indexing"),
+      section("7.2", "Immutability"),
+      section("7.3", "Multiple assignment"),
+      section("7.4", "Returning two values"),
+      section("7.5", "Import and module functions"),
+      section("7.6", "Images"),
+      section("7.7", "Skills already taught"),
     ],
   },
 ];

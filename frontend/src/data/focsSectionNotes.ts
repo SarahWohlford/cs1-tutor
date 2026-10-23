@@ -2,7 +2,7 @@ import type { SectionNote } from "../utils/sectionNotes";
 
 const empty = { vocabulary: [] as SectionNote["vocabulary"], formulas: [] as SectionNote["formulas"] };
 
-// Study notes for CSCI 1100 Fall 2026 Lectures 2–6. Lecture 1 is not loaded.
+// Study notes for CSCI 1100 Fall 2026 Lectures 2–7. Lecture 1 is not loaded.
 export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "2": {
     objectives:
@@ -599,6 +599,90 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "6.8": {
     objectives:
       "Lecture 6 practice: predict a few comparisons, then write a short input check that uses if/elif and prints an average. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "7": {
+    objectives:
+      "Lecture 7 groups three tools: tuples, modules, and images. A tuple holds a fixed sequence and indexes from 0. A module is a file of functions you import. Images are a high-level look at open, size, crop, resize, and paste. Most of this lecture sits outside Practical Programming. No picture files are included here, and Pillow may be missing on a given machine.",
+    vocabulary: [
+      {
+        term: "tuple",
+        definition: "An ordered group of values written with parentheses. The group itself cannot be edited in place.",
+      },
+    ],
+    formulas: [],
+  },
+  "7.1": {
+    objectives:
+      "Indexes start at 0. For point = (3, 5, 7), point[0] is 3, point[1] is 5, and point[-1] is the last item, 7. len(point) is 3. A bad index raises IndexError.",
+    vocabulary: [
+      {
+        term: "index",
+        definition: "The position of an item. The first position is 0.",
+      },
+    ],
+    formulas: [],
+  },
+  "7.2": {
+    objectives:
+      "A tuple is immutable. pair[0] = 9 raises TypeError. You cannot append to it either. If you need a different pair, build a new one, such as (9, pair[1]). The old tuple stays as it was.",
+    vocabulary: [
+      {
+        term: "immutable",
+        definition: "Cannot be changed in place. Item assignment on a tuple fails.",
+      },
+    ],
+    formulas: [],
+  },
+  "7.3": {
+    objectives:
+      "One assignment can fill several names from a tuple: width, height = (80, 40) sets width to 80 and height to 40. The number of names must match the number of items. The same pattern reads a pair you already have: left, right = pair.",
+    vocabulary: [
+      {
+        term: "multiple assignment",
+        definition: "Filling several names from one tuple in a single line.",
+      },
+    ],
+    formulas: [],
+  },
+  "7.4": {
+    objectives:
+      "A function can return two values by returning one tuple: return low, high. The caller unpacks it: small, large = extremes(nums). You still returned a single object, the tuple. The caller decides the names.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "7.5": {
+    objectives:
+      "import math loads that module, and math.sqrt(9) calls a function that lives inside it. from math import sqrt lets you call sqrt(9) with no prefix. A module is just a collection of names. Use the prefix form unless you have a reason to pull one name in.",
+    vocabulary: [
+      {
+        term: "module function",
+        definition: "A function that lives in an imported module, called as module.function(arguments).",
+      },
+    ],
+    formulas: [],
+  },
+  "7.6": {
+    objectives:
+      "Pillow's Image type is the usual way to touch a picture, and the import can fail when Pillow is not installed. At a high level: Image.open(path) loads a file, image.size is a (width, height) tuple, crop(box) cuts a rectangle, resize((width, height)) builds a new size, and paste lays one image onto another at a position. This tutor does not add image files.",
+    vocabulary: [
+      {
+        term: "Image.size",
+        definition: "A tuple (width, height) for an opened picture.",
+      },
+    ],
+    formulas: [],
+  },
+  "7.7": {
+    objectives:
+      "Exam review here is only a reminder of skills already taught, not a second textbook and not a new set of page numbers. You should be able to: evaluate expressions and assign variables, work with strings and input, call built-ins and methods, import a module, define a function with parameters and return, and choose a branch with if, elif, else, and, or, and not.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "7.8": {
+    objectives:
+      "Lecture 7 practice: write a small tuple helper that returns a new tuple. Open Study questions on the learning page, or click this section.",
     vocabulary: [],
     formulas: [],
   },
