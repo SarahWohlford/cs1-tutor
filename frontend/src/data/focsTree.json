@@ -32,5 +32,17 @@
     "4.6 How import works": {},
     "4.7 Program structure": {},
     "4.8 Problems": {}
+  },
+  "5 Python functions": {
+    "5.1 Why functions": {},
+    "5.2 def, return, and indentation": {},
+    "5.3 Parameters, arguments, and local variables": {},
+    "5.4 Flow of control": {},
+    "5.5 Functions calling functions": {},
+    "5.6 Multiple parameters": {},
+    "5.7 math.pi": {},
+    "5.8 Program structure": {},
+    "5.9 Encapsulation": {},
+    "5.10 Problems": {}
   }
 }

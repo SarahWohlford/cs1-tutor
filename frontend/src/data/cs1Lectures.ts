@@ -11,7 +11,7 @@ export type Cs1Section = {
 };
 
 export type Cs1Lecture = {
-  id: "2" | "3" | "4";
+  id: "2" | "3" | "4" | "5";
   practiceTitle: string;
   textbookLabel: string;
   problemsTitle: string;
@@ -74,6 +74,24 @@ export const CS1_LECTURES: Cs1Lecture[] = [
       section("4.5", "Modules"),
       section("4.6", "How import works"),
       section("4.7", "Program structure"),
+    ],
+  },
+  {
+    id: "5",
+    practiceTitle: "Lecture 5 · Python functions",
+    textbookLabel: `${CS1_TEXTBOOK_NAME}, late in chapter 3`,
+    problemsTitle: "5.10 Problems",
+    problemsHint: "5.10",
+    sections: [
+      section("5.1", "Why functions"),
+      section("5.2", "def, return, and indentation"),
+      section("5.3", "Parameters, arguments, and local variables"),
+      section("5.4", "Flow of control"),
+      section("5.5", "Functions calling functions"),
+      section("5.6", "Multiple parameters"),
+      section("5.7", "math.pi"),
+      section("5.8", "Program structure"),
+      section("5.9", "Encapsulation"),
     ],
   },
 ];

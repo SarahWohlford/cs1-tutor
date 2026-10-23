@@ -8,8 +8,10 @@ import {
 } from "./practicalProgramming";
 
 describe("Practical Programming pages", () => {
-  it("lists the book sections under each lecture, with page numbers", () => {
-    expect(PRACTICAL_PROGRAMMING_GROUPS.map((group) => group.lectureId)).toEqual(["2", "3", "4"]);
+  it("lists paged book sections for lectures 2–4 and notes without pages after that", () => {
+    expect(PRACTICAL_PROGRAMMING_GROUPS.map((group) => group.lectureId)).toEqual(
+      CS1_LECTURES.map((lecture) => lecture.id),
+    );
     const lectureOutline = new Set(
       CS1_LECTURES.flatMap((lecture) => lecture.sections.map((section) => section.outlineTitle))
     );
@@ -18,19 +20,37 @@ describe("Practical Programming pages", () => {
     for (const group of PRACTICAL_PROGRAMMING_GROUPS) {
       expect(group.bookLabel).toContain("Practical Programming");
       expect(group.sections.length).toBeGreaterThan(0);
+      const lecture = CS1_LECTURES.find((item) => item.id === group.lectureId);
+      expect(lecture).toBeTruthy();
+      const paged = group.lectureId === "2" || group.lectureId === "3" || group.lectureId === "4";
+      if (!paged) {
+        expect(group.sections.map((section) => section.noteHint)).toEqual(
+          lecture!.sections.map((section) => section.id),
+        );
+      }
       for (const section of group.sections) {
         expect(lectureOutline.has(section.title), section.title).toBe(false);
         expect(seen.has(section.id), section.id).toBe(false);
         seen.add(section.id);
-        expect(section.startPage).toBeGreaterThanOrEqual(17);
-        expect(section.endPage).toBeLessThanOrEqual(67);
-        expect(section.endPage).toBeGreaterThanOrEqual(section.startPage);
-        ranges.push({ start: section.startPage, end: section.endPage });
         const preview = bookSectionPreview(section);
-        expect(preview.startBook).toBe(section.startPage);
-        expect(preview.endBook).toBe(section.endPage);
-        expect(isPracticalProgrammingHint(preview.sectionHint)).toBe(true);
-        expect(formatBookPages(section)).toContain(String(section.startPage));
+        if (paged) {
+          expect(section.startPage).toBeGreaterThanOrEqual(17);
+          expect(section.endPage).toBeLessThanOrEqual(67);
+          expect(section.endPage).toBeGreaterThanOrEqual(section.startPage!);
+          ranges.push({ start: section.startPage!, end: section.endPage! });
+          expect(preview.startBook).toBe(section.startPage);
+          expect(preview.endBook).toBe(section.endPage);
+          expect(isPracticalProgrammingHint(preview.sectionHint)).toBe(true);
+          expect(formatBookPages(section)).toContain(String(section.startPage));
+        } else {
+          expect(section.startPage).toBeUndefined();
+          expect(section.endPage).toBeUndefined();
+          expect(formatBookPages(section)).toBe("");
+          expect(preview.startBook).toBe(0);
+          expect(preview.endBook).toBe(0);
+          expect(preview.sectionHint).toBe(section.noteHint);
+          expect(isPracticalProgrammingHint(preview.sectionHint)).toBe(false);
+        }
       }
     }
     for (let i = 0; i < ranges.length; i += 1) {

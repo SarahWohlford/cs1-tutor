@@ -19,18 +19,21 @@ export function TextbookOutline({
           <p className="sb-lecture-group">{group.lectureTitle}</p>
           <p className="sb-textbook-source">{group.bookLabel}</p>
           <ul>
-            {group.sections.map((section) => (
-              <li key={section.id}>
-                <button
-                  type="button"
-                  className="sb-textbook-sec"
-                  onClick={() => onOpen(bookSectionPreview(section))}
-                >
-                  <span className="sb-textbook-title">{section.title}</span>
-                  <span className="sb-textbook-pages">{formatBookPages(section)}</span>
-                </button>
-              </li>
-            ))}
+            {group.sections.map((section) => {
+              const pages = formatBookPages(section);
+              return (
+                <li key={section.id}>
+                  <button
+                    type="button"
+                    className="sb-textbook-sec"
+                    onClick={() => onOpen(bookSectionPreview(section))}
+                  >
+                    <span className="sb-textbook-title">{section.title}</span>
+                    {pages ? <span className="sb-textbook-pages">{pages}</span> : null}
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         </section>
       ))}

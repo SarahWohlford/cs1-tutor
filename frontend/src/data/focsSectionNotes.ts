@@ -2,7 +2,7 @@ import type { SectionNote } from "../utils/sectionNotes";
 
 const empty = { vocabulary: [] as SectionNote["vocabulary"], formulas: [] as SectionNote["formulas"] };
 
-// Study notes for CSCI 1100 Fall 2026 Lectures 2–4. Lecture 1 is not loaded.
+// Study notes for CSCI 1100 Fall 2026 Lectures 2–5. Lecture 1 is not loaded.
 export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "2": {
     objectives:
@@ -396,6 +396,116 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "4.8": {
     objectives:
       "Lecture 4 practice: built-ins, string methods, format, and the math module. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "5": {
+    objectives:
+      "Lecture 5 is writing your own functions. Name a job once, then call it wherever you need it. def stores the function, the indented body runs on a call, and return sends a value back. The course places this late in Practical Programming chapter 3.",
+    vocabulary: [
+      {
+        term: "function",
+        definition: "A named block of steps. You call it by name instead of copying the steps.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.1": {
+    objectives:
+      "If the same lines appear twice, a bug has to be fixed twice. A function gives that job one name. Call the name each time. That habit is DRY: don't repeat yourself.",
+    vocabulary: [
+      {
+        term: "DRY",
+        definition: "Don't repeat yourself. One function, many calls.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.2": {
+    objectives:
+      "def starts a function and the header ends with a colon. The body is indented underneath. return hands a value back to the caller and skips the rest of the body. A function that never reaches return gives back None.",
+    vocabulary: [
+      {
+        term: "return",
+        definition: "Leaves the function and sends a value back. Without it, the call is worth None.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.3": {
+    objectives:
+      "A parameter is the name written in the def header. An argument is the value passed at the call. A local variable is a name assigned inside the body. Locals exist only during that call. Assigning a local does not change a variable in the caller, even when the names match.",
+    vocabulary: [
+      {
+        term: "parameter",
+        definition: "The name in the header that receives an argument.",
+      },
+      {
+        term: "local variable",
+        definition: "A name created inside the function. It is gone when the call ends.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.4": {
+    objectives:
+      "Python reads the file from top to bottom, but a def line only stores the function. The body runs when a call happens. Execution jumps into the body, hits return, and continues at the next line of the caller.",
+    vocabulary: [
+      {
+        term: "flow of control",
+        definition: "The order in which lines actually run. A call jumps in and return jumps back.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.5": {
+    objectives:
+      "One function may call another. The inner call runs all the way to its return before the outer function continues. The same function can also be called more than once with different arguments.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "5.6": {
+    objectives:
+      "Several parameters are separated by commas. At the call, arguments line up by position: the first argument fills the first parameter. def fence(length, width): return 2 * (length + width), so fence(5, 3) is 16.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "5.7": {
+    objectives:
+      "import math belongs near the top of the file. math.pi is the circle constant. Use it inside a function you write, as in return math.pi * radius ** 2, instead of typing a shortened decimal.",
+    vocabulary: [
+      {
+        term: "math.pi",
+        definition: "The constant π from the math module, available after import math.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.8": {
+    objectives:
+      "Lay a file out in four layers: a short comment saying what the program does, then imports, then the def blocks, then a main function that reads input, calls the other functions, and prints. Call main() on the last line, after every def.",
+    vocabulary: [
+      {
+        term: "main",
+        definition: "The function that starts the program's work by calling the others.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.9": {
+    objectives:
+      "Encapsulation means the caller relies on the function's name, its parameters, and what it returns, not on the temporary names inside. You can rewrite the body later if the same arguments still produce the same result.",
+    vocabulary: [
+      {
+        term: "encapsulation",
+        definition: "Hiding the steps behind the function's name so callers use the result, not the locals.",
+      },
+    ],
+    formulas: [],
+  },
+  "5.10": {
+    objectives:
+      "Lecture 5 practice: a conversion function that returns a number, and a function that only prints and does not return. Open Study questions on the learning page, or click this section.",
     vocabulary: [],
     formulas: [],
   },
