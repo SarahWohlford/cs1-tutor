@@ -70,11 +70,12 @@
 .sb-tour-ic svg { width: 15px; height: 15px; }
 .sb-tour-label { overflow: hidden; text-overflow: ellipsis; }
 
-/* scroll shell — flex column; no outer scroll (progress/history scroll inside) */
+/* Study sections stack in document order. The shell scrolls when they do not fit. */
 .sb-shell {
   flex: 1 1 auto;
   min-height: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   padding: 8px 12px 12px;
@@ -115,42 +116,35 @@
 .sb-section.is-open .sb-section-body { opacity: 1; margin-top: 2px; }
 
 .sb-section--progress {
-  flex: 1 1 0;
-  min-height: 0;
+  flex: 0 0 auto;
+  min-height: auto;
   display: flex;
   flex-direction: column;
 }
 .sb-section--progress:not(.is-open) {
   flex: 0 0 auto;
 }
-.sb-section--progress.is-open .sb-section-body {
-  flex: 1 1 0;
-  min-height: 0;
+.sb-section--progress.is-open .sb-section-body,
+.sb-section--progress.is-open.is-sized .sb-section-body {
+  flex: 0 0 auto;
+  min-height: auto;
   max-height: none;
   height: auto;
-  overflow: hidden;
+  overflow: visible;
   padding-left: 0;
   display: flex;
   flex-direction: column;
 }
-.sb-section--progress.is-open.is-sized {
-  flex: 0 1 auto;
-}
-.sb-section--progress.is-open.is-sized .sb-section-body {
-  flex: 0 0 auto;
-  height: var(--sb-progress-h);
-  max-height: none;
-}
 
 .sb-section--textbook {
-  flex: 0 1 auto;
-  min-height: 0;
+  flex: 0 0 auto;
+  min-height: auto;
   display: flex;
   flex-direction: column;
 }
 .sb-section--textbook.is-open .sb-section-body {
-  max-height: 320px;
-  overflow: auto;
+  max-height: none;
+  overflow: visible;
   padding-left: 0;
 }
 .sb-lecture-list,
@@ -160,8 +154,8 @@
   padding: 4px 6px 8px;
 }
 .sb-lecture-list {
-  overflow: auto;
-  height: 100%;
+  overflow: visible;
+  height: auto;
 }
 .sb-lecture-btn,
 .sb-textbook-sec {
@@ -225,24 +219,17 @@
 
 .sb-section--hist {
   flex: 0 0 auto;
-  min-height: 0;
+  min-height: auto;
   display: flex;
   flex-direction: column;
 }
 .sb-section--hist.is-open .sb-section-body {
-  flex: 0 1 auto;
-  min-height: 0;
+  flex: 0 0 auto;
+  min-height: auto;
   max-height: var(--sb-history-h);
   overflow-y: auto;
   overflow-x: hidden;
   padding-left: 0;
-}
-.sb-shell:has(.sb-section--progress.is-sized) .sb-section--hist.is-open {
-  flex: 1 1 0;
-}
-.sb-shell:has(.sb-section--progress.is-sized) .sb-section--hist.is-open .sb-section-body {
-  flex: 1 1 0;
-  max-height: none;
 }
 
 .sb-unit { padding: 6px 0 6px 10px; margin-left: 12px; border-left: 1px dashed rgba(148, 163, 184, 0.22); }
@@ -262,9 +249,9 @@
 
 /* Learning Progress: fills remaining sidebar height; tree scrolls inside */
 .sb-progress-embed {
-  flex: 1 1 0;
-  min-height: 0;
-  height: 100%;
+  flex: 0 0 auto;
+  min-height: auto;
+  height: auto;
   background: rgba(94, 234, 212, 0.05);
   color: #cdd6e4;
   border-radius: 10px;
@@ -274,8 +261,8 @@
   flex-direction: column;
 }
 .sb-progress-embed .learning-bar-embed {
-  flex: 1 1 0;
-  min-height: 0;
+  flex: 0 0 auto;
+  min-height: auto;
   height: auto;
 }
 .sb-progress-resize {
