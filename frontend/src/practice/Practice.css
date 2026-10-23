@@ -24,7 +24,15 @@
   background: var(--pr-paper);
   color: var(--pr-ink);
   font-family: var(--pr-sans);
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(15, 118, 110, 0.45) transparent;
 }
+.practice::-webkit-scrollbar { width: 9px; }
+.practice::-webkit-scrollbar-track { background: transparent; }
+.practice::-webkit-scrollbar-thumb { background: rgba(15, 118, 110, 0.42); border: 2px solid transparent; border-radius: 999px; background-clip: padding-box; }
+.practice::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
 
 /* ---- mastery header ---- */
 .pr-mastery { border-bottom: 1px solid var(--pr-rule); padding-bottom: 12px; }
@@ -81,6 +89,11 @@
 }
 .pr-btn:disabled { background: #cfe9e3; color: #6b8e88; cursor: default; }
 .pr-btn--ghost { background: none; color: var(--pr-teal-deep); border: 1px solid var(--pr-teal); }
+.practice button:focus-visible,
+.pr-attempt:focus-visible {
+  outline: 3px solid rgba(20, 184, 166, 0.55);
+  outline-offset: 2px;
+}
 
 /* ---- MCQ ---- */
 .pr-choices { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 7px; }
@@ -150,6 +163,11 @@
 .pr-attempt {
   width: 100%; min-height: 96px; resize: vertical; border: 1px solid var(--pr-rule); border-radius: 10px;
   background: #fffdf8; padding: 10px 12px; font-family: var(--pr-sans); font-size: 0.9rem; color: var(--pr-ink); line-height: 1.5;
+}
+.pr-attempt--code {
+  font-family: var(--pr-mono);
+  tab-size: 4;
+  white-space: pre-wrap;
 }
 
 /* clickable math-symbol palette under the challenge textbox */

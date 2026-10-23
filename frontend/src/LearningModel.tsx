@@ -1795,7 +1795,7 @@ export default function LearningModel() {
                 onClick={() => openStudyQuestions("3.7 Problems", "3.7")}
               >
                 <span className="chat-example-num">L3</span>
-                <span className="chat-example-text">Lecture 3 · strings</span>
+                <span className="chat-example-text">Lecture 3 · Strings</span>
               </button>
               <button
                 type="button"
@@ -1803,7 +1803,7 @@ export default function LearningModel() {
                 onClick={() => openStudyQuestions("4.8 Problems", "4.8")}
               >
                 <span className="chat-example-num">L4</span>
-                <span className="chat-example-text">Lecture 4 · functions and modules</span>
+                <span className="chat-example-text">Lecture 4 · Functions and modules</span>
               </button>
             </div>
           </div>
