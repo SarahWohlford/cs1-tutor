@@ -2,7 +2,7 @@ import type { SectionNote } from "../utils/sectionNotes";
 
 const empty = { vocabulary: [] as SectionNote["vocabulary"], formulas: [] as SectionNote["formulas"] };
 
-// Study notes for CSCI 1100 Fall 2026 Lectures 2–7. Lecture 1 is not loaded.
+// Study notes for CSCI 1100 Fall 2026 Lectures 2–8. Lecture 1 is not loaded.
 export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "2": {
     objectives:
@@ -683,6 +683,92 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "7.8": {
     objectives:
       "Lecture 7 practice: write a small tuple helper that returns a new tuple. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "8": {
+    objectives:
+      "Lecture 8 is the first pass at lists. A list is an ordered, editable sequence in square brackets. You can read items, replace them, ask for the sum or the extremes, reorder, and add or delete items. A list can also hold other lists. The course places this in Practical Programming sections 8.1–8.3.",
+    vocabulary: [
+      {
+        term: "list",
+        definition: "An ordered collection written with square brackets. Items can be replaced.",
+      },
+    ],
+    formulas: [],
+  },
+  "8.1": {
+    objectives:
+      "Write a list with square brackets: scores = [70, 85, 90]. Indexes start at 0, so scores[0] is 70 and scores[1] is 85. len(scores) is 3. A bad index raises IndexError.",
+    vocabulary: [
+      {
+        term: "index",
+        definition: "The position of a list item. The first position is 0.",
+      },
+    ],
+    formulas: [],
+  },
+  "8.2": {
+    objectives:
+      "Unlike a tuple, a list lets you replace an item: nums[1] = 8 changes that slot and leaves the others. A negative index counts from the end. nums[-1] is the last item, and nums[-2] is the one before it. nums[-1] = 0 replaces the last item.",
+    vocabulary: [
+      {
+        term: "negative index",
+        definition: "An index counted from the end. -1 is the last item.",
+      },
+    ],
+    formulas: [],
+  },
+  "8.3": {
+    objectives:
+      "sum(nums) adds the numbers. max(nums) is the largest, and min(nums) is the smallest. For nums = [4, 8, 7], the sum is 19, the max is 8, and the min is 4. These functions do not reorder the list.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "8.4": {
+    objectives:
+      "vals.sort() reorders that list and returns None. Do not write vals = vals.sort(), or you will replace the list with None. sorted(vals) returns a new list in order and leaves vals as it was.",
+    vocabulary: [
+      {
+        term: "sort()",
+        definition: "Reorders a list in place and returns None.",
+      },
+      {
+        term: "sorted()",
+        definition: "Returns a new ordered list and does not change the original.",
+      },
+    ],
+    formulas: [],
+  },
+  "8.5": {
+    objectives:
+      "append(item) adds at the end. insert(index, item) adds at that position and shifts the rest right. pop() removes and returns the last item; pop(index) removes that slot. remove(value) deletes the first item equal to value. pop works by position. remove works by value.",
+    vocabulary: [
+      {
+        term: "append()",
+        definition: "Adds one item at the end of the list.",
+      },
+      {
+        term: "remove()",
+        definition: "Deletes the first item equal to the given value.",
+      },
+    ],
+    formulas: [],
+  },
+  "8.6": {
+    objectives:
+      "A list item can be another list: grid = [[1, 2], [3, 4]]. grid[0] is [1, 2]. grid[1][0] is 3, the first item of the second row. Replacing grid[0][1] changes only that inner slot.",
+    vocabulary: [
+      {
+        term: "nested list",
+        definition: "A list stored as an item of another list. Reach it with two indexes.",
+      },
+    ],
+    formulas: [],
+  },
+  "8.7": {
+    objectives:
+      "Lecture 8 practice: trace a short list, then do a tiny in-place edit. Open Study questions on the learning page, or click this section.",
     vocabulary: [],
     formulas: [],
   },

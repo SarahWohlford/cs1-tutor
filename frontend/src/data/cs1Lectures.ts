@@ -11,7 +11,7 @@ export type Cs1Section = {
 };
 
 export type Cs1Lecture = {
-  id: "2" | "3" | "4" | "5" | "6" | "7";
+  id: "2" | "3" | "4" | "5" | "6" | "7" | "8";
   practiceTitle: string;
   textbookLabel: string;
   problemsTitle: string;
@@ -124,6 +124,21 @@ export const CS1_LECTURES: Cs1Lecture[] = [
       section("7.5", "Import and module functions"),
       section("7.6", "Images"),
       section("7.7", "Skills already taught"),
+    ],
+  },
+  {
+    id: "8",
+    practiceTitle: "Lecture 8 · Lists, part 1",
+    textbookLabel: `${CS1_TEXTBOOK_NAME}, sections 8.1–8.3`,
+    problemsTitle: "8.7 Problems",
+    problemsHint: "8.7",
+    sections: [
+      section("8.1", "List syntax and indexing"),
+      section("8.2", "Changing items and negative indexes"),
+      section("8.3", "sum, max, and min"),
+      section("8.4", "sort versus sorted"),
+      section("8.5", "append, insert, pop, and remove"),
+      section("8.6", "Lists of lists"),
     ],
   },
 ];
