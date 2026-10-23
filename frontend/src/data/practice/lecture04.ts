@@ -103,6 +103,7 @@ export const LECTURE_04_PRACTICE: PracticeSet = {
   challenge: [
     {
       id: "l4-c-tag",
+      answerMode: "code",
       prompt:
         "phrase is already 'open lab hours'. Make a hashtag: capitalize each word, delete the spaces, and put # in front. Print both phrase and the hashtag. phrase itself must stay unchanged.",
       solution:
@@ -112,6 +113,7 @@ export const LECTURE_04_PRACTICE: PracticeSet = {
     },
     {
       id: "l4-c-circles",
+      answerMode: "code",
       prompt:
         "Using the math module, print the areas of two circles. Radius 2 must use **. Radius 10 must use pow. Show radius 2 with format to two decimals, and radius 10 with round to two decimals. The lines must be exactly:\nArea 1 = 12.57\nArea 2 = 314.16",
       solution:

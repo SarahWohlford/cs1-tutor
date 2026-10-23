@@ -79,6 +79,8 @@ export interface ChallengeProblem {
   prompt: string;
   solution: string;
   rubric: string;
+  /** Controls answer affordances and plain-language feedback. */
+  answerMode?: "math" | "code" | "text";
   // Optional near-identical twin shown after an answer reveal (pedagogy, design D8).
   twinPromptId?: string;
 }

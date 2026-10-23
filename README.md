@@ -43,6 +43,14 @@ cp .env.example .env
 
 ### Running the Application
 
+On Windows, the simplest option is the included launcher:
+
+```powershell
+.\start-dev.ps1
+```
+
+If Python is not installed yet, preview the interface with `./start-dev.ps1 -FrontendOnly`.
+
 Start the backend server in one terminal and the frontend development server in another. The application will be available at localhost:5173.
 
 ```bash

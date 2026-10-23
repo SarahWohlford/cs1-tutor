@@ -43,6 +43,7 @@ export function LectureProgress({
               type="button"
               className="sb-lecture-btn"
               onClick={() => onOpen(practicePreview(lecture))}
+              aria-label={`${lecture.practiceTitle}. ${lecture.textbookLabel}. Status: ${TIER_LABEL[tier]}`}
             >
               <span className="sb-lecture-name">{lecture.practiceTitle}</span>
               <span className="sb-lecture-source">{lecture.textbookLabel}</span>
