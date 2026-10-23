@@ -44,5 +44,15 @@
     "5.8 Program structure": {},
     "5.9 Encapsulation": {},
     "5.10 Problems": {}
+  },
+  "6 Decisions": {
+    "6.1 Boolean values": {},
+    "6.2 Relational operators": {},
+    "6.3 == versus =": {},
+    "6.4 if and else": {},
+    "6.5 elif": {},
+    "6.6 and, or, and not": {},
+    "6.7 Inclusive or": {},
+    "6.8 Problems": {}
   }
 }

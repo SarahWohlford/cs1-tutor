@@ -2,7 +2,7 @@ import type { SectionNote } from "../utils/sectionNotes";
 
 const empty = { vocabulary: [] as SectionNote["vocabulary"], formulas: [] as SectionNote["formulas"] };
 
-// Study notes for CSCI 1100 Fall 2026 Lectures 2–5. Lecture 1 is not loaded.
+// Study notes for CSCI 1100 Fall 2026 Lectures 2–6. Lecture 1 is not loaded.
 export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "2": {
     objectives:
@@ -506,6 +506,99 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "5.10": {
     objectives:
       "Lecture 5 practice: a conversion function that returns a number, and a function that only prints and does not return. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "6": {
+    objectives:
+      "Lecture 6 is decisions. Comparisons produce True or False, and if, elif, and else choose which block runs. and, or, and not combine those tests. The course places this in Practical Programming chapter 5.",
+    vocabulary: [
+      {
+        term: "condition",
+        definition: "An expression whose value is True or False, used to choose a branch.",
+      },
+    ],
+    formulas: [],
+  },
+  "6.1": {
+    objectives:
+      "A bool is either True or False. Those two names are values, not strings. A comparison such as 3 < 10 produces a bool. if expects that kind of value.",
+    vocabulary: [
+      {
+        term: "bool",
+        definition: "The type of True and False.",
+      },
+    ],
+    formulas: [],
+  },
+  "6.2": {
+    objectives:
+      "Relational operators compare two values and give back a bool: <, <=, >, >=, ==, and !=. On numbers they use numeric order. On strings they compare one character at a time, so 'cat' < 'dog' because c comes before d, and 'cat' == 'Cat' is False because the cases differ.",
+    vocabulary: [
+      {
+        term: "relational operator",
+        definition: "A comparison such as < or == that produces True or False.",
+      },
+    ],
+    formulas: [],
+  },
+  "6.3": {
+    objectives:
+      "== asks whether two values are equal. = stores a value in a name. if x = 3 is a syntax error, because that line is trying to assign inside the condition. Write if x == 3.",
+    vocabulary: [
+      {
+        term: "==",
+        definition: "Equality test. It does not store anything.",
+      },
+    ],
+    formulas: [],
+  },
+  "6.4": {
+    objectives:
+      "if runs its indented block only when the condition is true. else runs when that condition is false. Exactly one of the two blocks runs. Both headers end with a colon, and the bodies are indented.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "6.5": {
+    objectives:
+      "elif adds another condition after an if. Python checks the branches from top to bottom and runs the first one whose condition is true. Later branches, including else, are skipped. Use elif when the choices are mutually exclusive, such as grade bands.",
+    vocabulary: [
+      {
+        term: "elif",
+        definition: "An extra branch checked only when every earlier condition was false.",
+      },
+    ],
+    formulas: [],
+  },
+  "6.6": {
+    objectives:
+      "and is true only when both sides are true. or is true when at least one side is true. not flips True to False and False to True. Parentheses make a mixed expression easier to read: not (score < 0 or score > 100).",
+    vocabulary: [
+      {
+        term: "and",
+        definition: "True only if both sides are true.",
+      },
+      {
+        term: "not",
+        definition: "Flips a bool.",
+      },
+    ],
+    formulas: [],
+  },
+  "6.7": {
+    objectives:
+      "Python's or is inclusive. It is true when the left side is true, when the right side is true, or when both are true. (1 == 1) or (2 == 2) is True. Inclusive or does not mean 'one or the other, but not both'.",
+    vocabulary: [
+      {
+        term: "inclusive or",
+        definition: "or stays true when both sides are true.",
+      },
+    ],
+    formulas: [],
+  },
+  "6.8": {
+    objectives:
+      "Lecture 6 practice: predict a few comparisons, then write a short input check that uses if/elif and prints an average. Open Study questions on the learning page, or click this section.",
     vocabulary: [],
     formulas: [],
   },

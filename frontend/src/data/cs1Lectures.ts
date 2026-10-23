@@ -11,7 +11,7 @@ export type Cs1Section = {
 };
 
 export type Cs1Lecture = {
-  id: "2" | "3" | "4" | "5";
+  id: "2" | "3" | "4" | "5" | "6";
   practiceTitle: string;
   textbookLabel: string;
   problemsTitle: string;
@@ -92,6 +92,22 @@ export const CS1_LECTURES: Cs1Lecture[] = [
       section("5.7", "math.pi"),
       section("5.8", "Program structure"),
       section("5.9", "Encapsulation"),
+    ],
+  },
+  {
+    id: "6",
+    practiceTitle: "Lecture 6 · Decisions",
+    textbookLabel: `${CS1_TEXTBOOK_NAME}, chapter 5`,
+    problemsTitle: "6.8 Problems",
+    problemsHint: "6.8",
+    sections: [
+      section("6.1", "Boolean values"),
+      section("6.2", "Relational operators"),
+      section("6.3", "== versus ="),
+      section("6.4", "if and else"),
+      section("6.5", "elif"),
+      section("6.6", "and, or, and not"),
+      section("6.7", "Inclusive or"),
     ],
   },
 ];
