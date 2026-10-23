@@ -307,7 +307,13 @@ export default function Sidebar() {
   return (
     <aside className={`sb${collapsed ? " sb--collapsed" : ""}`} aria-label="Main navigation">
       <div className="sb-top">
-        <button className="sb-toggle" onClick={toggleCollapsed} title="Toggle sidebar" aria-label="Toggle sidebar">
+        <button
+          className="sb-toggle"
+          onClick={toggleCollapsed}
+          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          aria-expanded={!collapsed}
+        >
           {I.menu}
         </button>
         <button className="sb-brand" onClick={() => navigate("/")} title="CS1 Tutor">
@@ -335,6 +341,7 @@ export default function Sidebar() {
               className={`sb-link${activeKey === tab.key ? " is-active" : ""}`}
               onClick={() => go(tab)}
               title={t(tab.labelKey)}
+              aria-current={activeKey === tab.key ? "page" : undefined}
             >
               <span className="sb-link-ic">{tab.icon}</span>
               <span className="sb-link-label">{t(tab.labelKey)}</span>
@@ -351,12 +358,12 @@ export default function Sidebar() {
           }`}
           style={openProgress && progressHeight != null ? { ["--sb-progress-h" as string]: `${progressHeight}px` } : undefined}
         >
-          <button className="sb-section-head" onClick={toggleProgress} aria-expanded={openProgress}>
+          <button className="sb-section-head" onClick={toggleProgress} aria-expanded={openProgress} aria-controls="sidebar-learning-progress">
             <span className="sb-link-ic">{I.progress}</span>
             <span className="sb-link-label">{t("sidebar.learningProgress")}</span>
             <span className="sb-caret">{I.chevron}</span>
           </button>
-          <div className="sb-section-body">
+          <div className="sb-section-body" id="sidebar-learning-progress">
             <div className="sb-progress-embed" data-onboarding="learning-progress" ref={progressEmbedRef}>
               {builtinCourse ? (
                 <LectureProgress onOpen={previewSection} />
@@ -385,19 +392,21 @@ export default function Sidebar() {
                   setProgressHeight(next);
                   writeSidebarProgressHeight(next);
                 }}
-              />
+              >
+                <span className="sb-progress-resize-label" aria-hidden="true">Resize</span>
+              </div>
             </div>
           </div>
         </div>
 
         {builtinCourse ? (
           <div className={`sb-section sb-section--textbook${openTextbook ? " is-open" : ""}`}>
-            <button className="sb-section-head" onClick={toggleTextbook} aria-expanded={openTextbook}>
+            <button className="sb-section-head" onClick={toggleTextbook} aria-expanded={openTextbook} aria-controls="sidebar-textbook">
               <span className="sb-link-ic">{I.learning}</span>
               <span className="sb-link-label">Textbook</span>
               <span className="sb-caret">{I.chevron}</span>
             </button>
-            <div className="sb-section-body">
+            <div className="sb-section-body" id="sidebar-textbook">
               <TextbookOutline onOpen={previewSection} />
             </div>
           </div>
@@ -408,12 +417,12 @@ export default function Sidebar() {
           className={`sb-section sb-section--hist${openHistory ? " is-open" : ""}`}
           data-onboarding="history"
         >
-          <button ref={historyHeadRef} className="sb-section-head" onClick={toggleHistory} aria-expanded={openHistory}>
+          <button ref={historyHeadRef} className="sb-section-head" onClick={toggleHistory} aria-expanded={openHistory} aria-controls="sidebar-history">
             <span className="sb-link-ic">{I.history}</span>
             <span className="sb-link-label">{t("sidebar.history")}</span>
             <span className="sb-caret">{I.chevron}</span>
           </button>
-          <div className="sb-section-body">
+          <div className="sb-section-body" id="sidebar-history">
             {user ? <SidebarHistory /> : <div className="sb-empty">{t("sidebar.signInHistory")}</div>}
           </div>
         </div>

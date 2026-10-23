@@ -95,6 +95,10 @@
   text-align: left; transition: background 0.15s, color 0.15s;
 }
 .sb-link:hover, .sb-section-head:hover { background: rgba(255, 255, 255, 0.06); color: #f1f5f9; }
+.sb button:focus-visible {
+  outline: 2px solid var(--tealb);
+  outline-offset: 2px;
+}
 .sb-link.is-active { background: rgba(94, 234, 212, 0.1); color: var(--tealb); }
 .sb-link.is-active::before {
   content: ""; position: absolute; left: 3px; top: 50%; transform: translateY(-50%);
@@ -152,6 +156,8 @@
   max-height: 320px;
   overflow: auto;
   padding-left: 0;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
 }
 .sb-lecture-list,
 .sb-textbook-list ul {
@@ -160,9 +166,27 @@
   padding: 4px 6px 8px;
 }
 .sb-lecture-list {
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   height: 100%;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(94, 234, 212, 0.5) transparent;
 }
+.sb-lecture-list::-webkit-scrollbar { width: 8px; }
+.sb-lecture-list::-webkit-scrollbar-track { background: transparent; }
+.sb-lecture-list::-webkit-scrollbar-thumb {
+  background: rgba(94, 234, 212, 0.42);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+.sb-lecture-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(94, 234, 212, 0.7);
+  background-clip: padding-box;
+}
+.sb-lecture-list::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
 .sb-lecture-btn,
 .sb-textbook-sec {
   width: 100%;
@@ -174,6 +198,7 @@
   border-radius: 8px;
   padding: 8px 10px;
   font: inherit;
+  min-height: 44px;
 }
 .sb-lecture-btn:hover,
 .sb-textbook-sec:hover { background: rgba(255, 255, 255, 0.06); }
@@ -302,6 +327,22 @@
   background: rgba(94, 234, 212, 0.45);
   transform: translate(-50%, -50%);
 }
+.sb-progress-resize-label {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(153, 246, 228, 0.82);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+}
+.sb-progress-resize:hover .sb-progress-resize-label,
+.sb-progress-resize:focus-visible .sb-progress-resize-label { opacity: 1; }
 .sb-progress-resize:hover,
 .sb-progress-resize:focus-visible {
   background: rgba(94, 234, 212, 0.14);

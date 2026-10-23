@@ -113,6 +113,7 @@ export const LECTURE_02_PRACTICE: PracticeSet = {
   challenge: [
     {
       id: "l2-c-temp",
+      answerMode: "code",
       prompt:
         "Write a single line of Python that converts 64 degrees Celsius to Fahrenheit and prints only that number. Use multiplication and print. (F = C * 9/5 + 32.)",
       solution: "print(64 * 9 / 5 + 32)",
@@ -121,6 +122,7 @@ export const LECTURE_02_PRACTICE: PracticeSet = {
     },
     {
       id: "l2-c-box",
+      answerMode: "code",
       prompt:
         "A box is 16.5 by 12.5 by 5. Create variables length, width, and height. Compute volume and surface area into variables, then print both. Use five assignment statements and two print calls. Expected output:\nvolume = 1031.25\narea = 702.5",
       solution:
@@ -130,6 +132,7 @@ export const LECTURE_02_PRACTICE: PracticeSet = {
     },
     {
       id: "l2-c-trace",
+      answerMode: "code",
       prompt:
         "Without running it, what two integers does this program print?\n\nz = 2\nz = z**2**3\nprint(z)\nx = 6\nx = x**2 + 6 - z // 10 * 2\nprint(x)",
       solution: "256\n-8",

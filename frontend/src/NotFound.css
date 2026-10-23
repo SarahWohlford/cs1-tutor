@@ -1,0 +1,33 @@
+.not-found {
+  width: min(680px, calc(100% - 32px));
+  margin: clamp(56px, 12vh, 120px) auto;
+  padding: clamp(28px, 6vw, 56px);
+  border: 2px solid #0c1222;
+  background: #fffefb;
+  box-shadow: 8px 9px 0 #0c1222;
+  color: #0c1222;
+  text-align: center;
+}
+
+.not-found__code {
+  color: #0f766e;
+  font-family: "DM Mono", monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.not-found h1 { margin: 12px 0; font-size: clamp(2rem, 6vw, 3.5rem); line-height: 1.05; }
+.not-found > p:not(.not-found__code) { color: #64748b; }
+.not-found__actions { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-top: 28px; }
+.not-found__actions a { padding: 11px 18px; border: 2px solid #0c1222; color: #0c1222; font-weight: 700; text-decoration: none; }
+.not-found__primary { background: #5eead4; box-shadow: 4px 4px 0 #0c1222; }
+.not-found__secondary { background: #fff; }
+
+.route-loading {
+  min-height: 50vh;
+  display: grid;
+  place-items: center;
+  color: #0f766e;
+  font-weight: 700;
+}

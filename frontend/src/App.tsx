@@ -1,12 +1,6 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { API_BASE, apiBlockedByMixedContent } from "./apiBase";
-import Home from "./Home";
-import AutoGrader from "./AutoGrader";
-import LearningModel from "./LearningModel";
-import MyLearningBar from "./MyLearningBar";
-import UserProfile from "./UserProfile";
-import Grades from "./Grades";
 import SignInModal from "./SignInModal";
 import Sidebar from "./components/Sidebar";
 import OnboardingTour from "./components/OnboardingTour";
@@ -14,6 +8,14 @@ import { OnboardingProvider } from "./context/OnboardingContext";
 import { useAuth } from "./context/AuthContext";
 
 import "./App.css";
+
+const Home = lazy(() => import("./Home"));
+const AutoGrader = lazy(() => import("./AutoGrader"));
+const LearningModel = lazy(() => import("./LearningModel"));
+const MyLearningBar = lazy(() => import("./MyLearningBar"));
+const UserProfile = lazy(() => import("./UserProfile"));
+const Grades = lazy(() => import("./Grades"));
+const NotFound = lazy(() => import("./NotFound"));
 
 function AppShell() {
   const showDeployWarning = apiBlockedByMixedContent();
@@ -59,14 +61,17 @@ function AppShell() {
         )}
 
         <div className="content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/autograder" element={<AutoGrader />} />
-            <Route path="/learning" element={<LearningModel />} />
-            <Route path="/learning-bar" element={<MyLearningBar />} />
-            <Route path="/profile" element={<UserProfile />} />
-            <Route path="/grades" element={<Grades />} />
-          </Routes>
+          <Suspense fallback={<div className="route-loading" role="status">Loading workspace…</div>}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/autograder" element={<AutoGrader />} />
+              <Route path="/learning" element={<LearningModel />} />
+              <Route path="/learning-bar" element={<MyLearningBar />} />
+              <Route path="/profile" element={<UserProfile />} />
+              <Route path="/grades" element={<Grades />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
         </div>
 
         <SignInModal />
