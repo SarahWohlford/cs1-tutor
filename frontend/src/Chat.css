@@ -244,6 +244,10 @@
   border-left: 3px solid #0d9488;
 }
 
+.section-note-card--excerpt {
+  border-left: 3px solid #b45309;
+}
+
 .section-note-card-icon {
   flex-shrink: 0;
   width: 2rem;
@@ -272,6 +276,12 @@
   border-color: #99f6e4;
 }
 
+.section-note-card--excerpt .section-note-card-icon {
+  color: #9a3412;
+  background: linear-gradient(145deg, #ffffff, #ffedd5);
+  border-color: #fdba74;
+}
+
 .section-note-card-body {
   min-width: 0;
   flex: 1;
@@ -292,6 +302,24 @@
 
 .section-note-card--formulas .left-panel-section-note-heading {
   color: #0f766e;
+}
+
+.section-note-card--excerpt .left-panel-section-note-heading {
+  color: #9a3412;
+}
+
+.section-note-excerpt-pages {
+  margin: 0 0 6px;
+  font-size: 0.75rem;
+  color: #78716c;
+}
+
+.section-note-excerpt-missing {
+  margin-top: 8px;
+}
+
+.section-note-excerpt-missing .outline-preview-error {
+  margin-bottom: 8px;
 }
 
 .left-panel-section-note-text {
