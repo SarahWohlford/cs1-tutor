@@ -91,5 +91,14 @@
     "10.5 Slices and copies": {},
     "10.6 split and join": {},
     "10.7 Problems": {}
+  },
+  "11 Decisions, part 2": {
+    "11.1 Structure and testing": {},
+    "11.2 Finding a bug": {},
+    "11.3 Main guard": {},
+    "11.4 A random step": {},
+    "11.5 and, or, and not": {},
+    "11.6 Nested choices": {},
+    "11.7 Problems": {}
   }
 }

@@ -11,7 +11,7 @@ export type Cs1Section = {
 };
 
 export type Cs1Lecture = {
-  id: "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10";
+  id: "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11";
   practiceTitle: string;
   textbookLabel: string;
   problemsTitle: string;
@@ -169,6 +169,21 @@ export const CS1_LECTURES: Cs1Lecture[] = [
       section("10.4", "range and changing items"),
       section("10.5", "Slices and copies"),
       section("10.6", "split and join"),
+    ],
+  },
+  {
+    id: "11",
+    practiceTitle: "Lecture 11 · Decisions, part 2",
+    textbookLabel: `${CS1_TEXTBOOK_NAME}, logic and testing`,
+    problemsTitle: "11.7 Problems",
+    problemsHint: "11.7",
+    sections: [
+      section("11.1", "Structure and testing"),
+      section("11.2", "Finding a bug"),
+      section("11.3", "Main guard"),
+      section("11.4", "A random step"),
+      section("11.5", "and, or, and not"),
+      section("11.6", "Nested choices"),
     ],
   },
 ];
