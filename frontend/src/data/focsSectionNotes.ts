@@ -2,7 +2,7 @@ import type { SectionNote } from "../utils/sectionNotes";
 
 const empty = { vocabulary: [] as SectionNote["vocabulary"], formulas: [] as SectionNote["formulas"] };
 
-// Study notes for CSCI 1100 Fall 2026 Lectures 2–8. Lecture 1 is not loaded.
+// Study notes for CSCI 1100 Fall 2026 Lectures 2–12. Lecture 1 is not loaded.
 export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "2": {
     objectives:
@@ -769,6 +769,322 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "8.7": {
     objectives:
       "Lecture 8 practice: trace a short list, then do a tiny in-place edit. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "9": {
+    objectives:
+      "Lecture 9 repeats a block of code with a while loop. The course points this reading at Practical Programming section 9.6, and it teaches while loops before for loops. A while loop keeps going only while its condition is true, and it stops when that condition is false.",
+    vocabulary: [
+      {
+        term: "while loop",
+        definition: "A loop that runs its body, then checks the condition again, until the condition is false.",
+      },
+    ],
+    formulas: [],
+  },
+  "9.1": {
+    objectives:
+      "Use a loop when the same steps should happen more than once, such as visiting every item in a list. Python can repeat work with while or with for. while is the more general form: a for loop can be rewritten as a while loop. This lecture starts with while.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "9.2": {
+    objectives:
+      "A counting loop needs a start value, a condition, and a change inside the body. For i = 1, the body runs while i < 10, and the body must do i += 1. If that update is missing, the condition stays true and the loop never ends. Code before the while runs once. Code after the while runs only after the condition is false.",
+    vocabulary: [
+      {
+        term: "loop variable",
+        definition: "A name the loop checks and updates. Give it a start value before the while.",
+      },
+    ],
+    formulas: [],
+  },
+  "9.3": {
+    objectives:
+      "To visit every item, start an index at 0 and keep going while the index is less than len(items). The last valid index is len(items) - 1. items[i] is the item at that position. If each item is a pair, items[i][0] is the first part of the pair and items[i][1] is the second. Using i <= len(items) reads one past the end and raises IndexError.",
+    vocabulary: [
+      {
+        term: "index",
+        definition: "A number that picks one list item. Legal indexes run from 0 up to, but not including, the length.",
+      },
+    ],
+    formulas: [],
+  },
+  "9.4": {
+    objectives:
+      "An accumulator is a variable that starts before the loop, usually at 0, and is updated on each pass. total += i adds the loop variable. total += items[i] adds a list item. Print the total after the loop, not inside it, if you want one result. sum(items) does this kind of walk for you, but you should still be able to write the loop.",
+    vocabulary: [
+      {
+        term: "accumulator",
+        definition: "A variable that collects a result one step at a time, such as a running total or a count.",
+      },
+    ],
+    formulas: [],
+  },
+  "9.5": {
+    objectives:
+      "Some loops stop because of input, not because a counter hits a limit. A sentinel is a special value, such as 0, that means stop. Read a value in the body, and if it is the sentinel, set a flag so the condition fails. Otherwise fold the value into the total. Do not add the sentinel itself.",
+    vocabulary: [
+      {
+        term: "sentinel",
+        definition: "A special input that ends the loop. It is a signal, not another data value.",
+      },
+    ],
+    formulas: [],
+  },
+  "9.6": {
+    objectives:
+      "A loop body can contain another loop. The inner loop finishes all of its passes before the outer loop takes one more step. For every pair of indexes, start the inner index over on each outer pass. Starting the inner index at the outer index plus one prints each unordered pair once and skips a value paired with itself.",
+    vocabulary: [
+      {
+        term: "nested loop",
+        definition: "A loop written inside the body of another loop.",
+      },
+    ],
+    formulas: [],
+  },
+  "9.7": {
+    objectives:
+      "Lecture 9 practice: trace a while loop, then write one that walks a list by index. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "10": {
+    objectives:
+      "Lecture 10 stays with lists. Assigning one list name to another does not copy the items. A for loop walks the values. Change a slot by index, using range when you need the position. Slicing, copy, concatenation, and replication build a new list. split and join move between a string and a list of strings.",
+    vocabulary: [
+      {
+        term: "alias",
+        definition: "A second name for the same list. Editing through either name changes that one list.",
+      },
+    ],
+    formulas: [],
+  },
+  "10.1": {
+    objectives:
+      "After L2 = L1, L1 and L2 refer to the same list. L2.append(...) and L2[0] = ... are visible through L1. A different list that happens to hold the same values is not an alias. L1.copy(), list(L1), and L1[:] each make a new list of the same items. That copy is shallow: inner lists are still shared.",
+    vocabulary: [
+      {
+        term: "copy()",
+        definition: "A list method that returns a new list with the same items.",
+      },
+    ],
+    formulas: [],
+  },
+  "10.2": {
+    objectives:
+      "A function parameter gets its own copy of a number or a boolean. A list parameter is an alias of the list that was passed in. Appending, sorting, or replacing items inside the function changes the caller's list. Writing names = some_other_list only retargets the parameter. The caller's variable still refers to the original list.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "10.3": {
+    objectives:
+      "for animal in animals: sets animal to each item in order. The name after for is the item, not the index. You can append a changed item onto a new list and leave the original as it was. Assigning animal = animal.capitalize() rebinds that name. It does not replace the string stored in the list.",
+    vocabulary: [
+      {
+        term: "for loop",
+        definition: "A loop that sets its variable to each item of a sequence, one pass per item.",
+      },
+    ],
+    formulas: [],
+  },
+  "10.4": {
+    objectives:
+      "range(5) produces 0, 1, 2, 3, 4. range(start, stop) stops before stop. range(start, stop, step) adds step, which may be negative. for i in range(len(names)): gives the index, so names[i] = names[i].capitalize() replaces that item. You do not write the i += 1 yourself.",
+    vocabulary: [
+      {
+        term: "range",
+        definition: "A generator of integers. The stop value is not included.",
+      },
+    ],
+    formulas: [],
+  },
+  "10.5": {
+    objectives:
+      "items[start:stop] builds a new list from start up to, but not including, stop. Leave off start to begin at 0, or leave off stop to run through the end. A negative index counts from the end. items[::2] keeps the even indexes. items + more and [0] * 3 also create new lists. append, sort, pop, and remove change the list you already have.",
+    vocabulary: [
+      {
+        term: "slice",
+        definition: "A new list made from a stretch of an existing list. The end index is not included.",
+      },
+    ],
+    formulas: [],
+  },
+  "10.6": {
+    objectives:
+      "list('hi') is ['h', 'i']. s.split() breaks on whitespace and drops empty pieces. s.split(' ') splits on a single space and can leave empty strings. separator.join(parts) pastes the parts together with that separator between them. Strings can be indexed and sliced, but s[i] = 'x' raises TypeError because a string cannot be changed in place.",
+    vocabulary: [
+      {
+        term: "split()",
+        definition: "A string method that returns a list of pieces.",
+      },
+      {
+        term: "join()",
+        definition: "A string method that pastes a list of strings into one string.",
+      },
+    ],
+    formulas: [],
+  },
+  "10.7": {
+    objectives:
+      "Lecture 10 practice: tell an alias from a copy, then update a list by index. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "11": {
+    objectives:
+      "Lecture 11 returns to decisions and to how a program is organized. Solve a small piece, move repeated work into a function, and test both ordinary inputs and inputs at the edge. and, or, and not combine conditions. A condition can be stored in a name, and an if can sit inside another if.",
+    vocabulary: [
+      {
+        term: "boolean",
+        definition: "A value that is either True or False.",
+      },
+    ],
+    formulas: [],
+  },
+  "11.1": {
+    objectives:
+      "Start with one small step that you can run, then add the next piece. Put a repeated block in a function with a name that says what it does. A function that promises a result should return on every path. A comment that only restates the next line, such as a note that an assignment increments a variable, does not earn its keep. State assumptions that a caller must meet.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "11.2": {
+    objectives:
+      "A syntax error means the program does not run. A semantic error runs and does the wrong thing. Fix the first error first, because later messages may be fallout from it. Print the values just before and after the step you doubt. If you comment out later code and the failure disappears, the bug is in what you just removed. Do not treat an untested branch as correct.",
+    vocabulary: [
+      {
+        term: "semantic error",
+        definition: "A mistake in meaning. The program runs, but the result is wrong.",
+      },
+    ],
+    formulas: [],
+  },
+  "11.3": {
+    objectives:
+      "Put definitions first. Under if __name__ == \"__main__\": put the steps that should run only when this file is the program. Running the file executes that block. Importing the file defines the functions and skips the block, so another file can call them without answering the prompts.",
+    vocabulary: [
+      {
+        term: "main guard",
+        definition: "The if __name__ == \"__main__\" block. It runs for a program and is skipped on import.",
+      },
+    ],
+    formulas: [],
+  },
+  "11.4": {
+    objectives:
+      "import random, then pick a number. random.random() is a float from 0 up to, but not including, 1. random.randint(a, b) is an int that can be either endpoint. random.choice(options) returns one entry from the sequence. A walk can start at a position and repeatedly add choice([-1, 1]) until the position leaves the allowed interval. random.seed(n) repeats the same picks, which makes a test possible.",
+    vocabulary: [
+      {
+        term: "random.choice",
+        definition: "Returns one item from the sequence you pass in.",
+      },
+    ],
+    formulas: [],
+  },
+  "11.5": {
+    objectives:
+      "and is true only when both sides are true. or is true when at least one side is true. not flips True and False. not (a and b) matches (not a) or (not b). not (a or b) matches (not a) and (not b). Python stops early: for and, a false left side means the right side is not evaluated; for or, a true left side means the right side is not evaluated.",
+    vocabulary: [
+      {
+        term: "short-circuit",
+        definition: "Skipping the rest of a boolean expression once the result is already known.",
+      },
+    ],
+    formulas: [],
+  },
+  "11.6": {
+    objectives:
+      "An inner if runs only when the outer condition is true as well. else attaches to the nearest if at that indent. You can store a test: ready = score >= 70, then write if ready. The name documents the test and avoids doing the same work twice. Check that every input you care about lands in some branch. In Python, changing the indent moves a line into a different branch.",
+    vocabulary: [
+      {
+        term: "nested if",
+        definition: "An if statement placed in the body of another if.",
+      },
+    ],
+    formulas: [],
+  },
+  "11.7": {
+    objectives:
+      "Lecture 11 practice: trace a boolean expression, then compare two (stage, cycle) pairs. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "12": {
+    objectives:
+      "Lecture 12 finishes the loop material. The course places the rest of this reading in Practical Programming chapter 9. range can start, stop, and step. Nested loops walk pairs and tables. break leaves a loop, and continue skips the rest of one pass. A while loop still has to be able to end.",
+    vocabulary: [
+      {
+        term: "break",
+        definition: "Leaves the current loop immediately and continues with the code after it.",
+      },
+    ],
+    formulas: [],
+  },
+  "12.1": {
+    objectives:
+      "range(10) yields 0 through 9. range(3, 8) yields 3 through 7. range(4, 20, 3) starts at 4 and adds 3 until it would reach or pass 20. A negative step counts backward: range(-1, -10, -1) yields -1 through -9. The stop value is never one of the results.",
+    vocabulary: [
+      {
+        term: "step",
+        definition: "The third argument to range. It is added after each value. The default step is 1.",
+      },
+    ],
+    formulas: [],
+  },
+  "12.2": {
+    objectives:
+      "If the body reads s[i] and s[i+1], the last legal i is len(s) - 2. range(len(s) - 1) stops before that last index. If the body also reads i+5, i must stop early enough that i+5 is still inside s. Stopping too soon misses a real match. Stopping too late raises IndexError.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "12.3": {
+    objectives:
+      "The inner for runs to completion for each value of the outer variable. The outer variable stays fixed during those inner passes. To visit every unordered pair once, and to skip pairing a value with itself, start the inner index at the outer index plus one.",
+    vocabulary: [
+      {
+        term: "nested for",
+        definition: "A for loop written in the body of another for loop.",
+      },
+    ],
+    formulas: [],
+  },
+  "12.4": {
+    objectives:
+      "A list of lists can store one group of readings per site. for site in groups: visits each inner list, and site is an alias of that inner list. sum(site) / len(site) is the group's average. To find the smallest reading of all, walk each inner list and keep the smallest value seen so far.",
+    vocabulary: [
+      {
+        term: "list of lists",
+        definition: "A list whose items are themselves lists. The outer loop visits groups, and the inner loop visits values.",
+      },
+    ],
+    formulas: [],
+  },
+  "12.5": {
+    objectives:
+      "break jumps to the first line after the current loop. continue jumps back to the next pass and skips the rest of the body. while True: runs until a break. A loop with break or continue can be rewritten without either one. Use them when the stop is clearer that way. More than one break or continue in the same loop is usually a sign to restructure it.",
+    vocabulary: [
+      {
+        term: "continue",
+        definition: "Skips the rest of this pass and starts the next one.",
+      },
+    ],
+    formulas: [],
+  },
+  "12.6": {
+    objectives:
+      "A while loop ends only if something in the body can make the condition false. Repeatedly replacing a number greater than 1 with its square root moves it toward 1, so a test of x > 1 does end. A test of x >= 1 does not: the square root of 1 is 1, and the condition stays true.",
+    vocabulary: [
+      {
+        term: "infinite loop",
+        definition: "A loop whose condition never becomes false and that never hits a break.",
+      },
+    ],
+    formulas: [],
+  },
+  "12.7": {
+    objectives:
+      "Lecture 12 practice: predict a range, then find the smallest value in a list of lists. Open Study questions on the learning page, or click this section.",
     vocabulary: [],
     formulas: [],
   },

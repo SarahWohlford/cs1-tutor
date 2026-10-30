@@ -12,11 +12,15 @@ const BOOK_PHRASE: Record<string, string> = {
   "6": "chapter 5",
   "7": "Mostly outside",
   "8": "sections 8.1–8.3",
+  "9": "section 9.6",
+  "10": "lists and for loops",
+  "11": "logic and testing",
+  "12": "rest of chapter 9",
 };
 
 describe("CS1 lectures", () => {
   it("groups each loaded lecture and keeps the textbook label separate", () => {
-    expect(CS1_LECTURES.map((lecture) => lecture.id)).toEqual(["2", "3", "4", "5", "6", "7", "8"]);
+    expect(CS1_LECTURES.map((lecture) => lecture.id)).toEqual(["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]);
     for (const lecture of CS1_LECTURES) {
       expect(lecture.practiceTitle.startsWith(`Lecture ${lecture.id}`)).toBe(true);
       expect(lecture.textbookLabel).toContain("Practical Programming");
