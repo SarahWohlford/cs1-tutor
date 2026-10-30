@@ -100,5 +100,14 @@
     "11.5 and, or, and not": {},
     "11.6 Nested choices": {},
     "11.7 Problems": {}
+  },
+  "12 Controlling loops": {
+    "12.1 range with a step": {},
+    "12.2 Stopping short of the end": {},
+    "12.3 Nested for loops": {},
+    "12.4 Lists of lists": {},
+    "12.5 break and continue": {},
+    "12.6 Loops that must end": {},
+    "12.7 Problems": {}
   }
 }
