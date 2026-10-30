@@ -36,10 +36,7 @@ import { useLocale } from "./i18n/LocaleContext";
 import { CS1_LECTURES, CS1_TEXTBOOK_NAME, lectureBarTitle, lectureById, lectureForHint } from "./data/cs1Lectures";
 import { isPracticalProgrammingHint, PRACTICAL_PROGRAMMING_MISSING } from "./data/practicalProgramming";
 import { looksLikePdf, savePracticalProgrammingPdf } from "./textbook/practicalProgrammingFile";
-import {
-  clearPracticalProgrammingCache,
-  renderPracticalProgrammingPages,
-} from "./textbook/renderPracticalProgramming";
+import { BookExcerptCard } from "./textbook/BookExcerptCard";
 import { LEARNING_CHAT_EXAMPLES } from "./learningChatExamples";
 import {
   ONBOARDING_STEP_EVENT,
@@ -197,6 +194,7 @@ export default function LearningModel() {
   const [sectionPageIndex, setSectionPageIndex] = useState(0);
   const [outlinePreviewLoading, setOutlinePreviewLoading] = useState(false);
   const [outlinePreviewError, setOutlinePreviewError] = useState<string | null>(null);
+  const [excerptRevision, setExcerptRevision] = useState(0);
   const [enlargedImageSrc, setEnlargedImageSrc] = useState<string | null>(null);
   const [textbookZoomPct, setTextbookZoomPct] = useState(readStoredTextbookZoomPct);
   const [bookHighlight, setBookHighlight] = useState<string | null>(null);
@@ -205,7 +203,6 @@ export default function LearningModel() {
   // Closes the section Note split; wired after useSectionNoteToggle mounts.
   const closeSectionNoteRef = useRef<() => void>(() => {});
   const pendingNoteHintRef = useRef<string | null>(null);
-  const outlinePreviewSeq = useRef(0);
   const textbookImgRef = useRef<HTMLDivElement>(null);
   const textbookPan = useDragScroll();
   const [attachedImages, setAttachedImages] = useState<string[]>([]);
@@ -327,35 +324,15 @@ export default function LearningModel() {
       setSectionPageIndex(0);
       setOutlinePreviewLoading(true);
       const previewHint = detail.sectionHint.trim() || sectionTokenFromTitle(detail.sectionTitle) || "";
-      const localBook =
-        textbookId === "focs" && detail.startBook > 0 && detail.endBook >= detail.startBook;
-      pendingNoteHintRef.current =
-        isProblemsSection(detail.sectionTitle) || localBook ? null : previewHint;
-      if (localBook) {
-        const seq = ++outlinePreviewSeq.current;
+      pendingNoteHintRef.current = isProblemsSection(detail.sectionTitle) ? null : previewHint;
+      if (textbookId === "focs") {
         setDataMatchedTopic({
           name: detail.sectionTitle,
           startBook: detail.startBook,
           endBook: detail.endBook,
           sectionHint: previewHint || undefined,
         });
-        try {
-          const pages = await renderPracticalProgrammingPages(detail.startBook, detail.endBook);
-          if (seq !== outlinePreviewSeq.current) return;
-          setReferenceSectionPages(pages);
-          setSectionPageIndex(0);
-          setOutlinePreviewError(null);
-        } catch (error) {
-          if (seq !== outlinePreviewSeq.current) return;
-          setReferenceSectionPages(null);
-          setOutlinePreviewError(
-            error instanceof Error && error.message
-              ? error.message
-              : "Could not open Practical Programming."
-          );
-        } finally {
-          if (seq === outlinePreviewSeq.current) setOutlinePreviewLoading(false);
-        }
+        setOutlinePreviewLoading(false);
         return;
       }
       if (!courseHasTextbookPdf(textbookId) || !detail.startBook || !detail.endBook) {
@@ -491,34 +468,13 @@ export default function LearningModel() {
   );
 
   const choosePracticalProgrammingFile = async (file: File) => {
-    const seq = ++outlinePreviewSeq.current;
-    setOutlinePreviewLoading(true);
-    setOutlinePreviewError(null);
-    try {
-      const bytes = await file.arrayBuffer();
-      if (!looksLikePdf(bytes)) {
-        if (seq !== outlinePreviewSeq.current) return;
-        setOutlinePreviewError("That file is not a PDF. Choose Practical Programming.");
-        return;
-      }
-      await savePracticalProgrammingPdf(bytes);
-      clearPracticalProgrammingCache();
-      const start = dataMatchedTopic?.startBook ?? 0;
-      const end = dataMatchedTopic?.endBook ?? 0;
-      if (start < 1 || end < start) return;
-      const pages = await renderPracticalProgrammingPages(start, end);
-      if (seq !== outlinePreviewSeq.current) return;
-      setReferenceSectionPages(pages);
-      setSectionPageIndex(0);
-      setOutlinePreviewError(null);
-    } catch (error) {
-      if (seq !== outlinePreviewSeq.current) return;
-      setOutlinePreviewError(
-        error instanceof Error && error.message ? error.message : PRACTICAL_PROGRAMMING_MISSING
-      );
-    } finally {
-      if (seq === outlinePreviewSeq.current) setOutlinePreviewLoading(false);
+    const bytes = await file.arrayBuffer();
+    if (!looksLikePdf(bytes)) {
+      throw new Error("That file is not a PDF. Choose Practical Programming.");
     }
+    await savePracticalProgrammingPdf(bytes);
+    setOutlinePreviewError(null);
+    setExcerptRevision((n) => n + 1);
   };
 
   // Learning Progress now lives in the global Sidebar (see Sidebar.tsx). The
@@ -836,6 +792,7 @@ export default function LearningModel() {
       bookHighlightTimerRef.current = setTimeout(() => setBookHighlight(null), 9000);
 
       const inRange =
+        textbookId !== "focs" &&
         dataMatchedTopic &&
         referenceSectionPages?.length &&
         anchor.bookPage >= dataMatchedTopic.startBook &&
@@ -850,16 +807,27 @@ export default function LearningModel() {
         return;
       }
 
-      pendingBookPageRef.current = anchor.bookPage;
-      await handleOutlineSectionPreview({
-        sectionTitle: anchor.sectionTitle,
-        path: anchor.sectionHint ?? anchor.sectionTitle,
-        startBook: anchor.startBook,
-        endBook: anchor.endBook,
-        sectionHint: anchor.sectionHint ?? sectionTokenFromTitle(anchor.sectionTitle) ?? "",
-      });
+      const alreadyHere =
+        textbookId === "focs" &&
+        dataMatchedTopic?.sectionHint === (anchor.sectionHint ?? "") &&
+        dataMatchedTopic.startBook === anchor.startBook;
+      if (!alreadyHere) {
+        pendingBookPageRef.current = textbookId === "focs" ? null : anchor.bookPage;
+        await handleOutlineSectionPreview({
+          sectionTitle: anchor.sectionTitle,
+          path: anchor.sectionHint ?? anchor.sectionTitle,
+          startBook: anchor.startBook,
+          endBook: anchor.endBook,
+          sectionHint: anchor.sectionHint ?? sectionTokenFromTitle(anchor.sectionTitle) ?? "",
+        });
+      }
+      if (textbookId === "focs") {
+        requestAnimationFrame(() => {
+          document.getElementById("book-excerpt")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        });
+      }
     },
-    [dataMatchedTopic, referenceSectionPages, handleOutlineSectionPreview]
+    [dataMatchedTopic, referenceSectionPages, handleOutlineSectionPreview, textbookId]
   );
 
   useEffect(() => {
@@ -1296,7 +1264,15 @@ export default function LearningModel() {
                 onChange={(event) => {
                   const file = event.target.files?.[0];
                   event.target.value = "";
-                  if (file) void choosePracticalProgrammingFile(file);
+                  if (file) {
+                    void choosePracticalProgrammingFile(file).catch((error: unknown) => {
+                      setOutlinePreviewError(
+                        error instanceof Error && error.message
+                          ? error.message
+                          : PRACTICAL_PROGRAMMING_MISSING
+                      );
+                    });
+                  }
                 }}
               />
             </label>
@@ -1417,6 +1393,21 @@ export default function LearningModel() {
     </>
   );
 
+  const bookExcerptCard =
+    textbookId === "focs" &&
+    dataMatchedTopic &&
+    dataMatchedTopic.startBook > 0 &&
+    dataMatchedTopic.endBook >= dataMatchedTopic.startBook &&
+    !practiceActive ? (
+      <BookExcerptCard
+        title={dataMatchedTopic.name}
+        startPage={dataMatchedTopic.startBook}
+        endPage={dataMatchedTopic.endBook}
+        revision={excerptRevision}
+        onChooseFile={choosePracticalProgrammingFile}
+      />
+    ) : null;
+
   return (
     <div className="learning-page-wrapper">
     <div className="learning-layout" ref={layoutRef}>
@@ -1531,7 +1522,9 @@ export default function LearningModel() {
                     note={activeSectionNote}
                     panelId={sectionNoteToggle.panelId}
                     actions={sectionNoteActions}
-                  />
+                  >
+                    {bookExcerptCard}
+                  </SectionNotePanel>
                 </div>
               ) : (
                 <PracticePanel
@@ -1589,7 +1582,9 @@ export default function LearningModel() {
                     note={activeSectionNote}
                     panelId={sectionNoteToggle.panelId}
                     actions={sectionNoteActions}
-                  />
+                  >
+                    {bookExcerptCard}
+                  </SectionNotePanel>
                 </div>
               ) : (
                 <GuidePanel
@@ -1623,7 +1618,9 @@ export default function LearningModel() {
                 note={activeSectionNote}
                 panelId={sectionNoteToggle.panelId}
                 actions={sectionNoteActions}
-              />
+              >
+                {bookExcerptCard}
+              </SectionNotePanel>
             </div>
             {bookPagesOpen ? (
               <>
@@ -1643,7 +1640,13 @@ export default function LearningModel() {
             ) : null}
           </div>
         ) : (
-          <div className="textbook-pages-pane textbook-pages-pane--full">{textbookBody}</div>
+          <div className="textbook-pages-pane textbook-pages-pane--full">
+            {bookExcerptCard ? (
+              <div className="left-panel-section-note">{bookExcerptCard}</div>
+            ) : (
+              textbookBody
+            )}
+          </div>
         )}
       </div>
       )}

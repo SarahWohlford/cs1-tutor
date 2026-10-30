@@ -50,6 +50,7 @@ type SectionNotePanelProps = {
   note: SectionNote;
   panelId: string;
   actions: SectionNoteActions;
+  children?: ReactNode;
 };
 
 function plainTermLabel(label: ReactNode, fallback: string): string {
@@ -172,7 +173,7 @@ function formulaToEntry(item: FormulaEntry): ExpandableEntry {
   };
 }
 
-export function SectionNotePanel({ note, panelId, actions }: SectionNotePanelProps) {
+export function SectionNotePanel({ note, panelId, actions, children }: SectionNotePanelProps) {
   const { t } = useLocale();
   return (
     <div
@@ -231,6 +232,7 @@ export function SectionNotePanel({ note, panelId, actions }: SectionNotePanelPro
           </div>
         </div>
       ) : null}
+      {children}
     </div>
   );
 }
