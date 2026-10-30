@@ -27,9 +27,12 @@ function range(id: string, title: string, startPage: number, endPage: number): B
 }
 
 // Printed page numbers match this PDF: page 19 is PDF page 19.
+// A section runs from its contents entry through the page before the next one.
 // Lecture 2 uses the calculator pages in chapter 2. Function Basics and
 // Built-in Functions are also chapter 2, and this course teaches them in Lecture 4.
-const PAGED: Record<"2" | "3" | "4", BookSection[]> = {
+// This edition numbers decisions as chapter 6 and lists as chapter 5. The course
+// labels stay on the lecture; the rows below are the book sections those lectures use.
+const PAGED: Record<"2" | "3" | "4" | "5" | "6" | "7" | "8", BookSection[]> = {
   "2": [
     range("big-picture", "The Big Picture", 17, 18),
     range("expressions", "Expressions", 19, 21),
@@ -57,16 +60,36 @@ const PAGED: Record<"2" | "3" | "4", BookSection[]> = {
     range("own-modules", "Defining Your Own Modules", 54, 59),
     range("objects", "Objects and Methods", 60, 67),
   ],
+  "5": [
+    range("l5-function-basics", "Function Basics", 30, 32),
+    range("l5-importing", "Importing Modules", 50, 53),
+  ],
+  "6": [
+    range("boolean-logic", "Boolean Logic", 108, 117),
+    range("if-statements", "if Statements", 118, 124),
+    range("storing-conditionals", "Storing Conditionals", 125, 125),
+    range("ch6-summary", "Summary", 126, 126),
+    range("ch6-exercises", "Exercises", 127, 130),
+  ],
+  "7": [
+    range("l7-importing", "Importing Modules", 50, 53),
+    // "Images" begins on page 64. The next contents entry, Pixels and Colors, is page 68.
+    range("images", "Images", 64, 67),
+    // Tuple indexing starts on page 99. Immutability is at the top of page 100,
+    // before section 5.10 Files as Lists begins on that same page.
+    range("sequences", "Other Kinds of Sequences", 99, 100),
+  ],
+  "8": [
+    range("lists-indices", "Lists and Indices", 81, 84),
+    range("modifying-lists", "Modifying Lists", 85, 86),
+    range("list-builtins", "Built-in Functions on Lists", 87, 88),
+    range("list-methods", "List Methods", 95, 96),
+    range("nested-lists", "Nested Lists", 97, 98),
+  ],
 };
 
 function sectionsFor(lecture: Cs1Lecture): BookSection[] {
-  if (lecture.id === "2" || lecture.id === "3" || lecture.id === "4") return PAGED[lecture.id];
-  // Later lectures name a chapter, not a printed page, so the list has no page numbers.
-  return lecture.sections.map((section) => ({
-    id: `note-${section.id}`,
-    title: section.title,
-    noteHint: section.id,
-  }));
+  return PAGED[lecture.id];
 }
 
 export const PRACTICAL_PROGRAMMING_GROUPS: BookGroup[] = CS1_LECTURES.map((lecture) => ({
