@@ -11,7 +11,7 @@ export type Cs1Section = {
 };
 
 export type Cs1Lecture = {
-  id: "2" | "3" | "4" | "5" | "6" | "7" | "8";
+  id: "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
   practiceTitle: string;
   textbookLabel: string;
   problemsTitle: string;
@@ -139,6 +139,21 @@ export const CS1_LECTURES: Cs1Lecture[] = [
       section("8.4", "sort versus sorted"),
       section("8.5", "append, insert, pop, and remove"),
       section("8.6", "Lists of lists"),
+    ],
+  },
+  {
+    id: "9",
+    practiceTitle: "Lecture 9 · While loops",
+    textbookLabel: `${CS1_TEXTBOOK_NAME}, section 9.6`,
+    problemsTitle: "9.7 Problems",
+    problemsHint: "9.7",
+    sections: [
+      section("9.1", "Why a while loop"),
+      section("9.2", "Counting and the loop body"),
+      section("9.3", "Indexing a list"),
+      section("9.4", "Adding values up"),
+      section("9.5", "Stopping on a sentinel"),
+      section("9.6", "Nested while loops"),
     ],
   },
 ];
