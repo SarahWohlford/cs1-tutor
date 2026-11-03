@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { apiUrl } from "./apiBase";
+import { homeworkChatMessage, stripSolutionCode } from "./homeworkStrip";
 import MarkdownMessage from "./MarkdownMessage";
 import { useLocale } from "./i18n/LocaleContext";
 import "./HomeworkHelp.css";
@@ -21,6 +22,54 @@ function fileToBase64(file: File): Promise<string> {
     reader.onerror = () => reject(reader.error ?? new Error("read"));
     reader.readAsDataURL(file);
   });
+}
+
+async function postJson(path: string, body: unknown) {
+  const response = await fetch(apiUrl(path), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const data = (await response.json().catch(() => ({}))) as { reply?: string; detail?: string };
+  return { ok: response.ok, status: response.status, data };
+}
+
+function detailMessage(detail: string | undefined): string {
+  const text = (detail || "").trim();
+  if (!text || text === "Not Found") return "";
+  return text;
+}
+
+async function requestStart(
+  pasted: string,
+  pdfB64: string | null,
+  turns: Turn[],
+  message: string,
+  language: string,
+): Promise<string> {
+  const dedicated = await postJson("/api/homework_help", {
+    assignment: pasted,
+    pdf_b64: pdfB64,
+    history: turns,
+    message,
+    language,
+  });
+  if (dedicated.ok) return stripSolutionCode(dedicated.data.reply || "");
+  if (dedicated.status !== 404) {
+    throw new Error(detailMessage(dedicated.data.detail));
+  }
+  const chat = await postJson("/api/chat", {
+    message: homeworkChatMessage(pasted, message, language),
+    history: turns.map((turn) => ({
+      sender: turn.role === "assistant" ? "ai" : "user",
+      text: turn.content,
+    })),
+    pdf_b64: pasted ? null : pdfB64,
+    textbook_id: "focs",
+    silent: true,
+  });
+  if (!chat.ok) throw new Error(detailMessage(chat.data.detail));
+  return stripSolutionCode(chat.data.reply || "");
 }
 
 function fileToText(file: File): Promise<string> {
@@ -52,23 +101,7 @@ export default function HomeworkHelp() {
     setBusy(true);
     setError("");
     try {
-      const response = await fetch(apiUrl("/api/homework_help"), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          assignment: pasted,
-          pdf_b64: pdfB64,
-          history: turns,
-          message,
-          language: chatLanguageSuffix(),
-        }),
-      });
-      const data = (await response.json().catch(() => ({}))) as { reply?: string; detail?: string };
-      if (!response.ok) {
-        setError(typeof data.detail === "string" && data.detail ? data.detail : t("homework.errRequest"));
-        return;
-      }
-      const reply = (data.reply || "").trim();
+      const reply = await requestStart(pasted, pdfB64, turns, message, chatLanguageSuffix());
       if (!reply) {
         setError(t("homework.errRequest"));
         return;
@@ -78,8 +111,9 @@ export default function HomeworkHelp() {
       next.push({ role: "assistant", content: reply });
       setTurns((prev) => [...prev, ...next]);
       setFollowUp("");
-    } catch {
-      setError(t("homework.errRequest"));
+    } catch (err) {
+      const detail = err instanceof Error ? err.message.trim() : "";
+      setError(detail || t("homework.errRequest"));
     } finally {
       setBusy(false);
     }
