@@ -180,7 +180,7 @@
 .hs-tools-head { text-align: center; margin-bottom: 40px; }
 .hs-tools-head h2 { font-family: "DM Serif Display", serif; font-weight: 400; font-size: clamp(1.8rem, 3.6vw, 2.7rem); color: var(--ink); letter-spacing: -0.01em; }
 .hs-tools-head p { font-family: "Caveat", cursive; font-size: 24px; color: var(--text-mute); margin-top: 4px; }
-.hs-tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.hs-tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 26px; }
 .hs-tool { position: relative; background: var(--paper-card); border: 2px solid var(--ink); box-shadow: var(--hard); padding: 26px 22px 24px; text-decoration: none; color: var(--text); transition: transform 0.16s ease, box-shadow 0.16s ease; display: block; }
 .hs-tool:nth-child(1) { transform: rotate(-1.2deg); }
 .hs-tool:nth-child(2) { transform: rotate(0.8deg); }

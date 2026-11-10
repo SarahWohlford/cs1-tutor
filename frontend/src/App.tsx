@@ -15,6 +15,7 @@ const LearningModel = lazy(() => import("./LearningModel"));
 const MyLearningBar = lazy(() => import("./MyLearningBar"));
 const UserProfile = lazy(() => import("./UserProfile"));
 const Grades = lazy(() => import("./Grades"));
+const HomeworkHelp = lazy(() => import("./HomeworkHelp"));
 const NotFound = lazy(() => import("./NotFound"));
 
 function AppShell() {
@@ -69,6 +70,7 @@ function AppShell() {
               <Route path="/learning-bar" element={<MyLearningBar />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/grades" element={<Grades />} />
+              <Route path="/homework" element={<HomeworkHelp />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

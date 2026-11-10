@@ -167,7 +167,7 @@ export default function Home() {
           {/* TOOLS */}
           <section className="hs-tools">
             <div className="hs-tools-head">
-              <h2>Three ways to study.</h2>
+              <h2>Ways to study.</h2>
               <p>pick one — they all share your progress.</p>
             </div>
             <div className="hs-tools-grid">
@@ -177,6 +177,13 @@ export default function Home() {
                 <h3>Learning Mode</h3>
                 <p>Ask in plain language. Get a textbook-matched explanation, step by step, with your topic checklist on the side.</p>
                 <span className="hs-go">Start learning <span className="hs-arrow">→</span></span>
+              </Link>
+              <Link to="/homework" className="hs-tool">
+                <span className="hs-tab">/homework</span>
+                <div className="hs-ic">✎</div>
+                <h3>Homework</h3>
+                <p>Paste the assignment or upload the file. Get a starting plan and the lecture to open. You still write the code.</p>
+                <span className="hs-go">Start the assignment <span className="hs-arrow">→</span></span>
               </Link>
               <Link to="/autograder" className="hs-tool">
                 <span className="hs-tab">/autograder</span>
