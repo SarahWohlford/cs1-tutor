@@ -1,5 +1,9 @@
+import { stripFocsMentions } from "./stripFocs";
+
 export const WRITE_IT =
   "Write that part yourself. Use the idea above, and check it on a tiny example you make up.";
+
+export type HomeworkStep = { title: string; lecture: string; tryThis: string };
 
 const FENCE = /```[\s\S]*?```/gi;
 const WRAP = /^```(?:markdown|md)?\s*\n([\s\S]*?)\n```\s*$/i;
@@ -60,13 +64,72 @@ export function stripSolutionCode(answer: string): string {
     .trim();
 }
 
+function extractJsonArray(text: string): unknown[] | null {
+  const start = text.indexOf("[");
+  const end = text.lastIndexOf("]");
+  if (start < 0 || end <= start) return null;
+  try {
+    const parsed = JSON.parse(text.slice(start, end + 1)) as unknown;
+    return Array.isArray(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function cleanField(value: string): string {
+  return stripFocsMentions(stripSolutionCode(value)).trim();
+}
+
+function stepFromRecord(item: unknown): HomeworkStep | null {
+  if (!item || typeof item !== "object") return null;
+  const record = item as Record<string, unknown>;
+  const title = cleanField(String(record.title || ""));
+  const lecture = cleanField(String(record.lecture || ""));
+  const tryThis = cleanField(String(record.try || record.tryThis || record.detail || ""));
+  if (!title && !tryThis) return null;
+  return {
+    title: title || "Next part",
+    lecture,
+    tryThis: tryThis || title,
+  };
+}
+
+export function parseHomeworkSteps(raw: string): HomeworkStep[] {
+  const fromJson = extractJsonArray(raw || "")
+    ?.map(stepFromRecord)
+    .filter((step): step is HomeworkStep => !!step);
+  if (fromJson && fromJson.length) return fromJson.slice(0, 6);
+  const stripped = stripFocsMentions(stripSolutionCode(raw || ""));
+  const chunks = stripped
+    .split(/\n(?=\s*\d+[.)]\s+)/)
+    .map((chunk) => chunk.trim())
+    .filter(Boolean);
+  if (chunks.length >= 2) {
+    return chunks.slice(0, 6).map((chunk) => {
+      const lines = chunk
+        .replace(/^\d+[.)]\s*/, "")
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean);
+      return {
+        title: lines[0] || "Next part",
+        lecture: "",
+        tryThis: lines.slice(1).join(" ") || lines[0] || "Next part",
+      };
+    });
+  }
+  if (!stripped) return [];
+  return [{ title: "Start here", lecture: "", tryThis: stripped }];
+}
+
 export function homeworkChatMessage(assignment: string, followUp: string, language: string): string {
   const parts = [
-    "This is the student's homework. Help them start.",
+    "This is the student's CSCI 1100 Python homework. Help them start one part at a time.",
+    "Never mention FOCS or Foundations of Computer Science. That is a different course.",
     "Do not write Python code, pseudocode, or a finished function.",
     "Do not fill in the answer, the output, or a worked example.",
-    "Name the ideas and which loaded CSCI 1100 lecture covers each idea.",
-    "Give a start plan in plain sentences: what to read, what to try by hand on a two-item example, and what to check.",
+    "Return ONLY a JSON array of 4 to 6 tasks, in order. No other text.",
+    'Each task is {"title":"short name","lecture":"a loaded CSCI 1100 lecture, or empty","try":"one sentence they do by hand"}.',
   ];
   const pasted = assignment.trim();
   if (pasted) parts.push("", "Assignment:", pasted);

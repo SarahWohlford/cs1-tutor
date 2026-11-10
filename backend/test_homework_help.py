@@ -6,6 +6,7 @@ def test_prompt_forbids_code_and_uses_the_loaded_outline():
     assert "Do not write Python code" in prompt
     assert "2.1 Expressions and values" in prompt
     assert "solution key" in prompt
+    assert "Never mention FOCS" in prompt
 
 
 def test_strip_removes_fenced_python_and_keeps_the_plan():
@@ -36,6 +37,12 @@ def test_strip_removes_a_bare_code_line_and_keeps_a_sentence():
     assert "i += 1" not in cleaned
     assert "the loop stops" in cleaned
     assert "last index" in cleaned
+    focs = hw.strip_solution_code(
+        "Use a list from Lecture 8. See FOCS chapter 5 on induction. Try two items by hand."
+    )
+    assert "FOCS" not in focs
+    assert "Lecture 8" in focs
+    assert "two items" in focs
     kept = hw.strip_solution_code(
         "Break the problem into the input and the output.\n"
         "Continue with the lecture on loops.\n"

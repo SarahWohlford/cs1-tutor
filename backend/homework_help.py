@@ -38,6 +38,24 @@ class HomeworkInputError(Exception):
     pass
 
 
+_FOCS = re.compile(
+    r"\bfocs\b|foundations of computer science|strong induction|proof by induction|"
+    r"mathematical induction|discrete mathematics|discrete objects|making precise statements|"
+    r"turing machines?|finite automata|context[- ]free|asymptotics|number theory|"
+    r"conditional probability|random variables|expected value|unsolvable problems|"
+    r"\bnp-complete\b|recursive objects|matching and coloring|proving [\"“']for all",
+    re.I,
+)
+
+
+def strip_focs_mentions(answer: str) -> str:
+    lines: list[str] = []
+    for line in (answer or "").splitlines():
+        kept = [part.strip() for part in re.split(r"(?<=[.!?])\s+", line) if part.strip() and not _FOCS.search(part)]
+        lines.append(" ".join(kept))
+    return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
+
+
 def system_prompt(outline: str) -> str:
     loaded = (outline or "").strip() or "Lectures 2 and later that are loaded in the tutor."
     return (
@@ -47,10 +65,12 @@ def system_prompt(outline: str) -> str:
         "- Do not write Python code, pseudocode, or a finished function.\n"
         "- Do not fill in the answer, the output, or the numbers the program should print.\n"
         "- Do not complete any step of the assignment.\n"
+        "- Never mention FOCS or Foundations of Computer Science. That is a different course. "
+        "Do not name its chapters or topics.\n"
         "- Name the ideas they should use, and name which loaded lecture covers each idea. "
         "Use only lectures in the outline below.\n"
-        "- Give a start plan in plain sentences: what to read, what to try by hand on a two-item example, "
-        "and what to check when they are done.\n"
+        "- Return ONLY a JSON array of 4 to 6 tasks, in order. No other text.\n"
+        '- Each task is {"title":"short name","lecture":"a loaded lecture, or empty","try":"one sentence they do by hand"}.\n'
         "- If they ask for the code or the answer, refuse and point them back to the idea and the lecture.\n"
         "- If the assignment is unclear, say what is missing. Do not invent a different assignment.\n\n"
         f"Loaded lectures:\n{loaded}"
@@ -100,7 +120,7 @@ def strip_solution_code(answer: str) -> str:
         kept.append(line)
     cleaned = "\n".join(kept)
     cleaned = re.sub(rf"(?:{re.escape(WRITE_IT)}\n?){{2,}}", WRITE_IT + "\n", cleaned)
-    return cleaned.strip()
+    return strip_focs_mentions(cleaned.strip())
 
 
 def assignment_text(assignment: str, pdf_b64: str | None) -> str:

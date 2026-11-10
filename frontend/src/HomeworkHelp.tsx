@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { apiUrl } from "./apiBase";
-import { homeworkChatMessage, stripSolutionCode } from "./homeworkStrip";
-import MarkdownMessage from "./MarkdownMessage";
+import { homeworkChatMessage, parseHomeworkSteps, stripSolutionCode, type HomeworkStep } from "./homeworkStrip";
+import { hideFocsReply } from "./stripFocs";
 import { useLocale } from "./i18n/LocaleContext";
 import "./HomeworkHelp.css";
 
@@ -9,6 +9,36 @@ type Turn = { role: "user" | "assistant"; content: string };
 
 const TEXT_EXT = /\.(txt|md|py|csv|json|text)$/i;
 const MAX_TEXT_FILE = 200_000;
+const STORAGE_KEY = "cs1-homework.v1";
+
+type SavedHomework = {
+  assignment: string;
+  fileName: string;
+  pdfB64: string | null;
+  steps: HomeworkStep[];
+  stepIndex: number;
+};
+
+function readSaved(): SavedHomework | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as Partial<SavedHomework>;
+    if (!parsed || typeof parsed.assignment !== "string") return null;
+    const steps = Array.isArray(parsed.steps) ? parsed.steps.filter((step) => step && step.title && step.tryThis) : [];
+    const stepIndex = typeof parsed.stepIndex === "number" ? parsed.stepIndex : 0;
+    const pdfB64 = typeof parsed.pdfB64 === "string" && parsed.pdfB64 ? parsed.pdfB64 : null;
+    return {
+      assignment: parsed.assignment,
+      fileName: typeof parsed.fileName === "string" ? parsed.fileName : "",
+      pdfB64,
+      steps,
+      stepIndex,
+    };
+  } catch {
+    return null;
+  }
+}
 
 function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -54,7 +84,7 @@ async function requestStart(
     message,
     language,
   });
-  if (dedicated.ok) return stripSolutionCode(dedicated.data.reply || "");
+  if (dedicated.ok) return hideFocsReply(stripSolutionCode(dedicated.data.reply || ""));
   if (dedicated.status !== 404) {
     throw new Error(detailMessage(dedicated.data.detail));
   }
@@ -69,7 +99,7 @@ async function requestStart(
     silent: true,
   });
   if (!chat.ok) throw new Error(detailMessage(chat.data.detail));
-  return stripSolutionCode(chat.data.reply || "");
+  return hideFocsReply(stripSolutionCode(chat.data.reply || ""));
 }
 
 function fileToText(file: File): Promise<string> {
@@ -84,13 +114,31 @@ function fileToText(file: File): Promise<string> {
 export default function HomeworkHelp() {
   const { t, chatLanguageSuffix } = useLocale();
   const fileRef = useRef<HTMLInputElement>(null);
-  const [assignment, setAssignment] = useState("");
-  const [pdfB64, setPdfB64] = useState<string | null>(null);
-  const [fileName, setFileName] = useState("");
+  const saved = useRef(readSaved());
+  const [assignment, setAssignment] = useState(saved.current?.assignment ?? "");
+  const [pdfB64, setPdfB64] = useState<string | null>(saved.current?.pdfB64 ?? null);
+  const [fileName, setFileName] = useState(saved.current?.fileName ?? "");
   const [turns, setTurns] = useState<Turn[]>([]);
+  const [steps, setSteps] = useState<HomeworkStep[]>(saved.current?.steps ?? []);
+  const [stepIndex, setStepIndex] = useState(saved.current?.stepIndex ?? 0);
   const [followUp, setFollowUp] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    const payload: SavedHomework = {
+      assignment,
+      fileName,
+      pdfB64: pdfB64 && pdfB64.length < 1_500_000 ? pdfB64 : null,
+      steps,
+      stepIndex,
+    };
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+    } catch {
+      // The plan still works for this visit if the browser refuses storage.
+    }
+  }, [assignment, fileName, pdfB64, steps, stepIndex]);
 
   const ask = async (message: string) => {
     const pasted = assignment.trim();
@@ -102,7 +150,8 @@ export default function HomeworkHelp() {
     setError("");
     try {
       const reply = await requestStart(pasted, pdfB64, turns, message, chatLanguageSuffix());
-      if (!reply) {
+      const nextSteps = parseHomeworkSteps(reply);
+      if (!nextSteps.length) {
         setError(t("homework.errRequest"));
         return;
       }
@@ -110,6 +159,8 @@ export default function HomeworkHelp() {
       if (message.trim()) next.push({ role: "user", content: message.trim() });
       next.push({ role: "assistant", content: reply });
       setTurns((prev) => [...prev, ...next]);
+      setSteps(nextSteps);
+      setStepIndex(0);
       setFollowUp("");
     } catch (err) {
       const detail = err instanceof Error ? err.message.trim() : "";
@@ -156,12 +207,20 @@ export default function HomeworkHelp() {
     setPdfB64(null);
     setFileName("");
     setTurns([]);
+    setSteps([]);
+    setStepIndex(0);
     setFollowUp("");
     setError("");
     if (fileRef.current) fileRef.current.value = "";
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // Clearing the screen is enough if storage is blocked.
+    }
   };
 
-  const latestReply = [...turns].reverse().find((turn) => turn.role === "assistant");
+  const index = steps.length ? Math.min(Math.max(stepIndex, 0), steps.length - 1) : 0;
+  const current = steps[index];
 
   return (
     <div className="hw-page">
@@ -205,6 +264,7 @@ export default function HomeworkHelp() {
             {fileName ? <span className="hw-file-name">{t("homework.usingFile", { name: fileName })}</span> : null}
           </div>
           <p className="hw-hint">{t("homework.fileHint")}</p>
+          <p className="hw-hint">{t("homework.saved")}</p>
           {error ? (
             <p className="hw-error" role="alert">
               {error}
@@ -218,14 +278,31 @@ export default function HomeworkHelp() {
         <section className="hw-card" aria-live="polite" aria-label={t("homework.replyTitle")}>
           <h2 className="hw-reply-title">{t("homework.replyTitle")}</h2>
           <p className="hw-nocode">{t("homework.noCode")}</p>
-          {latestReply ? (
-            <div className="hw-reply">
-              <MarkdownMessage>{latestReply.content}</MarkdownMessage>
-            </div>
+          {current ? (
+            <article className="hw-step">
+              <p className="hw-part">{t("homework.part", { n: String(index + 1), total: String(steps.length) })}</p>
+              <h3 className="hw-step-title">{current.title}</h3>
+              {current.lecture ? <p className="hw-lecture">{current.lecture}</p> : null}
+              <p className="hw-try">{current.tryThis}</p>
+              <div className="hw-step-nav">
+                {index > 0 ? (
+                  <button type="button" className="hw-file" onClick={() => setStepIndex(index - 1)}>
+                    {t("homework.prevPart")}
+                  </button>
+                ) : null}
+                {index < steps.length - 1 ? (
+                  <button type="button" className="hw-start hw-next" onClick={() => setStepIndex(index + 1)}>
+                    {t("homework.nextPart")}
+                  </button>
+                ) : (
+                  <p className="hw-done">{t("homework.doneParts")}</p>
+                )}
+              </div>
+            </article>
           ) : (
             <p className="hw-waiting">{busy ? t("homework.working") : t("homework.pastePlaceholder")}</p>
           )}
-          {latestReply ? (
+          {current ? (
             <form
               className="hw-follow"
               onSubmit={(event) => {

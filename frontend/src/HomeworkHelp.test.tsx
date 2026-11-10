@@ -3,7 +3,8 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { LocaleProvider } from "./i18n/LocaleContext";
 import HomeworkHelp from "./HomeworkHelp";
-import { stripSolutionCode } from "./homeworkStrip";
+import { parseHomeworkSteps } from "./homeworkStrip";
+import { hideFocsReply } from "./stripFocs";
 
 function renderPage() {
   return render(
@@ -41,8 +42,14 @@ describe("Homework help", () => {
         ok: true,
         status: 200,
         json: async () => ({
-          reply:
-            "Use a loop from the lists lecture.\n```python\ndef calculate_average(grades):\n    return 0\n```\nTry two grades by hand.",
+          reply: JSON.stringify([
+            {
+              title: "Use a loop",
+              lecture: "lists lecture",
+              try: "Try two grades by hand.\n```python\ndef calculate_average(grades):\n    return 0\n```",
+            },
+            { title: "Check the letters", lecture: "Lecture 6", try: "Compare one high grade and one low grade." },
+          ]),
         }),
       });
     vi.stubGlobal("fetch", fetchMock);
@@ -53,22 +60,60 @@ describe("Homework help", () => {
     fireEvent.click(screen.getByRole("button", { name: "Help me start" }));
     expect(await screen.findByText(/lists lecture/)).toBeTruthy();
     expect(screen.queryByText(/calculate_average/)).toBeNull();
+    expect(screen.queryByText("Check the letters")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Done with this part" }));
+    expect(screen.getByText("Check the letters")).toBeTruthy();
+    expect(screen.queryByRole("heading", { name: "Use a loop" })).toBeNull();
     expect(fetchMock).toHaveBeenCalledTimes(2);
     const chatBody = JSON.parse(String(fetchMock.mock.calls[1][1].body)) as { message: string };
     expect(chatBody.message).toContain("Average the grades.");
     expect(chatBody.message).toContain("Do not write Python code");
   });
+
+  it("restores the assignment and the part you were on", () => {
+    localStorage.setItem(
+      "cs1-homework.v1",
+      JSON.stringify({
+        assignment: "Average the grades.",
+        fileName: "grades.pdf",
+        steps: [
+          { title: "Name the inputs", lecture: "Lecture 3", tryThis: "Write the inputs." },
+          { title: "Pick the letter", lecture: "Lecture 6", tryThis: "Compare 90 and 80." },
+        ],
+        stepIndex: 1,
+      }),
+    );
+    renderPage();
+    expect(screen.getByDisplayValue("Average the grades.")).toBeTruthy();
+    expect(screen.getByText("Using grades.pdf")).toBeTruthy();
+    expect(screen.getByText("Pick the letter")).toBeTruthy();
+    expect(screen.queryByText("Name the inputs")).toBeNull();
+  });
 });
 
-describe("stripSolutionCode", () => {
-  it("removes a fenced function and keeps the plan", () => {
-    const cleaned = stripSolutionCode("Read the lists lecture.\n```python\ndef f():\n    return 1\n```");
-    expect(cleaned).toContain("lists lecture");
-    expect(cleaned).not.toContain("def f");
+describe("homework steps", () => {
+  it("keeps one CSCI 1100 step and drops a FOCS step", () => {
+    const steps = parseHomeworkSteps(
+      JSON.stringify([
+        { title: "Name the inputs", lecture: "Lecture 8 Lists", try: "Write the inputs in words." },
+        { title: "Read FOCS induction", lecture: "FOCS chapter 5", try: "See Foundations of Computer Science." },
+      ]),
+    );
+    expect(steps).toHaveLength(1);
+    expect(steps[0].title).toBe("Name the inputs");
+    expect(steps[0].lecture).toContain("Lecture 8");
+  });
+
+  it("removes a FOCS sentence from a tutor reply", () => {
+    const cleaned = hideFocsReply("Use a loop. Open the FOCS induction chapter. Try two numbers.");
+    expect(cleaned).toContain("Use a loop");
+    expect(cleaned).toContain("two numbers");
+    expect(cleaned.toLowerCase()).not.toContain("focs");
   });
 });
 
 afterEach(() => {
   cleanup();
+  localStorage.clear();
   vi.unstubAllGlobals();
 });

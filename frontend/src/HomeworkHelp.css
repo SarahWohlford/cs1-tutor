@@ -161,9 +161,39 @@
   margin-bottom: 12px;
 }
 
-.hw-reply {
-  font-size: 0.95rem;
+.hw-step-title {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+}
+
+.hw-part,
+.hw-lecture,
+.hw-done {
+  margin: 0 0 8px;
+  color: var(--teal);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.hw-try {
+  margin: 0;
   line-height: 1.5;
+}
+
+.hw-step-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.hw-next {
+  margin-top: 0;
+}
+
+.hw-done {
+  color: var(--ink-soft);
+  font-weight: 500;
 }
 
 .hw-follow {
