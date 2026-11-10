@@ -545,7 +545,8 @@ async def homework_help(body: HomeworkHelpRequest):
     if not assignment and not follow:
         raise HTTPException(status_code=400, detail="Paste the assignment or choose a file.")
     history = hw.sanitize_history(body.history)
-    messages = [{"role": "system", "content": hw.system_prompt(lr.get_focs_chapter_tree())}]
+    prompt = hw.follow_prompt(lr.get_focs_chapter_tree()) if follow else hw.system_prompt(lr.get_focs_chapter_tree())
+    messages = [{"role": "system", "content": prompt}]
     messages.extend(history)
     messages.append({"role": "user", "content": hw.user_message(assignment, follow, body.language)})
     resp = create_chat_completion(

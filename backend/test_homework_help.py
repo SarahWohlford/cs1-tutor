@@ -7,6 +7,9 @@ def test_prompt_forbids_code_and_uses_the_loaded_outline():
     assert "2.1 Expressions and values" in prompt
     assert "solution key" in prompt
     assert "Never mention FOCS" in prompt
+    follow = hw.follow_prompt("2 Python as a Calculator")
+    assert "Do not return JSON" in follow
+    assert "2 Python as a Calculator" in follow
 
 
 def test_strip_removes_fenced_python_and_keeps_the_plan():

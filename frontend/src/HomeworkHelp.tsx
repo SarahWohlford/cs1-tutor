@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { apiUrl } from "./apiBase";
-import { homeworkChatMessage, parseHomeworkSteps, stripSolutionCode, type HomeworkStep } from "./homeworkStrip";
+import { formatFollowUp, homeworkChatMessage, homeworkFollowMessage, parseHomeworkSteps, stripSolutionCode, type HomeworkStep } from "./homeworkStrip";
 import { hideFocsReply } from "./stripFocs";
 import { useLocale } from "./i18n/LocaleContext";
 import "./HomeworkHelp.css";
@@ -17,7 +17,10 @@ type SavedHomework = {
   pdfB64: string | null;
   steps: HomeworkStep[];
   stepIndex: number;
+  answers: FollowUp[];
 };
+
+type FollowUp = { question: string; reply: string };
 
 function readSaved(): SavedHomework | null {
   try {
@@ -28,12 +31,16 @@ function readSaved(): SavedHomework | null {
     const steps = Array.isArray(parsed.steps) ? parsed.steps.filter((step) => step && step.title && step.tryThis) : [];
     const stepIndex = typeof parsed.stepIndex === "number" ? parsed.stepIndex : 0;
     const pdfB64 = typeof parsed.pdfB64 === "string" && parsed.pdfB64 ? parsed.pdfB64 : null;
+    const answers = Array.isArray(parsed.answers)
+      ? parsed.answers.filter((item) => item && item.question && item.reply)
+      : [];
     return {
       assignment: parsed.assignment,
       fileName: typeof parsed.fileName === "string" ? parsed.fileName : "",
       pdfB64,
       steps,
       stepIndex,
+      answers,
     };
   } catch {
     return null;
@@ -74,14 +81,14 @@ async function requestStart(
   pasted: string,
   pdfB64: string | null,
   turns: Turn[],
-  message: string,
+  question: string,
   language: string,
 ): Promise<string> {
   const dedicated = await postJson("/api/homework_help", {
     assignment: pasted,
     pdf_b64: pdfB64,
     history: turns,
-    message,
+    message: question,
     language,
   });
   if (dedicated.ok) return hideFocsReply(stripSolutionCode(dedicated.data.reply || ""));
@@ -89,7 +96,9 @@ async function requestStart(
     throw new Error(detailMessage(dedicated.data.detail));
   }
   const chat = await postJson("/api/chat", {
-    message: homeworkChatMessage(pasted, message, language),
+    message: question
+      ? homeworkFollowMessage(pasted, question, language)
+      : homeworkChatMessage(pasted, "", language),
     history: turns.map((turn) => ({
       sender: turn.role === "assistant" ? "ai" : "user",
       text: turn.content,
@@ -121,6 +130,7 @@ export default function HomeworkHelp() {
   const [turns, setTurns] = useState<Turn[]>([]);
   const [steps, setSteps] = useState<HomeworkStep[]>(saved.current?.steps ?? []);
   const [stepIndex, setStepIndex] = useState(saved.current?.stepIndex ?? 0);
+  const [answers, setAnswers] = useState<FollowUp[]>(saved.current?.answers ?? []);
   const [followUp, setFollowUp] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -132,35 +142,46 @@ export default function HomeworkHelp() {
       pdfB64: pdfB64 && pdfB64.length < 1_500_000 ? pdfB64 : null,
       steps,
       stepIndex,
+      answers,
     };
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     } catch {
       // The plan still works for this visit if the browser refuses storage.
     }
-  }, [assignment, fileName, pdfB64, steps, stepIndex]);
+  }, [assignment, fileName, pdfB64, steps, stepIndex, answers]);
 
   const ask = async (message: string) => {
     const pasted = assignment.trim();
-    if (!pasted && !pdfB64 && !message.trim()) {
+    const question = message.trim();
+    if (!pasted && !pdfB64 && !question) {
       setError(t("homework.needText"));
       return;
     }
     setBusy(true);
     setError("");
     try {
-      const reply = await requestStart(pasted, pdfB64, turns, message, chatLanguageSuffix());
+      const reply = await requestStart(pasted, pdfB64, turns, question, chatLanguageSuffix());
+      if (question) {
+        const answer = formatFollowUp(reply);
+        if (!answer) {
+          setError(t("homework.errRequest"));
+          return;
+        }
+        setTurns((prev) => [...prev, { role: "user", content: question }, { role: "assistant", content: answer }]);
+        setAnswers((prev) => [...prev, { question, reply: answer }]);
+        setFollowUp("");
+        return;
+      }
       const nextSteps = parseHomeworkSteps(reply);
       if (!nextSteps.length) {
         setError(t("homework.errRequest"));
         return;
       }
-      const next: Turn[] = [];
-      if (message.trim()) next.push({ role: "user", content: message.trim() });
-      next.push({ role: "assistant", content: reply });
-      setTurns((prev) => [...prev, ...next]);
+      setTurns([{ role: "assistant", content: reply }]);
       setSteps(nextSteps);
       setStepIndex(0);
+      setAnswers([]);
       setFollowUp("");
     } catch (err) {
       const detail = err instanceof Error ? err.message.trim() : "";
@@ -209,6 +230,7 @@ export default function HomeworkHelp() {
     setTurns([]);
     setSteps([]);
     setStepIndex(0);
+    setAnswers([]);
     setFollowUp("");
     setError("");
     if (fileRef.current) fileRef.current.value = "";
@@ -302,6 +324,16 @@ export default function HomeworkHelp() {
           ) : (
             <p className="hw-waiting">{busy ? t("homework.working") : t("homework.pastePlaceholder")}</p>
           )}
+          {answers.length > 0 ? (
+            <div className="hw-answers">
+              {answers.map((item, answerIndex) => (
+                <article key={`${item.question}-${answerIndex}`} className="hw-answer">
+                  <p className="hw-question">{item.question}</p>
+                  <p className="hw-answer-text">{item.reply}</p>
+                </article>
+              ))}
+            </div>
+          ) : null}
           {current ? (
             <form
               className="hw-follow"

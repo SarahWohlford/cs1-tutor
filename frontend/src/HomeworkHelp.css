@@ -191,9 +191,28 @@
   margin-top: 0;
 }
 
-.hw-done {
-  color: var(--ink-soft);
-  font-weight: 500;
+.hw-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.hw-answer {
+  border-top: 1px solid var(--rule);
+  padding-top: 12px;
+}
+
+.hw-question {
+  margin: 0 0 6px;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.hw-answer-text {
+  margin: 0;
+  white-space: pre-wrap;
+  line-height: 1.5;
 }
 
 .hw-follow {

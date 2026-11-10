@@ -56,6 +56,17 @@ def strip_focs_mentions(answer: str) -> str:
     return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
 
 
+def follow_prompt(outline: str) -> str:
+    loaded = (outline or "").strip() or "Lectures 2 and later that are loaded in the tutor."
+    return (
+        "The student already has a starting plan for a CSCI 1100 homework. "
+        "Answer only their question in 2 to 4 plain sentences. "
+        "Do not return JSON. Do not write a new plan. Do not write Python code. "
+        "Never mention FOCS or Foundations of Computer Science.\n\n"
+        f"Loaded lectures:\n{loaded}"
+    )
+
+
 def system_prompt(outline: str) -> str:
     loaded = (outline or "").strip() or "Lectures 2 and later that are loaded in the tutor."
     return (

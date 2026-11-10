@@ -70,6 +70,42 @@ describe("Homework help", () => {
     expect(chatBody.message).toContain("Do not write Python code");
   });
 
+  it("keeps the starting steps and adds the follow-up below", async () => {
+    localStorage.setItem(
+      "cs1-homework.v1",
+      JSON.stringify({
+        assignment: "Average the grades.",
+        fileName: "",
+        steps: [{ title: "Name the inputs", lecture: "Lecture 3", tryThis: "Write the inputs." }],
+        stepIndex: 0,
+        answers: [],
+      }),
+    );
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        ok: false,
+        status: 404,
+        json: async () => ({ detail: "Not Found" }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({ reply: "Open Lecture 3 and write the inputs in words." }),
+      });
+    vi.stubGlobal("fetch", fetchMock);
+    renderPage();
+    fireEvent.change(screen.getByPlaceholderText("Ask which idea to use, or what to try first."), {
+      target: { value: "Which lecture?" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "Ask" }));
+    expect(await screen.findByText("Open Lecture 3 and write the inputs in words.")).toBeTruthy();
+    expect(screen.getByText("Which lecture?")).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "Name the inputs" })).toBeTruthy();
+    const chatBody = JSON.parse(String(fetchMock.mock.calls[1][1].body)) as { message: string };
+    expect(chatBody.message).toContain("Answer only their question");
+  });
+
   it("restores the assignment and the part you were on", () => {
     localStorage.setItem(
       "cs1-homework.v1",

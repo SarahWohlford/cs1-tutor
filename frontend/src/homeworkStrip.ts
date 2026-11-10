@@ -122,6 +122,32 @@ export function parseHomeworkSteps(raw: string): HomeworkStep[] {
   return [{ title: "Start here", lecture: "", tryThis: stripped }];
 }
 
+export function homeworkFollowMessage(assignment: string, question: string, language: string): string {
+  const parts = [
+    "The student already has a starting plan. Answer only their question.",
+    "Write 2 to 4 plain sentences below the plan. Do not write a new plan or a JSON array.",
+    "Never mention FOCS or Foundations of Computer Science.",
+    "Do not write Python code, pseudocode, or a finished function.",
+    "Do not fill in the answer, the output, or a worked example.",
+  ];
+  const pasted = assignment.trim();
+  if (pasted) parts.push("", "Assignment:", pasted);
+  parts.push("", "Question:", question.trim());
+  const hint = language.trim();
+  if (hint) parts.push("", hint.slice(0, 400));
+  return parts.join("\n");
+}
+
+export function formatFollowUp(reply: string): string {
+  const fromJson = extractJsonArray(reply || "")
+    ?.map(stepFromRecord)
+    .filter((step): step is HomeworkStep => !!step);
+  if (fromJson && fromJson.length) {
+    return fromJson.map((step) => [step.title, step.lecture, step.tryThis].filter(Boolean).join(". ")).join("\n\n");
+  }
+  return stripFocsMentions(stripSolutionCode(reply || "")).trim();
+}
+
 export function homeworkChatMessage(assignment: string, followUp: string, language: string): string {
   const parts = [
     "This is the student's CSCI 1100 Python homework. Help them start one part at a time.",
