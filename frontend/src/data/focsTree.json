@@ -73,5 +73,14 @@
     "8.5 append, insert, pop, and remove": {},
     "8.6 Lists of lists": {},
     "8.7 Problems": {}
+  },
+  "9 While loops": {
+    "9.1 Why a while loop": {},
+    "9.2 Counting and the loop body": {},
+    "9.3 Indexing a list": {},
+    "9.4 Adding values up": {},
+    "9.5 Stopping on a sentinel": {},
+    "9.6 Nested while loops": {},
+    "9.7 Problems": {}
   }
 }

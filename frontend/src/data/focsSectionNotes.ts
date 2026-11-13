@@ -2,7 +2,7 @@ import type { SectionNote } from "../utils/sectionNotes";
 
 const empty = { vocabulary: [] as SectionNote["vocabulary"], formulas: [] as SectionNote["formulas"] };
 
-// Study notes for CSCI 1100 Fall 2026 Lectures 2–8. Lecture 1 is not loaded.
+// Study notes for CSCI 1100 Fall 2026 Lectures 2–9. Lecture 1 is not loaded.
 export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "2": {
     objectives:
@@ -769,6 +769,84 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "8.7": {
     objectives:
       "Lecture 8 practice: trace a short list, then do a tiny in-place edit. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "9": {
+    objectives:
+      "Lecture 9 repeats a block of code with a while loop. The course points this reading at Practical Programming section 9.6, and it teaches while loops before for loops. A while loop keeps going only while its condition is true, and it stops when that condition is false.",
+    vocabulary: [
+      {
+        term: "while loop",
+        definition: "A loop that runs its body, then checks the condition again, until the condition is false.",
+      },
+    ],
+    formulas: [],
+  },
+  "9.1": {
+    objectives:
+      "Use a loop when the same steps should happen more than once, such as visiting every item in a list. Python can repeat work with while or with for. while is the more general form: a for loop can be rewritten as a while loop. This lecture starts with while.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "9.2": {
+    objectives:
+      "A counting loop needs a start value, a condition, and a change inside the body. For i = 1, the body runs while i < 10, and the body must do i += 1. If that update is missing, the condition stays true and the loop never ends. Code before the while runs once. Code after the while runs only after the condition is false.",
+    vocabulary: [
+      {
+        term: "loop variable",
+        definition: "A name the loop checks and updates. Give it a start value before the while.",
+      },
+    ],
+    formulas: [],
+  },
+  "9.3": {
+    objectives:
+      "To visit every item, start an index at 0 and keep going while the index is less than len(items). The last valid index is len(items) - 1. items[i] is the item at that position. If each item is a pair, items[i][0] is the first part of the pair and items[i][1] is the second. Using i <= len(items) reads one past the end and raises IndexError.",
+    vocabulary: [
+      {
+        term: "index",
+        definition: "A number that picks one list item. Legal indexes run from 0 up to, but not including, the length.",
+      },
+    ],
+    formulas: [],
+  },
+  "9.4": {
+    objectives:
+      "An accumulator is a variable that starts before the loop, usually at 0, and is updated on each pass. total += i adds the loop variable. total += items[i] adds a list item. Print the total after the loop, not inside it, if you want one result. sum(items) does this kind of walk for you, but you should still be able to write the loop.",
+    vocabulary: [
+      {
+        term: "accumulator",
+        definition: "A variable that collects a result one step at a time, such as a running total or a count.",
+      },
+    ],
+    formulas: [],
+  },
+  "9.5": {
+    objectives:
+      "Some loops stop because of input, not because a counter hits a limit. A sentinel is a special value, such as 0, that means stop. Read a value in the body, and if it is the sentinel, set a flag so the condition fails. Otherwise fold the value into the total. Do not add the sentinel itself.",
+    vocabulary: [
+      {
+        term: "sentinel",
+        definition: "A special input that ends the loop. It is a signal, not another data value.",
+      },
+    ],
+    formulas: [],
+  },
+  "9.6": {
+    objectives:
+      "A loop body can contain another loop. The inner loop finishes all of its passes before the outer loop takes one more step. For every pair of indexes, start the inner index over on each outer pass. Starting the inner index at the outer index plus one prints each unordered pair once and skips a value paired with itself.",
+    vocabulary: [
+      {
+        term: "nested loop",
+        definition: "A loop written inside the body of another loop.",
+      },
+    ],
+    formulas: [],
+  },
+  "9.7": {
+    objectives:
+      "Lecture 9 practice: trace a while loop, then write one that walks a list by index. Open Study questions on the learning page, or click this section.",
     vocabulary: [],
     formulas: [],
   },
