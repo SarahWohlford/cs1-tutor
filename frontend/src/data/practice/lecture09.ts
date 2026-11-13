@@ -22,9 +22,9 @@ export const LECTURE_09_PRACTICE: PracticeSet = {
       back: "0 through n - 1. The loop condition is i < len(items), not i <= len(items).",
     },
     {
-      id: "l9-w-acc",
-      front: "Where do you create a running total?",
-      back: "Before the loop, usually as total = 0. Add inside the body, and read the total after the loop.",
+      id: "l9-w-down",
+      front: "How do you count down with while?",
+      back: "Start at the high value, test i > 0, and subtract 1 in the body.",
     },
   ],
   practice: [

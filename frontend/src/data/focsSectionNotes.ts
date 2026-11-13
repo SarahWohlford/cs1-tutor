@@ -791,7 +791,7 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   },
   "9.2": {
     objectives:
-      "A counting loop needs a start value, a condition, and a change inside the body. For i = 1, the body runs while i < 10, and the body must do i += 1. If that update is missing, the condition stays true and the loop never ends. Code before the while runs once. Code after the while runs only after the condition is false.",
+      "A counting loop needs a start value, a condition, and a change inside the body. For i = 1, the body runs while i < 10, and the body must do i += 1. Counting down uses i -= 1 and a condition such as i > 0. If that update is missing, or if the update moves the variable the wrong way, the condition stays true and the loop never ends. Code before the while runs once. Code after the while runs only after the condition is false.",
     vocabulary: [
       {
         term: "loop variable",
@@ -984,11 +984,15 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   },
   "11.5": {
     objectives:
-      "and is true only when both sides are true. or is true when at least one side is true. not flips True and False. not (a and b) matches (not a) or (not b). not (a or b) matches (not a) and (not b). Python stops early: for and, a false left side means the right side is not evaluated; for or, a true left side means the right side is not evaluated.",
+      "and is true only when both sides are true. or is true when at least one side is true. not flips True and False. A truth table lists every True and False pair so you can see the result of and, or, and not. not (a and b) matches (not a) or (not b). not (a or b) matches (not a) and (not b). Python stops early: for and, a false left side means the right side is not evaluated; for or, a true left side means the right side is not evaluated.",
     vocabulary: [
       {
         term: "short-circuit",
         definition: "Skipping the rest of a boolean expression once the result is already known.",
+      },
+      {
+        term: "truth table",
+        definition: "A list of every True and False combination and the result of the expression.",
       },
     ],
     formulas: [],
