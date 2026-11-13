@@ -50,8 +50,8 @@ describe("focsPracticeSets content integrity", () => {
   });
 
   it("ships a practice bank for each loaded lecture and no other chapter", () => {
-    expect(FOCS_PROBLEM_CHAPTERS).toEqual(["2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]);
-    expect(Object.keys(FOCS_PRACTICE_SETS)).toEqual(["2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]);
+    expect(FOCS_PROBLEM_CHAPTERS).toEqual(["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]);
+    expect(Object.keys(FOCS_PRACTICE_SETS)).toEqual(["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]);
     for (const chapter of FOCS_PROBLEM_CHAPTERS) {
       expect(getPracticeSet(chapter), `chapter ${chapter}`).not.toBeNull();
     }
@@ -68,8 +68,9 @@ describe("focsPracticeSets content integrity", () => {
     expect(getPracticeSet("9")?.title).toBe("While Loops");
     expect(getPracticeSet("10")?.title).toBe("Lists, Part 2");
     expect(getPracticeSet("11")?.title).toBe("Decisions, Part 2");
+    expect(getPracticeSet("12")?.title).toBe("Controlling Loops");
     expect(getPracticeSet("1")).toBeNull();
-    expect(getPracticeSet("12")).toBeNull();
+    expect(getPracticeSet("13")).toBeNull();
     expect(getPracticeSet("99")).toBeNull();
   });
 

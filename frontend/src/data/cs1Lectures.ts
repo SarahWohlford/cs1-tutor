@@ -11,7 +11,7 @@ export type Cs1Section = {
 };
 
 export type Cs1Lecture = {
-  id: "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11";
+  id: "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12";
   practiceTitle: string;
   textbookLabel: string;
   problemsTitle: string;
@@ -184,6 +184,21 @@ export const CS1_LECTURES: Cs1Lecture[] = [
       section("11.4", "A random step"),
       section("11.5", "and, or, and not"),
       section("11.6", "Nested choices"),
+    ],
+  },
+  {
+    id: "12",
+    practiceTitle: "Lecture 12 · Controlling loops",
+    textbookLabel: `${CS1_TEXTBOOK_NAME}, rest of chapter 9`,
+    problemsTitle: "12.7 Problems",
+    problemsHint: "12.7",
+    sections: [
+      section("12.1", "range with a step"),
+      section("12.2", "Stopping short of the end"),
+      section("12.3", "Nested for loops"),
+      section("12.4", "Lists of lists"),
+      section("12.5", "break and continue"),
+      section("12.6", "Loops that must end"),
     ],
   },
 ];

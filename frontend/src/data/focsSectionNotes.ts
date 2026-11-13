@@ -2,7 +2,7 @@ import type { SectionNote } from "../utils/sectionNotes";
 
 const empty = { vocabulary: [] as SectionNote["vocabulary"], formulas: [] as SectionNote["formulas"] };
 
-// Study notes for CSCI 1100 Fall 2026 Lectures 2–11. Lecture 1 is not loaded.
+// Study notes for CSCI 1100 Fall 2026 Lectures 2–12. Lecture 1 is not loaded.
 export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "2": {
     objectives:
@@ -1007,6 +1007,84 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "11.7": {
     objectives:
       "Lecture 11 practice: trace a boolean expression, then compare two (stage, cycle) pairs. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "12": {
+    objectives:
+      "Lecture 12 finishes the loop material. The course places the rest of this reading in Practical Programming chapter 9. range can start, stop, and step. Nested loops walk pairs and tables. break leaves a loop, and continue skips the rest of one pass. A while loop still has to be able to end.",
+    vocabulary: [
+      {
+        term: "break",
+        definition: "Leaves the current loop immediately and continues with the code after it.",
+      },
+    ],
+    formulas: [],
+  },
+  "12.1": {
+    objectives:
+      "range(10) yields 0 through 9. range(3, 8) yields 3 through 7. range(4, 20, 3) starts at 4 and adds 3 until it would reach or pass 20. A negative step counts backward: range(-1, -10, -1) yields -1 through -9. The stop value is never one of the results.",
+    vocabulary: [
+      {
+        term: "step",
+        definition: "The third argument to range. It is added after each value. The default step is 1.",
+      },
+    ],
+    formulas: [],
+  },
+  "12.2": {
+    objectives:
+      "If the body reads s[i] and s[i+1], the last legal i is len(s) - 2. range(len(s) - 1) stops before that last index. If the body also reads i+5, i must stop early enough that i+5 is still inside s. Stopping too soon misses a real match. Stopping too late raises IndexError.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "12.3": {
+    objectives:
+      "The inner for runs to completion for each value of the outer variable. The outer variable stays fixed during those inner passes. To visit every unordered pair once, and to skip pairing a value with itself, start the inner index at the outer index plus one.",
+    vocabulary: [
+      {
+        term: "nested for",
+        definition: "A for loop written in the body of another for loop.",
+      },
+    ],
+    formulas: [],
+  },
+  "12.4": {
+    objectives:
+      "A list of lists can store one group of readings per site. for site in groups: visits each inner list, and site is an alias of that inner list. sum(site) / len(site) is the group's average. To find the smallest reading of all, walk each inner list and keep the smallest value seen so far.",
+    vocabulary: [
+      {
+        term: "list of lists",
+        definition: "A list whose items are themselves lists. The outer loop visits groups, and the inner loop visits values.",
+      },
+    ],
+    formulas: [],
+  },
+  "12.5": {
+    objectives:
+      "break jumps to the first line after the current loop. continue jumps back to the next pass and skips the rest of the body. while True: runs until a break. A loop with break or continue can be rewritten without either one. Use them when the stop is clearer that way. More than one break or continue in the same loop is usually a sign to restructure it.",
+    vocabulary: [
+      {
+        term: "continue",
+        definition: "Skips the rest of this pass and starts the next one.",
+      },
+    ],
+    formulas: [],
+  },
+  "12.6": {
+    objectives:
+      "A while loop ends only if something in the body can make the condition false. Repeatedly replacing a number greater than 1 with its square root moves it toward 1, so a test of x > 1 does end. A test of x >= 1 does not: the square root of 1 is 1, and the condition stays true.",
+    vocabulary: [
+      {
+        term: "infinite loop",
+        definition: "A loop whose condition never becomes false and that never hits a break.",
+      },
+    ],
+    formulas: [],
+  },
+  "12.7": {
+    objectives:
+      "Lecture 12 practice: predict a range, then find the smallest value in a list of lists. Open Study questions on the learning page, or click this section.",
     vocabulary: [],
     formulas: [],
   },
