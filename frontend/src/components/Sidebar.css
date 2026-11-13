@@ -160,8 +160,10 @@
   padding: 4px 6px 8px;
 }
 .sb-lecture-list {
-  overflow: visible;
-  height: auto;
+  max-height: 20rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 .sb-lecture-list::-webkit-scrollbar { width: 8px; }
 .sb-lecture-list::-webkit-scrollbar-track { background: transparent; }
@@ -197,7 +199,21 @@
   font-size: 0.8rem;
   font-weight: 650;
 }
-.sb-lecture-group { color: rgba(226, 232, 240, 0.92); padding: 8px 10px 0; }
+.sb-lecture-group { color: rgba(226, 232, 240, 0.92); }
+.sb-textbook-lecture {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 6px 4px;
+  font: inherit;
+}
+.sb-textbook-lecture:hover { background: rgba(255, 255, 255, 0.06); }
+.sb-textbook-lecture .sb-lecture-group,
+.sb-textbook-lecture .sb-textbook-source { padding-left: 6px; padding-right: 6px; }
 .sb-lecture-source,
 .sb-textbook-source,
 .sb-textbook-kicker {
