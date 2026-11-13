@@ -2,7 +2,7 @@ import type { SectionNote } from "../utils/sectionNotes";
 
 const empty = { vocabulary: [] as SectionNote["vocabulary"], formulas: [] as SectionNote["formulas"] };
 
-// Study notes for CSCI 1100 Fall 2026 Lectures 2–10. Lecture 1 is not loaded.
+// Study notes for CSCI 1100 Fall 2026 Lectures 2–11. Lecture 1 is not loaded.
 export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "2": {
     objectives:
@@ -929,6 +929,84 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "10.7": {
     objectives:
       "Lecture 10 practice: tell an alias from a copy, then update a list by index. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "11": {
+    objectives:
+      "Lecture 11 returns to decisions and to how a program is organized. Solve a small piece, move repeated work into a function, and test both ordinary inputs and inputs at the edge. and, or, and not combine conditions. A condition can be stored in a name, and an if can sit inside another if.",
+    vocabulary: [
+      {
+        term: "boolean",
+        definition: "A value that is either True or False.",
+      },
+    ],
+    formulas: [],
+  },
+  "11.1": {
+    objectives:
+      "Start with one small step that you can run, then add the next piece. Put a repeated block in a function with a name that says what it does. A function that promises a result should return on every path. A comment that only restates the next line, such as a note that an assignment increments a variable, does not earn its keep. State assumptions that a caller must meet.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "11.2": {
+    objectives:
+      "A syntax error means the program does not run. A semantic error runs and does the wrong thing. Fix the first error first, because later messages may be fallout from it. Print the values just before and after the step you doubt. If you comment out later code and the failure disappears, the bug is in what you just removed. Do not treat an untested branch as correct.",
+    vocabulary: [
+      {
+        term: "semantic error",
+        definition: "A mistake in meaning. The program runs, but the result is wrong.",
+      },
+    ],
+    formulas: [],
+  },
+  "11.3": {
+    objectives:
+      "Put definitions first. Under if __name__ == \"__main__\": put the steps that should run only when this file is the program. Running the file executes that block. Importing the file defines the functions and skips the block, so another file can call them without answering the prompts.",
+    vocabulary: [
+      {
+        term: "main guard",
+        definition: "The if __name__ == \"__main__\" block. It runs for a program and is skipped on import.",
+      },
+    ],
+    formulas: [],
+  },
+  "11.4": {
+    objectives:
+      "import random, then pick a number. random.random() is a float from 0 up to, but not including, 1. random.randint(a, b) is an int that can be either endpoint. random.choice(options) returns one entry from the sequence. A walk can start at a position and repeatedly add choice([-1, 1]) until the position leaves the allowed interval. random.seed(n) repeats the same picks, which makes a test possible.",
+    vocabulary: [
+      {
+        term: "random.choice",
+        definition: "Returns one item from the sequence you pass in.",
+      },
+    ],
+    formulas: [],
+  },
+  "11.5": {
+    objectives:
+      "and is true only when both sides are true. or is true when at least one side is true. not flips True and False. not (a and b) matches (not a) or (not b). not (a or b) matches (not a) and (not b). Python stops early: for and, a false left side means the right side is not evaluated; for or, a true left side means the right side is not evaluated.",
+    vocabulary: [
+      {
+        term: "short-circuit",
+        definition: "Skipping the rest of a boolean expression once the result is already known.",
+      },
+    ],
+    formulas: [],
+  },
+  "11.6": {
+    objectives:
+      "An inner if runs only when the outer condition is true as well. else attaches to the nearest if at that indent. You can store a test: ready = score >= 70, then write if ready. The name documents the test and avoids doing the same work twice. Check that every input you care about lands in some branch. In Python, changing the indent moves a line into a different branch.",
+    vocabulary: [
+      {
+        term: "nested if",
+        definition: "An if statement placed in the body of another if.",
+      },
+    ],
+    formulas: [],
+  },
+  "11.7": {
+    objectives:
+      "Lecture 11 practice: trace a boolean expression, then compare two (stage, cycle) pairs. Open Study questions on the learning page, or click this section.",
     vocabulary: [],
     formulas: [],
   },
