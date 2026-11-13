@@ -11,7 +11,7 @@ export type Cs1Section = {
 };
 
 export type Cs1Lecture = {
-  id: "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+  id: "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10";
   practiceTitle: string;
   textbookLabel: string;
   problemsTitle: string;
@@ -154,6 +154,21 @@ export const CS1_LECTURES: Cs1Lecture[] = [
       section("9.4", "Adding values up"),
       section("9.5", "Stopping on a sentinel"),
       section("9.6", "Nested while loops"),
+    ],
+  },
+  {
+    id: "10",
+    practiceTitle: "Lecture 10 · Lists, part 2",
+    textbookLabel: `${CS1_TEXTBOOK_NAME}, lists and for loops`,
+    problemsTitle: "10.7 Problems",
+    problemsHint: "10.7",
+    sections: [
+      section("10.1", "Two names for one list"),
+      section("10.2", "Lists passed to functions"),
+      section("10.3", "for over the items"),
+      section("10.4", "range and changing items"),
+      section("10.5", "Slices and copies"),
+      section("10.6", "split and join"),
     ],
   },
 ];

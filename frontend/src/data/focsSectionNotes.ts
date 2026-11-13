@@ -2,7 +2,7 @@ import type { SectionNote } from "../utils/sectionNotes";
 
 const empty = { vocabulary: [] as SectionNote["vocabulary"], formulas: [] as SectionNote["formulas"] };
 
-// Study notes for CSCI 1100 Fall 2026 Lectures 2–9. Lecture 1 is not loaded.
+// Study notes for CSCI 1100 Fall 2026 Lectures 2–10. Lecture 1 is not loaded.
 export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "2": {
     objectives:
@@ -847,6 +847,88 @@ export const FOCS_SECTION_NOTES: Record<string, SectionNote> = {
   "9.7": {
     objectives:
       "Lecture 9 practice: trace a while loop, then write one that walks a list by index. Open Study questions on the learning page, or click this section.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "10": {
+    objectives:
+      "Lecture 10 stays with lists. Assigning one list name to another does not copy the items. A for loop walks the values. Change a slot by index, using range when you need the position. Slicing, copy, concatenation, and replication build a new list. split and join move between a string and a list of strings.",
+    vocabulary: [
+      {
+        term: "alias",
+        definition: "A second name for the same list. Editing through either name changes that one list.",
+      },
+    ],
+    formulas: [],
+  },
+  "10.1": {
+    objectives:
+      "After L2 = L1, L1 and L2 refer to the same list. L2.append(...) and L2[0] = ... are visible through L1. A different list that happens to hold the same values is not an alias. L1.copy(), list(L1), and L1[:] each make a new list of the same items. That copy is shallow: inner lists are still shared.",
+    vocabulary: [
+      {
+        term: "copy()",
+        definition: "A list method that returns a new list with the same items.",
+      },
+    ],
+    formulas: [],
+  },
+  "10.2": {
+    objectives:
+      "A function parameter gets its own copy of a number or a boolean. A list parameter is an alias of the list that was passed in. Appending, sorting, or replacing items inside the function changes the caller's list. Writing names = some_other_list only retargets the parameter. The caller's variable still refers to the original list.",
+    vocabulary: [],
+    formulas: [],
+  },
+  "10.3": {
+    objectives:
+      "for animal in animals: sets animal to each item in order. The name after for is the item, not the index. You can append a changed item onto a new list and leave the original as it was. Assigning animal = animal.capitalize() rebinds that name. It does not replace the string stored in the list.",
+    vocabulary: [
+      {
+        term: "for loop",
+        definition: "A loop that sets its variable to each item of a sequence, one pass per item.",
+      },
+    ],
+    formulas: [],
+  },
+  "10.4": {
+    objectives:
+      "range(5) produces 0, 1, 2, 3, 4. range(start, stop) stops before stop. range(start, stop, step) adds step, which may be negative. for i in range(len(names)): gives the index, so names[i] = names[i].capitalize() replaces that item. You do not write the i += 1 yourself.",
+    vocabulary: [
+      {
+        term: "range",
+        definition: "A generator of integers. The stop value is not included.",
+      },
+    ],
+    formulas: [],
+  },
+  "10.5": {
+    objectives:
+      "items[start:stop] builds a new list from start up to, but not including, stop. Leave off start to begin at 0, or leave off stop to run through the end. A negative index counts from the end. items[::2] keeps the even indexes. items + more and [0] * 3 also create new lists. append, sort, pop, and remove change the list you already have.",
+    vocabulary: [
+      {
+        term: "slice",
+        definition: "A new list made from a stretch of an existing list. The end index is not included.",
+      },
+    ],
+    formulas: [],
+  },
+  "10.6": {
+    objectives:
+      "list('hi') is ['h', 'i']. s.split() breaks on whitespace and drops empty pieces. s.split(' ') splits on a single space and can leave empty strings. separator.join(parts) pastes the parts together with that separator between them. Strings can be indexed and sliced, but s[i] = 'x' raises TypeError because a string cannot be changed in place.",
+    vocabulary: [
+      {
+        term: "split()",
+        definition: "A string method that returns a list of pieces.",
+      },
+      {
+        term: "join()",
+        definition: "A string method that pastes a list of strings into one string.",
+      },
+    ],
+    formulas: [],
+  },
+  "10.7": {
+    objectives:
+      "Lecture 10 practice: tell an alias from a copy, then update a list by index. Open Study questions on the learning page, or click this section.",
     vocabulary: [],
     formulas: [],
   },

@@ -82,5 +82,14 @@
     "9.5 Stopping on a sentinel": {},
     "9.6 Nested while loops": {},
     "9.7 Problems": {}
+  },
+  "10 Lists, part 2": {
+    "10.1 Two names for one list": {},
+    "10.2 Lists passed to functions": {},
+    "10.3 for over the items": {},
+    "10.4 range and changing items": {},
+    "10.5 Slices and copies": {},
+    "10.6 split and join": {},
+    "10.7 Problems": {}
   }
 }
