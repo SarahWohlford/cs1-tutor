@@ -30,6 +30,11 @@ const I = {
       <path d="M3 5.5A2 2 0 0 1 5 4h5v15H5a2 2 0 0 0-2 1.2z" /><path d="M21 5.5A2 2 0 0 0 19 4h-5v15h5a2 2 0 0 1 2 1.2z" />
     </svg>
   ),
+  homework: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8 3h7l4 4v14H8z" /><path d="M15 3v5h4" /><path d="M10 12h6" /><path d="M10 16h4" />
+    </svg>
+  ),
   grader: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
       <path d="M6 3h9l4 4v14H6z" /><path d="M14 3v5h5" /><path d="m9.5 14 1.8 1.8L15 12" />
@@ -68,10 +73,16 @@ const I = {
   ),
 };
 
-type Tab = { key: string; labelKey: "sidebar.learningMode" | "sidebar.grades" | "sidebar.autoGrader"; icon: ReactNode; path: string };
+type Tab = {
+  key: string;
+  labelKey: "sidebar.learningMode" | "sidebar.homework" | "sidebar.grades" | "sidebar.autoGrader";
+  icon: ReactNode;
+  path: string;
+};
 
 const TABS: Tab[] = [
   { key: "/learning", labelKey: "sidebar.learningMode", icon: I.learning, path: "/learning" },
+  { key: "/homework", labelKey: "sidebar.homework", icon: I.homework, path: "/homework" },
   { key: "/grades", labelKey: "sidebar.grades", icon: I.course, path: "/grades" },
   { key: "/autograder", labelKey: "sidebar.autoGrader", icon: I.grader, path: "/autograder" },
 ];
@@ -279,13 +290,15 @@ export default function Sidebar() {
 
   const activeKey = location.pathname.startsWith("/autograder")
     ? "/autograder"
-    : location.pathname.startsWith("/grades")
-      ? "/grades"
-      : location.pathname.startsWith("/learning")
-        ? "/learning"
-        : location.pathname.startsWith("/profile")
-          ? "/profile"
-          : "/";
+    : location.pathname.startsWith("/homework")
+      ? "/homework"
+      : location.pathname.startsWith("/grades")
+        ? "/grades"
+        : location.pathname.startsWith("/learning")
+          ? "/learning"
+          : location.pathname.startsWith("/profile")
+            ? "/profile"
+            : "/";
 
   const go = (tab: Tab) => {
     navigate(tab.path);

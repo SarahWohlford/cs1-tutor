@@ -23,6 +23,7 @@ import {
 } from "./TextbookSectionNote";
 import { useVerticalSplitPct } from "./hooks/useVerticalSplitPct";
 import { useDragScroll } from "./hooks/useDragScroll";
+import { hideFocsReply } from "./stripFocs";
 import { FOCS_SECTION_NOTES } from "./data/focsSectionNotes";
 import { PracticePanel } from "./practice/PracticePanel";
 import { isProblemsSection, chapterOfProblems } from "./practice/isProblemsSection";
@@ -678,6 +679,7 @@ export default function LearningModel() {
 
   const addAIMessage = (text: string) => {
     if (typeof text !== "string") text = String(text || "");
+    text = hideFocsReply(text);
     setMessages((prev) => [...prev, { sender: "ai", text }]);
   };
 
@@ -1097,7 +1099,7 @@ export default function LearningModel() {
       const data = await resp.json();
       const msgs = (data.messages || []).map((m: any) => ({
         sender: m.sender,
-        text: m.text,
+        text: m.sender === "ai" ? hideFocsReply(m.text || "") : m.text,
       }));
       const cleaned = buildChatApiHistory(msgs);
       setMessages(cleaned);
