@@ -73,5 +73,41 @@
     "8.5 append, insert, pop, and remove": {},
     "8.6 Lists of lists": {},
     "8.7 Problems": {}
+  },
+  "9 While loops": {
+    "9.1 Why a while loop": {},
+    "9.2 Counting and the loop body": {},
+    "9.3 Indexing a list": {},
+    "9.4 Adding values up": {},
+    "9.5 Stopping on a sentinel": {},
+    "9.6 Nested while loops": {},
+    "9.7 Problems": {}
+  },
+  "10 Lists, part 2": {
+    "10.1 Two names for one list": {},
+    "10.2 Lists passed to functions": {},
+    "10.3 for over the items": {},
+    "10.4 range and changing items": {},
+    "10.5 Slices and copies": {},
+    "10.6 split and join": {},
+    "10.7 Problems": {}
+  },
+  "11 Decisions, part 2": {
+    "11.1 Structure and testing": {},
+    "11.2 Finding a bug": {},
+    "11.3 Main guard": {},
+    "11.4 A random step": {},
+    "11.5 and, or, and not": {},
+    "11.6 Nested choices": {},
+    "11.7 Problems": {}
+  },
+  "12 Controlling loops": {
+    "12.1 range with a step": {},
+    "12.2 Stopping short of the end": {},
+    "12.3 Nested for loops": {},
+    "12.4 Lists of lists": {},
+    "12.5 break and continue": {},
+    "12.6 Loops that must end": {},
+    "12.7 Problems": {}
   }
 }

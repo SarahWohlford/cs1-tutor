@@ -28,6 +28,7 @@ from AutoGrader.public_api import (
 )
 
 from auth import verify_token
+import homework_help as hw
 import database
 import grade_store
 import grades_serde as g_serde
@@ -164,6 +165,14 @@ class ChatMessage(BaseModel):
     textbook_id: Optional[str] = None  # "focs" 或 "user_<id>"（后者需登录且为本人教材）
     section_hint: Optional[str] = None  # 前端当前打开的小节（如 9.1）；有则直接答疑，不再列可选小节
     silent: bool = False  # 不写会话/Memory/进度条；用于仅拉书页的降级请求
+
+
+class HomeworkHelpRequest(BaseModel):
+    assignment: str = ""
+    pdf_b64: Optional[str] = None
+    history: List[dict] = []
+    message: str = ""
+    language: str = ""
 
 
 # 教材整本 PDF 上限（聊天附件与 /api/user_textbooks/from_pdf 共用）；可用环境变量 MAX_USER_PDF_MB（1–512，默认 100）
@@ -523,6 +532,30 @@ async def api_version():
         "service_name": (os.getenv("RENDER_SERVICE_NAME") or "").strip() or None,
         "utc_epoch": int(time.time()),
     }
+
+
+@router.post("/api/homework_help")
+async def homework_help(body: HomeworkHelpRequest):
+    """Start a student on a pasted or uploaded assignment without writing the solution."""
+    try:
+        assignment = hw.assignment_text(body.assignment, body.pdf_b64)
+    except hw.HomeworkInputError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    follow = (body.message or "").strip()
+    if not assignment and not follow:
+        raise HTTPException(status_code=400, detail="Paste the assignment or choose a file.")
+    history = hw.sanitize_history(body.history)
+    prompt = hw.follow_prompt(lr.get_focs_chapter_tree()) if follow else hw.system_prompt(lr.get_focs_chapter_tree())
+    messages = [{"role": "system", "content": prompt}]
+    messages.extend(history)
+    messages.append({"role": "user", "content": hw.user_message(assignment, follow, body.language)})
+    resp = create_chat_completion(
+        model="gpt-5.2",
+        messages=messages,
+        temperature=0.3,
+    )
+    reply = hw.strip_solution_code(resp.choices[0].message.content or "")
+    return {"reply": reply or hw.EMPTY_REPLY}
 
 
 @router.post("/api/chat")
@@ -963,7 +996,7 @@ async def list_my_textbooks(authorization: Optional[str] = Header(None)):
     if not email:
         raise HTTPException(status_code=401, detail="Not authenticated")
     return {
-        "textbooks": [{"id": "focs", "label": "CSCI 1100 · Lectures 2–4"}]
+        "textbooks": [{"id": "focs", "label": "CSCI 1100 · Lectures 2–12"}]
         + uts.list_user_textbooks(email),
     }
 

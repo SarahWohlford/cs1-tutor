@@ -259,21 +259,26 @@ def get_focs_chapter_tree(chapter_filter: Optional[str] = None) -> str:
 
 
 def tutor_scope_clause(textbook_id: str) -> str:
-    """Scope sentence for tutor system prompts. Built-in book is Lectures 2–4."""
+    """Scope sentence for tutor system prompts. Built-in book is Lectures 2–12."""
     tid = (textbook_id or "focs").strip() or "focs"
     if tid != "focs":
-        return "The course language is Python."
+        return "The course language is Python. Never mention FOCS or Foundations of Computer Science."
     tree = get_focs_chapter_tree().strip()
     if not tree:
         return (
             "No course outline or practice bank is loaded, so do not claim that a specific lecture, lab, "
-            "or textbook section is part of the course. The course language is Python."
+            "or textbook section is part of the course. The course language is Python. "
+            "Never mention FOCS or Foundations of Computer Science."
         )
     return (
         "The loaded lectures are Lecture 2 (Python as a calculator), Lecture 3 (strings), "
-        "and Lecture 4 (functions and modules). "
-        "Lecture 1 is administrative and is not in this tutor. Do not invent later lectures, labs, or assignments. "
-        "The course language is Python.\n\n"
+        "Lecture 4 (functions and modules), Lecture 5 (functions), Lecture 6 (decisions), "
+        "Lecture 7 (tuples, modules, and images), Lecture 8 (lists), Lecture 9 (while loops), "
+        "Lecture 10 (lists, part 2), Lecture 11 (decisions, part 2), and Lecture 12 (controlling loops). "
+        "Lecture 1 is administrative and is not in this tutor. Do not invent lectures after 12, labs, or assignments. "
+        "The course language is Python. "
+        "Never mention FOCS or Foundations of Computer Science. That is a different, more advanced course. "
+        "Do not name its topics, chapters, or proofs.\n\n"
         f"Loaded outline:\n{tree}"
     )
 

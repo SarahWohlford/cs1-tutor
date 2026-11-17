@@ -32,7 +32,7 @@ export default function Home() {
               </h1>
               <p className="hs-lede">
                 Rensselaer Polytechnic Institute. The course language is Python.
-                Lectures 2–8 are loaded: calculator, strings, modules, functions, decisions, tuples, and lists. Lecture 1 is administrative and is not in the tutor yet.
+                Lectures 2–12 are loaded: calculator, strings, modules, functions, decisions, tuples, lists, while loops, for loops, logic, and nested loops. Lecture 1 is administrative and is not in the tutor yet.
               </p>
               <p className="hs-lede">
                 <a href="https://www.cs.rpi.edu/~mushtu/CS1100/index.html">Course site</a>
@@ -100,7 +100,7 @@ export default function Home() {
                 <span className="hs-pin" />
                 <div className="hs-kicker">Topic checklist</div>
                 <ul>
-                  <li><span className="hs-box" /><span>Lectures 2–8 outlines</span></li>
+                  <li><span className="hs-box" /><span>Lectures 2–12 outlines</span></li>
                   <li><span className="hs-box" /><span>Study questions</span></li>
                   <li><span className="hs-box" /><span>Your uploaded PDF</span></li>
                   <li><span className="hs-box" /><span>Saved progress</span></li>
@@ -122,7 +122,7 @@ export default function Home() {
                 <span className="hs-pin hs-pin--pen" />
                 <div className="hs-formula-lbl">course</div>
                 <div className="hs-formula-eq">CSCI 1100</div>
-                <div className="hs-formula-sub">Lectures 2–8 loaded</div>
+                <div className="hs-formula-sub">Lectures 2–12 loaded</div>
               </div>
             </div>
           </section>
@@ -137,7 +137,7 @@ export default function Home() {
                     Personalize your <span className="hs-hl"><span>learning.</span></span>
                   </h2>
                   <p>
-                    It answers questions about Computer Science 1 from Lectures 2–8. It will not
+                    It answers questions about Computer Science 1 from Lectures 2–12. It will not
                     pretend a later lecture or lab is already in the course.
                   </p>
                 </div>
@@ -145,7 +145,7 @@ export default function Home() {
                   <article className="hs-agent s1">
                     <div className="hs-agent-id">STEP 01 · TEXTBOOK</div>
                     <div className="hs-agent-t">Read what is loaded</div>
-                    <p>Lectures 2–8 notes are built in. If you upload a PDF, that file can ground the answer too.</p>
+                    <p>Lectures 2–12 notes are built in. If you upload a PDF, that file can ground the answer too.</p>
                   </article>
                   <span className="hs-arrow-cx" aria-hidden />
                   <article className="hs-agent s2">
@@ -157,7 +157,7 @@ export default function Home() {
                   <article className="hs-agent s3">
                     <div className="hs-agent-id">STEP 03 · CHECK</div>
                     <div className="hs-agent-t">Practice when a bank exists</div>
-                    <p>Open the Problems section for Lecture 2, 3, or 4.</p>
+                    <p>Open the Problems section for a loaded lecture.</p>
                   </article>
                 </div>
               </div>
@@ -167,7 +167,7 @@ export default function Home() {
           {/* TOOLS */}
           <section className="hs-tools">
             <div className="hs-tools-head">
-              <h2>Three ways to study.</h2>
+              <h2>Ways to study.</h2>
               <p>pick one — they all share your progress.</p>
             </div>
             <div className="hs-tools-grid">
@@ -177,6 +177,13 @@ export default function Home() {
                 <h3>Learning Mode</h3>
                 <p>Ask in plain language. Get a textbook-matched explanation, step by step, with your topic checklist on the side.</p>
                 <span className="hs-go">Start learning <span className="hs-arrow">→</span></span>
+              </Link>
+              <Link to="/homework" className="hs-tool">
+                <span className="hs-tab">/homework</span>
+                <div className="hs-ic">✎</div>
+                <h3>Homework</h3>
+                <p>Paste the assignment or upload the file. Get a starting plan and the lecture to open. You still write the code.</p>
+                <span className="hs-go">Start the assignment <span className="hs-arrow">→</span></span>
               </Link>
               <Link to="/autograder" className="hs-tool">
                 <span className="hs-tab">/autograder</span>
@@ -219,8 +226,8 @@ export default function Home() {
                 <div className="hs-ace-grade">A+</div>
                 <h3>before test day</h3>
                 <ul>
-                  <li>Lectures 2–8 are loaded</li>
-                  <li>Later lectures are not in yet</li>
+                  <li>Lectures 2–12 are loaded</li>
+                  <li>Lectures after 12 are not in yet</li>
                   <li>Use the course site for the real schedule</li>
                 </ul>
               </aside>

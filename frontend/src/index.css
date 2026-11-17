@@ -4,13 +4,23 @@
     box-sizing: border-box;
 }
 
+:root {
+    --app-page-bg: #eaf5fc;
+    --app-chat-panel-bg: #ffffff;
+    --cs1-font: "Source Sans 3", "Noto Sans Telugu", system-ui, sans-serif;
+}
+
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    font-family: var(--cs1-font);
+    color: #111111;
+    background: #eaf5fc;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
+}
+
+#root, #root * {
+    font-family: var(--cs1-font) !important;
 }
 
 #root {

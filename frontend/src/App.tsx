@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import { API_BASE, apiBlockedByMixedContent } from "./apiBase";
 import SignInModal from "./SignInModal";
 import Sidebar from "./components/Sidebar";
+import AppHeader from "./AppHeader";
 import OnboardingTour from "./components/OnboardingTour";
 import { OnboardingProvider } from "./context/OnboardingContext";
 import { useAuth } from "./context/AuthContext";
@@ -15,6 +16,7 @@ const LearningModel = lazy(() => import("./LearningModel"));
 const MyLearningBar = lazy(() => import("./MyLearningBar"));
 const UserProfile = lazy(() => import("./UserProfile"));
 const Grades = lazy(() => import("./Grades"));
+const HomeworkHelp = lazy(() => import("./HomeworkHelp"));
 const NotFound = lazy(() => import("./NotFound"));
 
 function AppShell() {
@@ -28,6 +30,7 @@ function AppShell() {
     <div className={`app-container${isHome ? " app-container--home" : ""}`}>
       {!isHome && <Sidebar />}
       <div className="app-main">
+        <AppHeader />
         {!isHome && showDeployWarning ? (
           <div className="deploy-config-banner" role="alert">
             <p>
@@ -69,6 +72,7 @@ function AppShell() {
               <Route path="/learning-bar" element={<MyLearningBar />} />
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/grades" element={<Grades />} />
+              <Route path="/homework" element={<HomeworkHelp />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

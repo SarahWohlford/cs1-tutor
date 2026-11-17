@@ -2,14 +2,14 @@
    reused from Grades.css (direction A). All tokens + rules scoped under .practice
    so the warm palette never leaks. No purple. */
 .practice {
-  --pr-paper: #f7f3ea;
-  --pr-ink: #20242c;
-  --pr-ink-soft: #5b6b82;
-  --pr-rule: #d9d2c2;
-  --pr-teal: #14b8a6;
-  --pr-teal-bright: #5eead4;
-  --pr-teal-deep: #0f766e;
-  --pr-bad: #b45309;
+  --pr-paper: #eaf5fc;
+  --pr-ink: #111111;
+  --pr-ink-soft: #3a3a3a;
+  --pr-rule: #c5ced6;
+  --pr-teal: #111111;
+  --pr-teal-bright: #c8f4ef;
+  --pr-teal-deep: #111111;
+  --pr-bad: #111111;
   --pr-serif: "DM Serif Display", Georgia, serif;
   --pr-sans: "DM Sans", system-ui, sans-serif;
   --pr-mono: "DM Mono", ui-monospace, monospace;
@@ -27,11 +27,11 @@
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
   scrollbar-width: thin;
-  scrollbar-color: rgba(15, 118, 110, 0.45) transparent;
+  scrollbar-color: #c5ced6 transparent;
 }
 .practice::-webkit-scrollbar { width: 9px; }
 .practice::-webkit-scrollbar-track { background: transparent; }
-.practice::-webkit-scrollbar-thumb { background: rgba(15, 118, 110, 0.42); border: 2px solid transparent; border-radius: 999px; background-clip: padding-box; }
+.practice::-webkit-scrollbar-thumb { background: #c5ced6; border: 2px solid transparent; border-radius: 999px; background-clip: padding-box; }
 .practice::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
 
 /* ---- mastery header ---- */
@@ -42,9 +42,9 @@
 .pr-mastery-tier {
   font-family: var(--pr-mono); font-size: 0.72rem; letter-spacing: 0.05em;
   text-transform: uppercase; color: var(--pr-teal-deep);
-  background: rgba(20, 184, 166, 0.12); border-radius: 999px; padding: 2px 10px;
+  background: rgba(200, 244, 239, 0.7); border-radius: 999px; padding: 2px 10px;
 }
-.pr-mastery-bar { position: relative; height: 7px; border-radius: 4px; background: #e7e0d0; margin-top: 9px; overflow: hidden; }
+.pr-mastery-bar { position: relative; height: 7px; border-radius: 4px; background: #e6ebf0; margin-top: 9px; overflow: hidden; }
 .pr-mastery-fill { position: absolute; inset: 0 auto 0 0; background: linear-gradient(90deg, var(--pr-teal), var(--pr-teal-bright)); transition: width 0.5s ease; }
 .pr-mastery-labels { display: flex; justify-content: space-between; font-size: 0.66rem; color: var(--pr-ink-soft); margin-top: 4px; }
 .pr-mastery-labels span.is-on { color: var(--pr-teal-deep); font-weight: 600; }
@@ -52,14 +52,14 @@
 /* ---- stage stepper ---- */
 .pr-stepper { display: flex; gap: 6px; }
 .pr-step-btn {
-  flex: 1; border: 1px solid var(--pr-rule); border-radius: 8px; background: #fffdf8;
+  flex: 1; border: 1px solid var(--pr-rule); border-radius: 8px; background: #ffffff;
   padding: 7px 6px; font-size: 0.78rem; color: var(--pr-ink-soft); cursor: pointer;
   display: flex; flex-direction: column; align-items: center; gap: 2px; font-family: var(--pr-sans);
 }
 .pr-step-btn small { font-family: var(--pr-mono); font-size: 0.64rem; opacity: 0.8; }
-.pr-step-btn--active { border-color: var(--pr-teal); background: rgba(20, 184, 166, 0.1); color: var(--pr-teal-deep); font-weight: 600; }
+.pr-step-btn--active { border-color: #111111; background: #c8f4ef; color: #111111; font-weight: 600; }
 .pr-step-btn--locked { opacity: 0.45; cursor: not-allowed; }
-.pr-step-btn--done:not(.pr-step-btn--active) { border-color: rgba(20, 184, 166, 0.35); }
+.pr-step-btn--done:not(.pr-step-btn--active) { border-color: #c5ced6; }
 
 .guide-panel .guide-book-hint {
   font-size: 0.88rem;
@@ -68,7 +68,7 @@
   margin: 0 0 14px;
   padding: 10px 12px;
   border-left: 3px solid var(--pr-teal);
-  background: rgba(20, 184, 166, 0.06);
+  background: #eaf5fc;
   border-radius: 0 8px 8px 0;
 }
 
@@ -85,13 +85,13 @@
 /* buttons */
 .pr-btn {
   font-family: var(--pr-sans); font-weight: 600; font-size: 0.85rem; border: none; cursor: pointer;
-  background: var(--pr-teal); color: #06302b; border-radius: 8px; padding: 8px 18px;
+  background: var(--pr-teal); color: #ffffff; border-radius: 8px; padding: 8px 18px;
 }
-.pr-btn:disabled { background: #cfe9e3; color: #6b8e88; cursor: default; }
+.pr-btn:disabled { background: #e6ebf0; color: #3a3a3a; cursor: default; }
 .pr-btn--ghost { background: none; color: var(--pr-teal-deep); border: 1px solid var(--pr-teal); }
 .practice button:focus-visible,
 .pr-attempt:focus-visible {
-  outline: 3px solid rgba(20, 184, 166, 0.55);
+  outline: 3px solid #111111;
   outline-offset: 2px;
 }
 
@@ -99,16 +99,16 @@
 .pr-choices { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 7px; }
 .pr-choice {
   width: 100%; text-align: left; min-height: 44px; border: 1px solid var(--pr-rule); border-radius: 8px;
-  background: #fffdf8; padding: 9px 12px; cursor: pointer; font-size: 0.9rem; font-family: var(--pr-sans); color: var(--pr-ink);
+  background: #ffffff; padding: 9px 12px; cursor: pointer; font-size: 0.9rem; font-family: var(--pr-sans); color: var(--pr-ink);
 }
-.pr-choice--picked { border-color: var(--pr-teal); background: rgba(20, 184, 166, 0.08); }
-.pr-choice--correct { border-color: var(--pr-teal); background: rgba(94, 234, 212, 0.25); }
+.pr-choice--picked { border-color: #111111; background: #eaf5fc; }
+.pr-choice--correct { border-color: #111111; background: #c8f4ef; }
 
 /* ---- proof-order ---- */
 .pr-steps { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 7px; counter-reset: step; }
 .pr-step {
   display: flex; align-items: center; gap: 10px; border: 1px solid var(--pr-rule); border-radius: 8px;
-  background: #fffdf8; padding: 8px 10px;
+  background: #ffffff; padding: 8px 10px;
 }
 .pr-step-text { flex: 1; font-size: 0.86rem; line-height: 1.4; }
 .pr-step-moves { display: flex; flex-direction: column; gap: 3px; }
@@ -124,23 +124,23 @@
 .pr-flaw-lines { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 6px; counter-reset: flaw; }
 .pr-flaw-line {
   width: 100%; text-align: left; min-height: 44px; border: 1px solid var(--pr-rule); border-radius: 8px;
-  background: #fffdf8; padding: 9px 12px 9px 34px; cursor: pointer; font-size: 0.86rem; line-height: 1.4;
+  background: #ffffff; padding: 9px 12px 9px 34px; cursor: pointer; font-size: 0.86rem; line-height: 1.4;
   font-family: var(--pr-sans); color: var(--pr-ink); position: relative;
 }
 .pr-flaw-line::before {
   counter-increment: flaw; content: counter(flaw); position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
   font-family: var(--pr-mono); font-size: 0.72rem; color: var(--pr-ink-soft);
 }
-.pr-flaw-line--picked { border-color: var(--pr-teal); background: rgba(20, 184, 166, 0.08); }
-.pr-flaw-line--flaw { border-color: #d97706; background: rgba(217, 119, 6, 0.14); }
+.pr-flaw-line--picked { border-color: #111111; background: #eaf5fc; }
+.pr-flaw-line--flaw { border-color: #111111; background: #e6ebf0; }
 
 /* ---- fill-in-the-blank ---- */
 .pr-fill { font-size: 0.92rem; line-height: 1.9; margin: 0 0 12px; }
 .pr-blank {
   display: inline-block; min-width: 140px; margin: 0 4px; border: none; border-bottom: 1.5px dashed var(--pr-teal);
-  background: rgba(20, 184, 166, 0.05); font-family: var(--pr-sans); font-size: 0.9rem; color: var(--pr-ink); padding: 2px 6px;
+  background: #eaf5fc; font-family: var(--pr-sans); font-size: 0.9rem; color: var(--pr-ink); padding: 2px 6px;
 }
-.pr-blank:focus { outline: none; border-bottom-color: var(--pr-teal-deep); background: rgba(20, 184, 166, 0.1); }
+.pr-blank:focus { outline: none; border-bottom-color: #111111; background: #c8f4ef; }
 
 /* ---- feedback (explain-on-wrong) ---- */
 .pr-feedback { margin-top: 4px; font-size: 0.85rem; }
@@ -149,7 +149,7 @@
 
 /* ---- flashcard ---- */
 .pr-flashcard {
-  width: 100%; min-height: 150px; border: 1px solid var(--pr-rule); border-radius: 12px; background: #fffdf8;
+  width: 100%; min-height: 150px; border: 1px solid var(--pr-rule); border-radius: 12px; background: #ffffff;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
   padding: 22px; cursor: pointer; text-align: center; font-family: var(--pr-sans);
 }
@@ -162,7 +162,7 @@
 /* ---- challenge / hint ladder ---- */
 .pr-attempt {
   width: 100%; min-height: 96px; resize: vertical; border: 1px solid var(--pr-rule); border-radius: 10px;
-  background: #fffdf8; padding: 10px 12px; font-family: var(--pr-sans); font-size: 0.9rem; color: var(--pr-ink); line-height: 1.5;
+  background: #ffffff; padding: 10px 12px; font-family: var(--pr-sans); font-size: 0.9rem; color: var(--pr-ink); line-height: 1.5;
 }
 .pr-attempt--code {
   font-family: var(--pr-mono);
@@ -171,7 +171,7 @@
 }
 
 /* clickable math-symbol palette under the challenge textbox */
-.pr-palette { margin-top: 8px; border: 1px solid var(--pr-rule); border-radius: 10px; background: #fffdf8; padding: 8px; }
+.pr-palette { margin-top: 8px; border: 1px solid var(--pr-rule); border-radius: 10px; background: #ffffff; padding: 8px; }
 .pr-palette-label { font-family: var(--pr-mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pr-ink-soft); margin-bottom: 8px; }
 .pr-palette-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
 .pr-palette-tab { font-family: var(--pr-mono); font-size: 0.66rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--pr-rule); background: var(--pr-paper); color: var(--pr-ink-soft); cursor: pointer; }
@@ -179,10 +179,10 @@
 .pr-palette-tab:disabled { opacity: 0.5; cursor: default; }
 .pr-palette-grid { display: flex; flex-wrap: wrap; gap: 4px; }
 .pr-sym { width: 34px; height: 34px; display: grid; place-items: center; padding: 0; border: 1px solid var(--pr-rule); border-radius: 8px; background: var(--pr-paper); color: var(--pr-ink); font-family: var(--pr-serif); font-size: 1.05rem; cursor: pointer; }
-.pr-sym:hover { border-color: var(--pr-teal); background: rgba(20, 184, 166, 0.1); color: var(--pr-teal-deep); }
+.pr-sym:hover { border-color: #111111; background: #c8f4ef; color: #111111; }
 .pr-sym:focus-visible, .pr-palette-tab:focus-visible { outline: 2px solid var(--pr-teal); outline-offset: 1px; }
 .pr-hints { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
-.pr-hint { border-left: 2px solid var(--pr-teal); background: rgba(20, 184, 166, 0.06); border-radius: 0 8px 8px 0; padding: 8px 12px; font-size: 0.86rem; line-height: 1.5; }
+.pr-hint { border-left: 2px solid var(--pr-teal); background: #eaf5fc; border-radius: 0 8px 8px 0; padding: 8px 12px; font-size: 0.86rem; line-height: 1.5; }
 .pr-hint-rung { font-family: var(--pr-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--pr-teal-deep); display: block; margin-bottom: 2px; }
 .pr-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .pr-spinner { display: inline-flex; align-items: center; gap: 7px; font-size: 0.82rem; color: var(--pr-ink-soft); }

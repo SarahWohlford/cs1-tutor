@@ -11,7 +11,7 @@ export type Cs1Section = {
 };
 
 export type Cs1Lecture = {
-  id: "2" | "3" | "4" | "5" | "6" | "7" | "8";
+  id: "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12";
   practiceTitle: string;
   textbookLabel: string;
   problemsTitle: string;
@@ -139,6 +139,66 @@ export const CS1_LECTURES: Cs1Lecture[] = [
       section("8.4", "sort versus sorted"),
       section("8.5", "append, insert, pop, and remove"),
       section("8.6", "Lists of lists"),
+    ],
+  },
+  {
+    id: "9",
+    practiceTitle: "Lecture 9 · While loops",
+    textbookLabel: `${CS1_TEXTBOOK_NAME}, section 9.6`,
+    problemsTitle: "9.7 Problems",
+    problemsHint: "9.7",
+    sections: [
+      section("9.1", "Why a while loop"),
+      section("9.2", "Counting and the loop body"),
+      section("9.3", "Indexing a list"),
+      section("9.4", "Adding values up"),
+      section("9.5", "Stopping on a sentinel"),
+      section("9.6", "Nested while loops"),
+    ],
+  },
+  {
+    id: "10",
+    practiceTitle: "Lecture 10 · Lists, part 2",
+    textbookLabel: `${CS1_TEXTBOOK_NAME}, lists and for loops`,
+    problemsTitle: "10.7 Problems",
+    problemsHint: "10.7",
+    sections: [
+      section("10.1", "Two names for one list"),
+      section("10.2", "Lists passed to functions"),
+      section("10.3", "for over the items"),
+      section("10.4", "range and changing items"),
+      section("10.5", "Slices and copies"),
+      section("10.6", "split and join"),
+    ],
+  },
+  {
+    id: "11",
+    practiceTitle: "Lecture 11 · Decisions, part 2",
+    textbookLabel: `${CS1_TEXTBOOK_NAME}, logic and testing`,
+    problemsTitle: "11.7 Problems",
+    problemsHint: "11.7",
+    sections: [
+      section("11.1", "Structure and testing"),
+      section("11.2", "Finding a bug"),
+      section("11.3", "Main guard"),
+      section("11.4", "A random step"),
+      section("11.5", "and, or, and not"),
+      section("11.6", "Nested choices"),
+    ],
+  },
+  {
+    id: "12",
+    practiceTitle: "Lecture 12 · Controlling loops",
+    textbookLabel: `${CS1_TEXTBOOK_NAME}, rest of chapter 9`,
+    problemsTitle: "12.7 Problems",
+    problemsHint: "12.7",
+    sections: [
+      section("12.1", "range with a step"),
+      section("12.2", "Stopping short of the end"),
+      section("12.3", "Nested for loops"),
+      section("12.4", "Lists of lists"),
+      section("12.5", "break and continue"),
+      section("12.6", "Loops that must end"),
     ],
   },
 ];
