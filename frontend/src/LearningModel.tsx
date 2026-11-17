@@ -1520,7 +1520,7 @@ export default function LearningModel() {
                     style={{
                       background: "none",
                       border: "none",
-                      color: "#0f766e",
+                      color: "#111111",
                       textDecoration: "underline",
                       cursor: "pointer",
                       padding: "6px 0",
@@ -1578,7 +1578,7 @@ export default function LearningModel() {
                     style={{
                       background: "none",
                       border: "none",
-                      color: "#0f766e",
+                      color: "#111111",
                       textDecoration: "underline",
                       cursor: "pointer",
                       padding: "6px 0",
