@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
-
 /* Lock scroll to the viewport (new chat content must not grow the page). */
 html, body, #root {
   overflow: hidden !important;
   height: 100vh;
   max-height: 100vh;
   /* Page chrome; --app-chat-panel-bg used in Learning Mode chat (see Profile settings) */
-  background: var(--app-page-bg, #e6eaf2);
+  background: var(--app-page-bg, #eaf5fc);
 }
 
 html[lang="te"] {
@@ -52,7 +50,80 @@ html[lang="te"] {
   border-radius: 4px;
 }
 
-/* ── Dark premium navbar ── */
+.cs1-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 22px;
+  background: #ffffff;
+  border-bottom: 1px solid #c5ced6;
+}
+
+.cs1-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  text-decoration: none;
+  color: #111111;
+}
+
+.cs1-logo-mark {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: #c8f4ef;
+  border: 1px solid #c5ced6;
+  color: #111111;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.cs1-logo-text { display: flex; flex-direction: column; min-width: 0; }
+.cs1-logo-name { font-size: 1.2rem; font-weight: 700; line-height: 1.1; }
+.cs1-logo-sub { margin-top: 2px; font-size: 0.8rem; color: #111111; }
+
+.cs1-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.cs1-nav a,
+.cs1-nav button {
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  color: #111111;
+  background: #eaf5fc;
+  border: 1px solid #c5ced6;
+  border-radius: 999px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.cs1-nav a:hover,
+.cs1-nav button:hover,
+.cs1-nav a.is-active {
+  background: #c8f4ef;
+}
+
+.cs1-nav a:focus-visible,
+.cs1-nav button:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .cs1-header { align-items: flex-start; flex-direction: column; padding: 12px 14px; }
+  .cs1-nav { justify-content: flex-start; }
+}
 .app-container .navbar {
   flex-shrink: 0;
   display: flex;
@@ -138,7 +209,7 @@ html[lang="te"] {
   padding: 14px 18px;
   display: flex;
   flex-direction: column;
-  background: transparent;
+  background: #eaf5fc;
 }
 
 /* Learning Mode: tighter outer padding for textbook + chat */

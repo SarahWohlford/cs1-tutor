@@ -23,7 +23,7 @@
   border: none;
   padding: 10px 16px;
   border-radius: 0;
-  background: var(--app-chat-panel-bg, #f7f3ea); /* ivory Report Card canvas */
+  background: #ffffff;
 }
 
 .chat-panel-header-row {
@@ -40,9 +40,9 @@
   padding: 6px 12px;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #0f766e;
-  background: linear-gradient(180deg, #f0fdfa 0%, #ecfdf5 100%);
-  border: 1px solid #99f6e4;
+  color: #111111;
+  background: #c8f4ef;
+  border: 1px solid #c5ced6;
   border-radius: 999px;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s;
@@ -209,7 +209,7 @@
   min-height: 0;
   overflow-y: auto;
   padding: 12px 14px 14px;
-  background: #fbf8f0; /* flat ivory panel; connects flush to the divider rule */
+  background: #ffffff;
   border: none;
   border-radius: 0;
   font-size: 0.84rem;
@@ -832,16 +832,15 @@
 .reset-box button {
   width: 100%;
   display: block;
-  border: 1px solid #0f766e;
+  border: 1px solid #c5ced6;
   border-radius: 999px;
   padding: 8px 14px;
-  font-family: 'DM Mono', ui-monospace, monospace;
   font-size: 0.78rem;
   letter-spacing: 0.04em;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.35;
-  color: #0f766e;
-  background: #fffdf8;
+  color: #111111;
+  background: #ffffff;
   box-shadow: none;
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
@@ -1558,7 +1557,7 @@
   padding: 0;
   border: none;
   border-radius: 10px;
-  background: #0d9488;
+  background: #111111;
   color: #ffffff;
   cursor: pointer;
   display: inline-flex;
@@ -1568,7 +1567,7 @@
 }
 
 .learning-send-btn:hover {
-  background: #0f766e;
+  background: #3a3a3a;
   color: #ffffff;
 }
 

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import { API_BASE, apiBlockedByMixedContent } from "./apiBase";
 import SignInModal from "./SignInModal";
 import Sidebar from "./components/Sidebar";
+import AppHeader from "./AppHeader";
 import OnboardingTour from "./components/OnboardingTour";
 import { OnboardingProvider } from "./context/OnboardingContext";
 import { useAuth } from "./context/AuthContext";
@@ -29,6 +30,7 @@ function AppShell() {
     <div className={`app-container${isHome ? " app-container--home" : ""}`}>
       {!isHome && <Sidebar />}
       <div className="app-main">
+        <AppHeader />
         {!isHome && showDeployWarning ? (
           <div className="deploy-config-banner" role="alert">
             <p>

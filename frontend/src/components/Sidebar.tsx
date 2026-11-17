@@ -11,6 +11,7 @@ import { useSessionBridge } from "../context/SessionBridge";
 import { useOnboarding } from "../context/OnboardingContext";
 import { getOrCreateStudentId } from "../utils/studentId";
 import { ONBOARDING_PREPARE_EVENT, ONBOARDING_STEP_EVENT } from "../onboarding/onboardingStorage";
+import { OPEN_TEXTBOOK_EVENT, requestOpenTextbook } from "../AppHeader";
 import "./Sidebar.css";
 
 // ---- inline icons (no icon dependency) ----
@@ -81,8 +82,6 @@ type Tab = {
 };
 
 const TABS: Tab[] = [
-  { key: "/learning", labelKey: "sidebar.learningMode", icon: I.learning, path: "/learning" },
-  { key: "/homework", labelKey: "sidebar.homework", icon: I.homework, path: "/homework" },
   { key: "/grades", labelKey: "sidebar.grades", icon: I.course, path: "/grades" },
   { key: "/autograder", labelKey: "sidebar.autoGrader", icon: I.grader, path: "/autograder" },
 ];
@@ -234,6 +233,23 @@ export default function Sidebar() {
     return () => window.removeEventListener("ai-tutor-textbook-changed", syncBook);
   }, []);
 
+  useEffect(() => {
+    const open = () => {
+      setOpenTextbook(true);
+      writeSidebarSectionOpen(SIDEBAR_TEXTBOOK_OPEN_KEY, true);
+      window.setTimeout(() => {
+        document.getElementById("sidebar-textbook")?.scrollIntoView({ block: "nearest" });
+      }, 40);
+    };
+    window.addEventListener(OPEN_TEXTBOOK_EVENT, open);
+    return () => window.removeEventListener(OPEN_TEXTBOOK_EVENT, open);
+  }, []);
+
+  const goToTextbook = () => {
+    requestOpenTextbook();
+    if (!onLearning) navigate("/learning");
+  };
+
   const toggleProgress = () => {
     setOpenProgress((o) => {
       const next = !o;
@@ -330,7 +346,7 @@ export default function Sidebar() {
           {I.menu}
         </button>
         <button className="sb-brand" onClick={() => navigate("/")} title="CS1 Tutor">
-          <span className="sb-brand-mark">∑</span>
+          <span className="sb-brand-mark">Py</span>
           <span className="sb-brand-name">CS1 Tutor</span>
         </button>
         <button
@@ -346,6 +362,33 @@ export default function Sidebar() {
       </div>
 
       <div className="sb-shell" ref={shellRef}>
+        <nav className="sb-reach" aria-label="Study">
+          <button
+            type="button"
+            className={`sb-link${activeKey === "/learning" ? " is-active" : ""}`}
+            onClick={() => navigate("/learning")}
+            title={t("sidebar.learningMode")}
+            aria-current={activeKey === "/learning" ? "page" : undefined}
+          >
+            <span className="sb-link-ic">{I.learning}</span>
+            <span className="sb-link-label">{t("sidebar.learningMode")}</span>
+          </button>
+          <button type="button" className="sb-link" onClick={goToTextbook} title="Textbook">
+            <span className="sb-link-ic">{I.course}</span>
+            <span className="sb-link-label">Textbook</span>
+          </button>
+          <button
+            type="button"
+            className={`sb-link${activeKey === "/homework" ? " is-active" : ""}`}
+            onClick={() => navigate("/homework")}
+            title={t("sidebar.homework")}
+            aria-current={activeKey === "/homework" ? "page" : undefined}
+          >
+            <span className="sb-link-ic">{I.homework}</span>
+            <span className="sb-link-label">{t("sidebar.homework")}</span>
+          </button>
+        </nav>
+
         <div className="sb-group-label">{t("sidebar.workspace")}</div>
         <nav className="sb-nav">
           {TABS.map((tab) => (

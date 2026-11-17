@@ -1,22 +1,22 @@
 /* Home — neo-brutalist scrapbook study desk (teal/navy + DM fonts). Scoped under .home-scrap. */
 
 .home-scrap {
-  --ink: #0c1222;
-  --ink-2: #1b2540;
-  --ink-line: rgba(12, 18, 34, 0.14);
-  --paper: #f7f5ee;
-  --paper-card: #fffefb;
-  --teal: #14b8a6;
-  --teal-bright: #5eead4;
-  --teal-deep: #0d9488;
-  --teal-ink: #0f766e;
-  --amber: #fcd34d;
-  --pen: #f43f5e;
-  --text: #0f172a;
-  --text-soft: #475569;
-  --text-mute: #7b8aa0;
-  --hard: 4px 4px 0 var(--ink);
-  --hard-lg: 8px 9px 0 var(--ink);
+  --ink: #111111;
+  --ink-2: #111111;
+  --ink-line: rgba(17, 17, 17, 0.12);
+  --paper: #eaf5fc;
+  --paper-card: #ffffff;
+  --teal: #8fe3da;
+  --teal-bright: #c8f4ef;
+  --teal-deep: #111111;
+  --teal-ink: #111111;
+  --amber: #d7ebf8;
+  --pen: #111111;
+  --text: #111111;
+  --text-soft: #111111;
+  --text-mute: #3a3a3a;
+  --hard: 4px 4px 0 #c5ced6;
+  --hard-lg: 6px 6px 0 #c5ced6;
 
   /* fill .content and break out of its 14px/18px padding, own the scroll */
   flex: 1;
@@ -108,10 +108,10 @@
 .hs-tape { position: absolute; width: 96px; height: 28px; background: rgba(94, 234, 212, 0.5); border: 1px solid rgba(12, 18, 34, 0.12); box-shadow: 0 1px 2px rgba(12, 18, 34, 0.12); }
 .hs-tape--top { top: -14px; left: 50%; transform: translateX(-50%) rotate(3deg); }
 .hs-pin { position: absolute; width: 16px; height: 16px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff 0 18%, var(--teal) 22%, var(--teal-deep) 70%); box-shadow: 0 3px 5px rgba(12, 18, 34, 0.35); top: -8px; left: 18px; }
-.hs-pin--pen { background: radial-gradient(circle at 35% 30%, #fff 0 18%, var(--pen) 30%, #be123c 70%); }
+.hs-pin--pen { background: #c5ced6; }
 
 .hs-polaroid { top: 0; right: 6px; width: 246px; padding: 12px 12px 36px; transform: rotate(5deg); z-index: 3; animation: hsFloatA 7s ease-in-out infinite; }
-.hs-photo { height: 198px; border: 1px solid var(--ink-line); overflow: hidden; position: relative; background: linear-gradient(rgba(12, 18, 34, 0.08) 1px, transparent 1px) 0 0 / 20px 20px, linear-gradient(90deg, rgba(12, 18, 34, 0.08) 1px, transparent 1px) 0 0 / 20px 20px, #eef6f4; }
+.hs-photo { height: 198px; border: 1px solid var(--ink-line); overflow: hidden; position: relative; background: #eaf5fc; }
 .hs-photo svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hs-glabel { position: absolute; bottom: 8px; left: 10px; font-family: "DM Mono", monospace; font-size: 11px; color: var(--teal-ink); background: rgba(94, 234, 212, 0.5); padding: 1px 6px; }
 .hs-cap { font-family: "Caveat", cursive; font-size: 21px; text-align: center; margin-top: 10px; color: var(--ink); }
@@ -128,20 +128,20 @@
 .hs-chat { top: 172px; left: 14px; width: 288px; padding: 14px; transform: rotate(-2deg); z-index: 4; animation: hsFloatC 6.2s ease-in-out infinite 0.4s; }
 .hs-dots { display: flex; gap: 7px; margin-bottom: 12px; }
 .hs-dots i { width: 11px; height: 11px; border-radius: 50%; border: 1.5px solid var(--ink); display: block; }
-.hs-dots i:nth-child(1) { background: #fca5a5; }
-.hs-dots i:nth-child(2) { background: var(--amber); }
+.hs-dots i:nth-child(1) { background: #c5ced6; }
+.hs-dots i:nth-child(2) { background: #d7ebf8; }
 .hs-dots i:nth-child(3) { background: var(--teal-bright); }
 .hs-bubble { padding: 10px 13px; border: 1.5px solid var(--ink); font-size: 13.5px; margin-bottom: 9px; line-height: 1.5; }
 .hs-bubble.q { background: #fff; border-radius: 14px 14px 14px 4px; }
 .hs-bubble code { font-family: "DM Mono", monospace; background: rgba(12, 18, 34, 0.06); padding: 1px 4px; border-radius: 4px; }
-.hs-bubble.a { background: #ecfdf7; border-color: var(--teal-deep); border-radius: 14px 14px 4px 14px; }
+.hs-bubble.a { background: #c8f4ef; border-color: #111111; border-radius: 14px 14px 4px 14px; }
 .hs-bubble.a code { background: rgba(94, 234, 212, 0.35); color: var(--teal-ink); }
 .hs-srctag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; font-family: "DM Mono", monospace; color: var(--teal-ink); background: rgba(94, 234, 212, 0.35); border: 1px solid var(--teal-deep); padding: 3px 8px; border-radius: 999px; }
 
-.hs-formula { top: 14px; left: 0; width: 150px; padding: 12px 12px 14px; transform: rotate(4deg); z-index: 6; background: var(--amber); box-shadow: 4px 4px 0 #b45309; animation: hsFloatD 6.8s ease-in-out infinite 0.2s; }
-.hs-formula-lbl { font-family: "DM Mono", monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: #7c4a03; text-transform: uppercase; margin-bottom: 6px; }
+.hs-formula { top: 14px; left: 0; width: 150px; padding: 12px 12px 14px; transform: rotate(4deg); z-index: 6; background: #d7ebf8; box-shadow: 4px 4px 0 #c5ced6; animation: hsFloatD 6.8s ease-in-out infinite 0.2s; }
+.hs-formula-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: #111111; text-transform: uppercase; margin-bottom: 6px; }
 .hs-formula-eq { font-family: "DM Mono", monospace; font-size: 18px; color: var(--ink); font-weight: 500; }
-.hs-formula-sub { font-family: "Caveat", cursive; font-size: 17px; color: #7c4a03; margin-top: 2px; }
+.hs-formula-sub { font-size: 1rem; color: #111111; margin-top: 2px; }
 
 @keyframes hsFloatA { 0%, 100% { transform: rotate(5deg) translateY(0); } 50% { transform: rotate(5deg) translateY(-12px); } }
 @keyframes hsFloatB { 0%, 100% { transform: rotate(-5deg) translateY(0); } 50% { transform: rotate(-5deg) translateY(10px); } }
@@ -165,7 +165,7 @@
 .hs-agent { position: relative; min-height: 212px; padding: 16px; border: 2px solid var(--ink); box-shadow: var(--hard); background: var(--paper-card); color: var(--ink); }
 .hs-agent::before { content: ""; position: absolute; left: 50%; top: -14px; width: 84px; height: 24px; transform: translateX(-50%) rotate(var(--t, -3deg)); background: rgba(94, 234, 212, 0.45); border: 1px solid rgba(12, 18, 34, 0.12); }
 .hs-agent.s1 { transform: rotate(-2deg); }
-.hs-agent.s2 { transform: rotate(1.5deg); --t: 4deg; background: #f6fffd; }
+.hs-agent.s2 { transform: rotate(1.5deg); --t: 4deg; background: #ffffff; }
 .hs-agent.s3 { transform: rotate(-1deg); --t: -5deg; }
 .hs-agent.s3::after { content: "A+"; position: absolute; right: 12px; bottom: 8px; color: var(--pen); font-family: "Caveat", cursive; font-size: 2.2rem; font-weight: 700; transform: rotate(-9deg); }
 .hs-agent-id { font-family: "DM Mono", monospace; font-size: 0.72rem; color: rgba(12, 18, 34, 0.55); padding-bottom: 8px; margin-bottom: 9px; border-bottom: 1px solid rgba(12, 18, 34, 0.16); }
@@ -195,10 +195,10 @@
 .hs-tool:hover .hs-go .hs-arrow { transform: translateX(4px); }
 
 /* ===== FOOTER: Aces Your Exams ===== */
-.hs-acefoot { position: relative; z-index: 3; margin-top: 40px; padding: 52px 18px 80px; background: linear-gradient(90deg, rgba(12, 18, 34, 0.1) 1px, transparent 1px), linear-gradient(rgba(12, 18, 34, 0.1) 1px, transparent 1px), #f1efe6; background-size: 28px 28px; }
-.hs-acefoot::before { content: ""; position: absolute; top: -9px; left: 0; right: 0; height: 18px; background-size: 20px 20px; background-image: radial-gradient(circle at 10px 0, transparent 12px, #f1efe6 13px); }
+.hs-acefoot { position: relative; z-index: 3; margin-top: 40px; padding: 52px 18px 80px; background: #d7ebf8; }
+.hs-acefoot::before { content: ""; position: absolute; top: -9px; left: 0; right: 0; height: 18px; background: #eaf5fc; }
 .hs-acefoot-inner { position: relative; max-width: 1060px; margin: 0 auto; padding: 44px; background: var(--paper-card); border: 2px solid var(--ink); box-shadow: 7px 7px 0 var(--ink), 0 22px 42px rgba(15, 23, 42, 0.1); transform: rotate(-0.4deg); }
-.hs-acefoot-inner::before { content: ""; position: absolute; top: -17px; left: 50%; width: 220px; height: 32px; transform: translateX(-50%) rotate(2deg); background: repeating-linear-gradient(90deg, rgba(252, 211, 77, 0.78), rgba(252, 211, 77, 0.78) 14px, rgba(255, 255, 255, 0.5) 14px, rgba(255, 255, 255, 0.5) 28px); border: 1px solid rgba(12, 18, 34, 0.12); }
+.hs-acefoot-inner::before { content: ""; position: absolute; top: -17px; left: 50%; width: 220px; height: 32px; transform: translateX(-50%) rotate(2deg); background: #c8f4ef; border: 1px solid #c5ced6; }
 .hs-acefoot-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 42px; align-items: center; }
 .hs-ace-eyebrow { display: inline-flex; margin-bottom: 16px; padding: 7px 12px; border: 2px solid var(--ink); background: var(--amber); box-shadow: 3px 3px 0 var(--ink); font-family: "DM Mono", monospace; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; transform: rotate(-1deg); }
 .hs-acefoot h2 { font-family: "DM Serif Display", serif; font-weight: 400; font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1; color: var(--ink); margin-bottom: 14px; }
@@ -207,7 +207,7 @@
 .hs-btn-create:hover { transform: translateY(-3px); box-shadow: 7px 9px 0 var(--ink); }
 .hs-btn-create:active { transform: translateY(3px); box-shadow: 0 0 0 var(--ink); }
 .hs-ace-meta { margin-top: 32px; font-family: "DM Mono", monospace; font-size: 0.74rem; color: rgba(100, 116, 139, 0.9); text-transform: uppercase; letter-spacing: 0.14em; }
-.hs-ace-checklist { position: relative; padding: 26px 24px; border: 2px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); transform: rotate(2deg); background: repeating-linear-gradient(to bottom, #fffefb 0, #fffefb 31px, rgba(94, 234, 212, 0.28) 32px); }
+.hs-ace-checklist { position: relative; padding: 26px 24px; border: 2px solid var(--ink); box-shadow: 4px 4px 0 #c5ced6; transform: rotate(2deg); background: #ffffff; }
 .hs-ace-grade { position: absolute; right: -12px; top: -30px; color: var(--pen); font-family: "Caveat", cursive; font-size: 4.4rem; font-weight: 700; transform: rotate(10deg); }
 .hs-ace-checklist h3 { font-family: "DM Mono", monospace; font-size: 0.78rem; color: var(--text-mute); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 18px; }
 .hs-ace-checklist ul { display: grid; gap: 13px; list-style: none; font-weight: 700; color: var(--ink); margin: 0; padding: 0; }
